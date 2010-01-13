@@ -29,4 +29,8 @@ public interface ResourceMatcher {
 	 *         object, false otherwise
 	 */
 	boolean isMatcherFor(Object obj);
+	
+	int hashCode();
+	
+	boolean equals(Object obj);
 }

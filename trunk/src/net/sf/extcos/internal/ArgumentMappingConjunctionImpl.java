@@ -29,8 +29,44 @@ public class ArgumentMappingConjunctionImpl implements
 		return true;
 	}
 
-	@Override
 	public Set<ArgumentMapping> getMappings() {
 		return mappings;
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result
+				+ ((mappings == null) ? 0 : mappings.hashCode());
+		return result;
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (obj == null) {
+			return false;
+		}
+		if (getClass() != obj.getClass()) {
+			return false;
+		}
+		ArgumentMappingConjunctionImpl other = (ArgumentMappingConjunctionImpl) obj;
+		if (mappings == null) {
+			if (other.mappings != null) {
+				return false;
+			}
+		} else if (!mappings.equals(other.mappings)) {
+			return false;
+		}
+		return true;
 	}
 }

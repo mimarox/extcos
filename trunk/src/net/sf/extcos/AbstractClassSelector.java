@@ -73,17 +73,17 @@ public abstract class AbstractClassSelector implements ClassSelector {
 		return new ArgumentsDescriptorImpl(arguments);
 	}
 
-	protected TypeFilterConjunction and(MultipleTypeFilter... filters) {
-		return new TypeFilterConjunctionImpl(filters);
+	protected TypeFilterJunction and(MultipleTypeFilter... filters) {
+		return new TypeFilterConjunction(filters);
 	}
 
-	protected TypeFilterConjunction and(ExtendingTypeFilter filter,
+	protected TypeFilterJunction and(ExtendingTypeFilter filter,
 			MultipleTypeFilter... filters) {
-		return new TypeFilterConjunctionImpl(filter, filters);
+		return new TypeFilterConjunction(filter, filters);
 	}
 
-	protected TypeFilterDisjunction or(TypeFilter... filters) {
-		return new TypeFilterDisjunctionImpl(filters);
+	protected TypeFilterJunction or(TypeFilter... filters) {
+		return new TypeFilterDisjunction(filters);
 	}
 
 	protected ExtendingTypeFilter subclassOf(Class<?> clazz) {
@@ -137,11 +137,7 @@ public abstract class AbstractClassSelector implements ClassSelector {
 				arguments));
 	}
 
-	protected DirectReturning allBeing(TypeFilterConjunction filter) {
-		return new TypeFilterBasedReturning(filter);
-	}
-
-	protected DirectReturning allBeing(TypeFilterDisjunction filter) {
+	protected DirectReturning allBeing(TypeFilterJunction filter) {
 		return new TypeFilterBasedReturning(filter);
 	}
 
@@ -172,13 +168,8 @@ public abstract class AbstractClassSelector implements ClassSelector {
 	}
 
 	protected TypelessStoreBindingBuilder thoseBeing(
-			TypeFilterConjunction filter) {
+			TypeFilterJunction filter) {
 		return new TypelessStoreBindingBuilderImpl(filter);
-	}
-
-	protected TypelessStoreBindingBuilder thoseBeing(
-			TypeFilterDisjunction filter) {
-		return new TypelessStoreBindingBuilderImpl(filter);		
 	}
 	
 	protected synchronized BasePackageSelector select() {

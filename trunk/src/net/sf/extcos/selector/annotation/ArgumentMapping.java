@@ -9,4 +9,6 @@ import net.sf.extcos.spi.AnnotationMetadata;
  */
 public interface ArgumentMapping {
 	boolean isSetIn(AnnotationMetadata annotation);
+	int hashCode();
+	boolean equals(Object obj);
 }

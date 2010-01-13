@@ -30,4 +30,41 @@ public class ImplementingResourceMatcher implements ResourceMatcher {
 	public boolean isMatcherFor(Object obj) {
 		return interfaze.equals(obj);
 	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result
+				+ ((interfaze == null) ? 0 : interfaze.hashCode());
+		return result;
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (obj == null) {
+			return false;
+		}
+		if (getClass() != obj.getClass()) {
+			return false;
+		}
+		ImplementingResourceMatcher other = (ImplementingResourceMatcher) obj;
+		if (interfaze == null) {
+			if (other.interfaze != null) {
+				return false;
+			}
+		} else if (!interfaze.equals(other.interfaze)) {
+			return false;
+		}
+		return true;
+	}
 }

@@ -35,4 +35,40 @@ public class ExtendingResourceMatcher implements ResourceMatcher {
 	public boolean isMatcherFor(Object obj) {
 		return clazz.equals(obj);
 	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((clazz == null) ? 0 : clazz.hashCode());
+		return result;
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (obj == null) {
+			return false;
+		}
+		if (getClass() != obj.getClass()) {
+			return false;
+		}
+		ExtendingResourceMatcher other = (ExtendingResourceMatcher) obj;
+		if (clazz == null) {
+			if (other.clazz != null) {
+				return false;
+			}
+		} else if (!clazz.equals(other.clazz)) {
+			return false;
+		}
+		return true;
+	}
 }
