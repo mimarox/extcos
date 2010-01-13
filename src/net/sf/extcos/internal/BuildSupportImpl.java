@@ -19,7 +19,6 @@ public class BuildSupportImpl implements BuildSupport {
 	@Inject
 	private FilterObjectsBuilderFactory factory;
 	
-	@Override
 	public void buildFilterObjects(TypeFilter filter, Connector connector) {
 		if (buildContext.isRegistered(filter)) {
 			buildContext.getConnector(filter).merge(connector);

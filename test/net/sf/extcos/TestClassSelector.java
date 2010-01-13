@@ -6,9 +6,7 @@ import java.io.Serializable;
 import java.lang.annotation.Annotation;
 import java.util.HashSet;
 
-import net.sf.extcos.AbstractClassSelector;
-import net.sf.extcos.selector.TypeFilterConjunction;
-import net.sf.extcos.selector.TypeFilterDisjunction;
+import net.sf.extcos.selector.TypeFilterJunction;
 import net.sf.extcos.selector.annotation.ArgumentsDescriptor;
 
 public class TestClassSelector extends AbstractClassSelector {
@@ -207,12 +205,7 @@ public class TestClassSelector extends AbstractClassSelector {
 		select().
 		from().
 		andStore().
-		returning(allBeing((TypeFilterConjunction)null));
-		
-		select().
-		from().
-		andStore().
-		returning(allBeing((TypeFilterDisjunction)null));
+		returning(allBeing((TypeFilterJunction)null));
 		
 		select().
 		from().
@@ -222,8 +215,7 @@ public class TestClassSelector extends AbstractClassSelector {
 			thoseImplementing(Serializable.class, Cloneable.class).into(new HashSet<Class<?>>()),
 			thoseAnnotatedWith(Annotation.class).into(new HashSet<Class<?>>()),
 			thoseAnnotatedWith(Annotation.class, (ArgumentsDescriptor)null).into(new HashSet<Class<?>>()),
-			thoseBeing((TypeFilterConjunction)null).into(new HashSet<Class<?>>()),
-			thoseBeing((TypeFilterDisjunction)null).into(new HashSet<Class<?>>())
+			thoseBeing((TypeFilterJunction)null).into(new HashSet<Class<?>>())
 		);
 	}
 }

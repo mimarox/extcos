@@ -21,7 +21,6 @@ public class ImplementingFilterObjectsBuilder extends AbstractFilterObjectsBuild
     @Named("ifob.provider")
     private ResultSetProvider provider;
     
-    @Override
     public void buildFilterObjects(TypeFilter filter, Connector connector) {
         Assert.notNull(filter, iae());
         Assert.isTrue(filter instanceof ImplementingTypeFilter, iae());

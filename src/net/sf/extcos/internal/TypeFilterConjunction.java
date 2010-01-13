@@ -3,23 +3,19 @@ package net.sf.extcos.internal;
 import static net.sf.extcos.util.Assert.iae;
 
 import java.util.HashSet;
-import java.util.Set;
 
 import net.sf.extcos.selector.ExtendingTypeFilter;
 import net.sf.extcos.selector.MultipleTypeFilter;
 import net.sf.extcos.selector.TypeFilter;
-import net.sf.extcos.selector.TypeFilterConjunction;
 import net.sf.extcos.util.Assert;
 
-public class TypeFilterConjunctionImpl implements TypeFilterConjunction {
-	private Set<TypeFilter> typeFilters;
-	
-	public TypeFilterConjunctionImpl(MultipleTypeFilter... filters) {
+public class TypeFilterConjunction extends AbstractTypeFilterJunction {
+	public TypeFilterConjunction(MultipleTypeFilter... filters) {
 		Assert.notEmpty(filters, iae());
 		init(filters);
 	}
 	
-	public TypeFilterConjunctionImpl(ExtendingTypeFilter filter,
+	public TypeFilterConjunction(ExtendingTypeFilter filter,
 			MultipleTypeFilter... filters) {
 		Assert.notNull(filter, iae());
 		Assert.notNull(filters, iae());
@@ -34,9 +30,5 @@ public class TypeFilterConjunctionImpl implements TypeFilterConjunction {
 		for (TypeFilter filter : filters) {
 			typeFilters.add(filter);
 		}
-	}
-
-	public Set<TypeFilter> getTypeFilters() {
-		return typeFilters;
 	}
 }

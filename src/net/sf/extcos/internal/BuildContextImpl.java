@@ -19,8 +19,6 @@ import net.sf.extcos.selector.AnnotatedWithTypeFilter;
 import net.sf.extcos.selector.ExtendingTypeFilter;
 import net.sf.extcos.selector.ImplementingTypeFilter;
 import net.sf.extcos.selector.TypeFilter;
-import net.sf.extcos.selector.TypeFilterConjunction;
-import net.sf.extcos.selector.TypeFilterDisjunction;
 import net.sf.extcos.util.Assert;
 
 import org.apache.commons.logging.Log;

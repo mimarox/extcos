@@ -1,15 +1,12 @@
 package net.sf.extcos.internal;
 
 import static net.sf.extcos.util.Assert.iae;
-
 import net.sf.extcos.filter.builder.FilterObjectsBuilder;
 import net.sf.extcos.filter.builder.FilterObjectsBuilderFactory;
 import net.sf.extcos.selector.AnnotatedWithTypeFilter;
 import net.sf.extcos.selector.ExtendingTypeFilter;
 import net.sf.extcos.selector.ImplementingTypeFilter;
 import net.sf.extcos.selector.TypeFilter;
-import net.sf.extcos.selector.TypeFilterConjunction;
-import net.sf.extcos.selector.TypeFilterDisjunction;
 import net.sf.extcos.util.Assert;
 
 import com.google.inject.Inject;

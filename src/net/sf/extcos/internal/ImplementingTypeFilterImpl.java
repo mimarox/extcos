@@ -23,8 +23,44 @@ public class ImplementingTypeFilterImpl implements ImplementingTypeFilter {
 		}
 	}
 	
-	@Override
-    public Set<Class<?>> getInterfaces() {
+	public Set<Class<?>> getInterfaces() {
 	    return interfaces;
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result
+				+ ((interfaces == null) ? 0 : interfaces.hashCode());
+		return result;
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (obj == null) {
+			return false;
+		}
+		if (getClass() != obj.getClass()) {
+			return false;
+		}
+		ImplementingTypeFilterImpl other = (ImplementingTypeFilterImpl) obj;
+		if (interfaces == null) {
+			if (other.interfaces != null) {
+				return false;
+			}
+		} else if (!interfaces.equals(other.interfaces)) {
+			return false;
+		}
+		return true;
 	}
 }

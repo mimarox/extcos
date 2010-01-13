@@ -129,7 +129,6 @@ public class URLResource implements Resource {
 		}
 	}
 
-	@Override
 	public boolean isClass() {
 		return getResourceAccessor().isClass();
 	}

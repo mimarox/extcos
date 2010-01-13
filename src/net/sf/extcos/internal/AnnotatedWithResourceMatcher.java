@@ -33,4 +33,41 @@ public class AnnotatedWithResourceMatcher implements ResourceMatcher {
 	public boolean isMatcherFor(Object obj) {
 		return annotation.equals(obj);
 	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result
+				+ ((annotation == null) ? 0 : annotation.hashCode());
+		return result;
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (obj == null) {
+			return false;
+		}
+		if (getClass() != obj.getClass()) {
+			return false;
+		}
+		AnnotatedWithResourceMatcher other = (AnnotatedWithResourceMatcher) obj;
+		if (annotation == null) {
+			if (other.annotation != null) {
+				return false;
+			}
+		} else if (!annotation.equals(other.annotation)) {
+			return false;
+		}
+		return true;
+	}
 }
