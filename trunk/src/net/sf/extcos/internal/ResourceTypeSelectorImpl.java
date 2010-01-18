@@ -15,7 +15,7 @@ public class ResourceTypeSelectorImpl implements ResourceTypeSelector {
 	private Set<ResourceType> resourceTypes;
 	
 	@Inject
-	private BasePackageSelector resourceSelectionBuilder;
+	private BasePackageSelector basePackageSelector;
 	
 	public BasePackageSelector select(ResourceType... resourceTypes) {
 		Assert.notEmpty(resourceTypes, IllegalArgumentException.class,
@@ -24,11 +24,11 @@ public class ResourceTypeSelectorImpl implements ResourceTypeSelector {
 		this.resourceTypes = new HashSet<ResourceType>(
 				Arrays.asList(resourceTypes));
 		
-		return resourceSelectionBuilder;
+		return basePackageSelector;
 	}
 
 	public BasePackageSelector getBasePackageSelector() {
-		return resourceSelectionBuilder;
+		return basePackageSelector;
 	}
 
 	public Set<ResourceType> getResourceTypes() {

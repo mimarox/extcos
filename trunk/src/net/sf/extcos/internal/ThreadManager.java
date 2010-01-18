@@ -61,7 +61,6 @@ public class ThreadManager {
 			executor.setThreadFactory(new ThreadFactory() {
 				private ThreadGroup threadGroup;
 				
-				@Override
 				public Thread newThread(Runnable runnable) {
 					Thread thread = new Thread(getThreadGroup(), runnable, append("eXtcos managed thread ", getInvoked()));
 					thread.setDaemon(true);

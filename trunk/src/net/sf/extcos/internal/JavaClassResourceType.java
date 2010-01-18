@@ -6,6 +6,13 @@ import net.sf.extcos.spi.ResourceType;
 
 public class JavaClassResourceType implements ResourceType {
 	private static final String JAVA_CLASS_SUFFIX = "class";
+	private static JavaClassResourceType instance;
+	
+	/**
+	 * Always instantiate via the {@link #javaClasses()} method.
+	 */
+	private JavaClassResourceType() {
+	}
 	
 	public String getFileSuffix() {
 		return JAVA_CLASS_SUFFIX;
@@ -17,7 +24,11 @@ public class JavaClassResourceType implements ResourceType {
 	 * @return
 	 */
 	public static JavaClassResourceType javaClasses() {
-	    return new JavaClassResourceType();
+	    if (instance == null) {
+	    	instance = new JavaClassResourceType();
+	    }
+		
+		return instance;
 	}
 
 	public ClassGenerator getClassGenerator() {

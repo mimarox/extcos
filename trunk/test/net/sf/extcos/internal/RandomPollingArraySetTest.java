@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import org.testng.annotations.BeforeTest;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 /**
@@ -15,7 +15,7 @@ import org.testng.annotations.Test;
 public class RandomPollingArraySetTest {
     private RandomPollingArraySet<Comparable<?>> set;
 	
-	@BeforeTest
+	@BeforeClass
 	public void initTests(){
 		set = new RandomPollingArraySet<Comparable<?>>();
 	}

@@ -130,6 +130,10 @@ public class BindingDefinitions extends AbstractModule {
         bind(new TypeLiteral<Set<Connector>>(){}).
         annotatedWith(name("amc.connectors")).
         to(new TypeLiteral<ArraySet<Connector>>(){});
+        
+        bind(new TypeLiteral<Set<Resource>>(){}).
+        annotatedWith(name("dcc.receivedResources")).
+        to(new TypeLiteral<ArraySet<Resource>>(){});
 	}
 	
 	private void bindMaps() {
@@ -152,6 +156,10 @@ public class BindingDefinitions extends AbstractModule {
         bind(new TypeLiteral<Map<TypeFilter, MergableConnector>>(){}).
         annotatedWith(name("bci.implementingConnectors")).
         to(new TypeLiteral<HashMap<TypeFilter, MergableConnector>>(){});
+        
+        bind(new TypeLiteral<Map<Resource, Integer>>(){}).
+        annotatedWith(name("ccc.waitingResources")).
+        to(new TypeLiteral<HashMap<Resource, Integer>>(){});
 	}
 	
 	private void bindSelectorClasses() {
