@@ -16,7 +16,6 @@ public class JavaClassGenerator implements ClassGenerator {
     private Log logger = LogFactory.getLog(getClass());
     private URL resourceUrl;
     
-    @Override
     public Class<?> generateClass() {
         URLClassLoader loader = new URLClassLoader(new URL[]{ resourceUrl }, ClassLoaderHolder.getClassLoader());
         try {
@@ -29,7 +28,6 @@ public class JavaClassGenerator implements ClassGenerator {
     }
 
 
-    @Override
     public void setResourceUrl(URL resourceUrl) {
         Assert.notNull(resourceUrl, iae());
         this.resourceUrl = resourceUrl;
