@@ -1,14 +1,19 @@
-package net.sf.extcos;
+package systemtests;
 
 import java.util.Set;
 
+import net.sf.extcos.AbstractClassSelector;
+import net.sf.extcos.ClasspathScanner;
 import net.sf.extcos.internal.ArraySet;
 
 import org.testng.annotations.Test;
 
-import com.matthiasrothe.TestInterface;
+import resources.classes.generic.TestInterface;
 
-public class ClasspathScannerTest {
+import common.TestBase;
+
+
+public class ClasspathScannerTest extends TestBase {
 	@Test
 	public void testGetClasses() {
 		ClasspathScanner scanner = new ClasspathScanner();
@@ -17,7 +22,7 @@ public class ClasspathScannerTest {
 		Set<Class<?>> classes = scanner.getClasses(new AbstractClassSelector() {
 			protected void query() {
 				select().
-				from("com").
+				from(getProperty("resources.package")).
 				andStore(thoseImplementing(TestInterface.class).into(store)).
 				returning(allExtending(Object.class));
 			}

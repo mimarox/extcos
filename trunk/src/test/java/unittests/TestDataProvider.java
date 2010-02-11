@@ -1,4 +1,4 @@
-package net.sf.extcos;
+package unittests;
 
 import org.testng.annotations.DataProvider;
 

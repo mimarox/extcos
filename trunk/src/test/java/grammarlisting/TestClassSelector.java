@@ -1,4 +1,4 @@
-package net.sf.extcos;
+package grammarlisting;
 
 import static net.sf.extcos.internal.JavaClassResourceType.javaClasses;
 
@@ -6,6 +6,7 @@ import java.io.Serializable;
 import java.lang.annotation.Annotation;
 import java.util.HashSet;
 
+import net.sf.extcos.AbstractClassSelector;
 import net.sf.extcos.selector.TypeFilterJunction;
 import net.sf.extcos.selector.annotation.ArgumentsDescriptor;
 
