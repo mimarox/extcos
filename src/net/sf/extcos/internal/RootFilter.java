@@ -3,6 +3,7 @@ package net.sf.extcos.internal;
 import java.util.Iterator;
 import java.util.Set;
 
+import net.sf.extcos.exception.ConcurrentInspectionException;
 import net.sf.extcos.filter.MultiplexingConnector;
 import net.sf.extcos.resource.Resource;
 
@@ -16,8 +17,12 @@ public class RootFilter extends AbstractChainedFilter {
 		while (resources.hasNext()) {
 			Resource resource = resources.next();
 			
-			if (resource.isClass()) {
-				resultSet.add(resource);				
+			try {
+				if (resource.isClass()) {
+					resultSet.add(resource);				
+				}
+			} catch (ConcurrentInspectionException ignored) {
+				// should never be thrown, since we're not concurrent at this point
 			}
 		}
 		
@@ -30,8 +35,12 @@ public class RootFilter extends AbstractChainedFilter {
 		while (resources.hasNext()) {
 			Resource resource = resources.next();
 			
-			if (resource.isClass()) {
-				resourceDispatcher.connect(resource);				
+			try {
+				if (resource.isClass()) {
+					resourceDispatcher.connect(resource);				
+				}
+			} catch (ConcurrentInspectionException ignored) {
+				// should never be thrown, since we're not concurrent at this point
 			}
 		}
 	}
@@ -42,9 +51,13 @@ public class RootFilter extends AbstractChainedFilter {
 		while (resources.hasNext()) {
 			Resource resource = resources.next();
 			
-			if (resource.isClass()) {
-				resultSet.add(resource);				
-				resourceDispatcher.connect(resource);				
+			try {
+				if (resource.isClass()) {
+					resultSet.add(resource);				
+					resourceDispatcher.connect(resource);				
+				}
+			} catch (ConcurrentInspectionException ignored) {
+				// should never be thrown, since we're not concurrent at this point
 			}
 		}
 		

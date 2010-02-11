@@ -23,6 +23,7 @@ public class ClasspathScannerTest {
 			}
 		});
 		
+		System.out.println(store);
 		System.out.println(classes);
 	}
 }
