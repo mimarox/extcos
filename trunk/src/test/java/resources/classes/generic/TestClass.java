@@ -1,5 +1,11 @@
 package resources.classes.generic;
 
-public class TestClass {
+import resources.annotations.TestInvokable;
 
+public class TestClass {
+	
+	@TestInvokable
+	public void testMethod() {
+		System.out.println("called TestClass.testMethod()");
+	}
 }

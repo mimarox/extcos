@@ -2,6 +2,8 @@ package systemtests;
 
 import static org.testng.Assert.assertEquals;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -22,6 +24,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import resources.annotations.State;
+import resources.annotations.TestInvokable;
 
 import common.TestBase;
 
@@ -60,19 +63,40 @@ public class ClassGenerationAndUseTest extends TestBase {
 		
 		int instantiationExceptionCounter = 0;
 		int illegalAccessExceptionCounter = 0;
+		int invokableMethodCounter = 0;
+		int stateAnnotatedCounter = 0;
 		
 		for (Class<?> clazz : classes) {
 			try {
-				clazz.newInstance();
+				Object object = clazz.newInstance();
+				
+				if (clazz.isAnnotationPresent(State.class)) {
+					stateAnnotatedCounter++;
+				}
+				
+				Method[] methods = clazz.getMethods();
+				
+				for (Method method : methods) {
+					if (method.isAnnotationPresent(TestInvokable.class)) {
+						method.invoke(object);
+						invokableMethodCounter++;
+					}
+				}
 			} catch (InstantiationException e) {
 				instantiationExceptionCounter++;
 			} catch (IllegalAccessException e) {
 				illegalAccessExceptionCounter++;
+			} catch (IllegalArgumentException e) {
+				e.printStackTrace();
+			} catch (InvocationTargetException e) {
+				e.printStackTrace();
 			}
 		}
 		
 		assertEquals(instantiationExceptionCounter, getIntProperty("classes.notInstantiable.amount"));
 		assertEquals(illegalAccessExceptionCounter, getIntProperty("classes.notAccessible.amount"));
+		assertEquals(stateAnnotatedCounter, getIntProperty("classes.stateAnnotated.amount"));
+		assertEquals(invokableMethodCounter, getIntProperty("classes.invokableMethod.amount"));
 	}
 	
 	@Test

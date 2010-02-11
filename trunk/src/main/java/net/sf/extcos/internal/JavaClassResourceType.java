@@ -36,6 +36,6 @@ public class JavaClassResourceType implements ResourceType {
 	}
 
 	public ResourceAccessor getResourceAccessor() {
-		throw new UnsupportedOperationException("not yet implemented");
+		return new JavaResourceAccessor();
 	}
 }
