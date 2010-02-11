@@ -17,18 +17,19 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 public class JavaClassGenerator implements ClassGenerator {
-    private class ResourceClassLoader extends ClassLoader {
+    private static class ResourceClassLoader extends ClassLoader {
+        private static Log logger = LogFactory.getLog(JavaClassGenerator.class);
     	
     	@SuppressWarnings("deprecation")
-		public Class<?> loadClass() {
+		public Class<?> loadClass(URL classUrl) {
     		try {
-				byte[] classBytes = readBytes(new BufferedInputStream(resourceUrl.openStream()));
+				byte[] classBytes = readBytes(new BufferedInputStream(classUrl.openStream()));
     			Class<?> clazz = defineClass(classBytes, 0, classBytes.length);
 				resolveClass(clazz);
 				return clazz;
 			} catch (Exception e) {
 				logger.error(append("Error creating class from URL [",
-						resourceUrl.toString(), "]"), e);
+						classUrl.toString(), "]"), e);
 				return null;
 			}
     	}
@@ -51,15 +52,24 @@ public class JavaClassGenerator implements ClassGenerator {
 		}
     }
 	
-	private Log logger = LogFactory.getLog(getClass());
+	
+    private static ResourceClassLoader loader;
     private URL resourceUrl;
     
     public Class<?> generateClass() {
-        return new ResourceClassLoader().loadClass();
+        return getResourceClassLoader().loadClass(resourceUrl);
     }
 
 
-    public void setResourceUrl(URL resourceUrl) {
+    private static ResourceClassLoader getResourceClassLoader() {
+		if (loader == null) {
+			loader = new ResourceClassLoader();
+		}
+    	return loader;
+	}
+
+
+	public void setResourceUrl(URL resourceUrl) {
         Assert.notNull(resourceUrl, iae());
         this.resourceUrl = resourceUrl;
     }

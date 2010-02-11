@@ -1,10 +1,12 @@
-package net.sf.extcos.internal;
+package unittests;
 
 import static org.testng.Assert.assertTrue;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+
+import net.sf.extcos.internal.RandomPollingArraySet;
 
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;

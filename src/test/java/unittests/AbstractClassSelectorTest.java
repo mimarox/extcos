@@ -1,10 +1,11 @@
-package net.sf.extcos;
+package unittests;
 
 import static net.sf.extcos.internal.JavaClassResourceType.javaClasses;
 import static org.testng.Assert.assertTrue;
 
 import java.util.Set;
 
+import net.sf.extcos.AbstractClassSelector;
 import net.sf.extcos.internal.ArraySet;
 import net.sf.extcos.internal.BasePackageSelectorImpl;
 import net.sf.extcos.internal.ForwardingBuilderImpl;

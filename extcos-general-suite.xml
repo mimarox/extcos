@@ -2,7 +2,8 @@
 <suite name="eXtcos">
   <test verbose="2" name="All Tests" annotations="JDK">
     <classes>
-      <class name="net.sf.extcos.AbstractClassSelectorTest"/>
+      <class name="unittests.AbstractClassSelectorTest"/>
+      <class name="unittests.ResourceResolverImplTest"/>
     </classes>
   </test>
 </suite>
