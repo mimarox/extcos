@@ -1,0 +1,83 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>net.sf.extcos</groupId>
+	<artifactId>extcos</artifactId>
+	<name>eXtcos</name>
+	<version>0.0.0-SNAPSHOT</version>
+	<description>Extensible Component Scanner</description>
+	<url>http://sourceforge.net/projects/extcos</url>
+	<inceptionYear>2009</inceptionYear>
+	<scm>
+		<developerConnection>scm:svn:https://extcos.svn.sourceforge.net/svnroot/extcos/trunk</developerConnection>
+	</scm>
+	
+	<build>
+		<finalName>extcos-${project.version}</finalName>
+		<plugins>
+			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>1.6</source>
+					<target>1.6</target>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<configuration>
+					<archive>
+						<manifest>
+							<addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+						</manifest>
+						<manifestEntries>
+							<Build-ID>${project.version}</Build-ID>
+							<Build-Timestamp>${timestamp}</Build-Timestamp>
+						</manifestEntries>
+					</archive>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>2.4.2</version>
+				<configuration>
+					<suiteXmlFiles>
+						<suiteXmlFile>extcos-general-suite.xml</suiteXmlFile>
+					</suiteXmlFiles>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+	
+	<!-- THIS PART NEEDS TO REMOVED BEFORE RELEASE -->
+	<pluginRepositories>
+		<pluginRepository>
+			<id>java.net</id>
+			<name>java.net Maven Repository</name>
+			<url>https://maven-repository.dev.java.net/nonav/repository</url>
+			<layout>legacy</layout>
+		</pluginRepository>
+	</pluginRepositories>
+	<!-- END OF REMOVE BEFORE RELEASE -->
+	
+	<dependencies>
+		<dependency>
+			<groupId>com.google.inject</groupId>
+			<artifactId>guice</artifactId>
+			<version>2.0</version>
+		</dependency>
+		<dependency>
+			<groupId>commons-logging</groupId>
+			<artifactId>commons-logging</artifactId>
+			<version>1.1.1</version>
+		</dependency>
+		<dependency>
+	    	<groupId>org.testng</groupId>
+	    	<artifactId>testng</artifactId>
+	    	<version>5.8</version>
+	    	<scope>test</scope>
+	    	<classifier>jdk15</classifier>
+		</dependency>
+	</dependencies>
+</project>
