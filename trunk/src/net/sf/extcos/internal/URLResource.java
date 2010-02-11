@@ -129,7 +129,13 @@ public class URLResource implements Resource {
 		}
 	}
 
-	public boolean isClass() {
-		return getResourceAccessor().isClass();
+	public boolean isClass() throws ConcurrentInspectionException {
+		acquireLock();
+		
+		try {
+			return getResourceAccessor().isClass();
+		} finally {
+			releaseLock();
+		}
 	}
 }

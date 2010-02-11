@@ -32,7 +32,7 @@ public class JavaClassResourceType implements ResourceType {
 	}
 
 	public ClassGenerator getClassGenerator() {
-	    return new JavaClassGenerator();
+		return new JavaClassGenerator();
 	}
 
 	public ResourceAccessor getResourceAccessor() {

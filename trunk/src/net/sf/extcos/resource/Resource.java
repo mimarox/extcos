@@ -22,6 +22,8 @@ public interface Resource {
 			Class<? extends Annotation> annotation)
 			throws ConcurrentInspectionException;
 
+	boolean isClass() throws ConcurrentInspectionException;
+
 	boolean isSubclassOf(Class<?> clazz) throws ConcurrentInspectionException;
 
 	boolean hasInterface(Class<?> interfaze) throws ConcurrentInspectionException;
@@ -29,6 +31,4 @@ public interface Resource {
 	void generateAndDispatchClass();
 
 	void addClassGenerationListener(ClassGenerationListener listener);
-
-	boolean isClass();
 }
