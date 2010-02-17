@@ -12,7 +12,7 @@ public class RootFilter extends AbstractChainedFilter {
 	// not returning(all()), andStore() clause must have been set
 	// or returning() clause with any of allExtending(), allImplementing()
 	// allAnnotatedWith(), allBeing()
-	protected Iterator<Resource> filter(Iterator<Resource> resources,
+	protected Iterable<Resource> filter(Iterator<Resource> resources,
 			Set<Resource> resultSet) {
 		while (resources.hasNext()) {
 			Resource resource = resources.next();
@@ -26,7 +26,7 @@ public class RootFilter extends AbstractChainedFilter {
 			}
 		}
 		
-		return resultSet.iterator();
+		return resultSet;
 	}
 
 	// returning(all()), no andStore() clause given
@@ -46,7 +46,7 @@ public class RootFilter extends AbstractChainedFilter {
 	}
 
 	// returning(all()), andStore() clause given
-	protected Iterator<Resource> filter(Iterator<Resource> resources,
+	protected Iterable<Resource> filter(Iterator<Resource> resources,
 			MultiplexingConnector resourceDispatcher, Set<Resource> resultSet) {
 		while (resources.hasNext()) {
 			Resource resource = resources.next();
@@ -61,6 +61,6 @@ public class RootFilter extends AbstractChainedFilter {
 			}
 		}
 		
-		return resultSet.iterator();
+		return resultSet;
 	}
 }

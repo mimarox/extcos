@@ -2,9 +2,6 @@ package net.sf.extcos.internal;
 
 import static net.sf.extcos.util.Assert.iae;
 import static net.sf.extcos.util.StringUtils.append;
-
-import java.util.Iterator;
-
 import net.sf.extcos.filter.Filter;
 import net.sf.extcos.filter.FilterInterceptor;
 import net.sf.extcos.resource.Resource;
@@ -44,7 +41,7 @@ public class ThreadingFilterInterceptor implements FilterInterceptor {
 		}
 	}
 
-	public void filter(final Iterator<Resource> resources) {
+	public void filter(final Iterable<Resource> resources) {
 		if (filter == null) {
 			logger.warn("intercepted filter is not set, hence nothing to intercept");
 			return;

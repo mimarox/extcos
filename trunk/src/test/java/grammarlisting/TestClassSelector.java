@@ -6,11 +6,11 @@ import java.io.Serializable;
 import java.lang.annotation.Annotation;
 import java.util.HashSet;
 
-import net.sf.extcos.AbstractClassSelector;
+import net.sf.extcos.ClassQuery;
 import net.sf.extcos.selector.TypeFilterJunction;
 import net.sf.extcos.selector.annotation.ArgumentsDescriptor;
 
-public class TestClassSelector extends AbstractClassSelector {
+public class TestClassSelector extends ClassQuery {
 	protected void query() {
 		select();
 		select(javaClasses()); //varargs

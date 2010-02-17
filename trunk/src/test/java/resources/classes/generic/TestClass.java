@@ -7,6 +7,5 @@ public class TestClass {
 	
 	@TestInvokable
 	public void testMethod() {
-		System.out.println("called TestClass.testMethod()");
 	}
 }

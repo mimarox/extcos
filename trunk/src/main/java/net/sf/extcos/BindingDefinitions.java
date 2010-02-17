@@ -20,43 +20,11 @@ import net.sf.extcos.filter.builder.BuildSupport;
 import net.sf.extcos.filter.builder.FilterChainBuilder;
 import net.sf.extcos.filter.builder.FilterObjectsBuilder;
 import net.sf.extcos.filter.builder.FilterObjectsBuilderFactory;
-import net.sf.extcos.internal.AnnotatedWithFilterObjectsBuilder;
-import net.sf.extcos.internal.ArraySet;
-import net.sf.extcos.internal.BasePackageSelectorImpl;
-import net.sf.extcos.internal.BlacklistAwareResultSetProvider;
-import net.sf.extcos.internal.BlacklistManagerImpl;
-import net.sf.extcos.internal.BuildContextImpl;
-import net.sf.extcos.internal.BuildSupportImpl;
-import net.sf.extcos.internal.ClassSelectionProcessorImpl;
-import net.sf.extcos.internal.EnumBasedReturning;
-import net.sf.extcos.internal.ExtendingFilterObjectsBuilder;
-import net.sf.extcos.internal.FilterChainBuilderImpl;
-import net.sf.extcos.internal.FilterObjectsBuilderFactoryImpl;
-import net.sf.extcos.internal.FilterObjectsConjunctionBuilder;
-import net.sf.extcos.internal.FilterObjectsDisjunctionBuilder;
-import net.sf.extcos.internal.FilterObjectsImpl;
-import net.sf.extcos.internal.ForwardingBuilderImpl;
-import net.sf.extcos.internal.ImplementingFilterObjectsBuilder;
-import net.sf.extcos.internal.MatchingChainedFilterImpl;
-import net.sf.extcos.internal.RandomPollingArraySet;
-import net.sf.extcos.internal.ResourceResolverImpl;
-import net.sf.extcos.internal.ResourceTypeSelectorImpl;
-import net.sf.extcos.internal.Returning;
-import net.sf.extcos.internal.ReturningSelectorImpl;
-import net.sf.extcos.internal.StandardResultSetProvider;
-import net.sf.extcos.internal.ThreadingFilterInterceptor;
+import net.sf.extcos.internal.*;
 import net.sf.extcos.resource.Resource;
 import net.sf.extcos.resource.ResourceResolver;
-import net.sf.extcos.selector.BasePackageSelector;
-import net.sf.extcos.selector.ClassSelectionProcessor;
-import net.sf.extcos.selector.DirectReturning;
-import net.sf.extcos.selector.ForwardingBuilder;
+import net.sf.extcos.selector.*;
 import net.sf.extcos.selector.Package;
-import net.sf.extcos.selector.ResourceTypeSelector;
-import net.sf.extcos.selector.ReturningSelector;
-import net.sf.extcos.selector.StoreBinding;
-import net.sf.extcos.selector.StoreReturning;
-import net.sf.extcos.selector.TypeFilter;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
@@ -204,7 +172,7 @@ public class BindingDefinitions extends AbstractModule {
 		Set<Class<? extends FilterInterceptor>> interceptors =
 			new LinkedHashSet<Class<? extends FilterInterceptor>>();
 		
-		interceptors.add(ThreadingFilterInterceptor.class);
+//		interceptors.add(ThreadingFilterInterceptor.class);
 		
 		return interceptors;
 	}
