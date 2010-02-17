@@ -172,7 +172,7 @@ public class BindingDefinitions extends AbstractModule {
 		Set<Class<? extends FilterInterceptor>> interceptors =
 			new LinkedHashSet<Class<? extends FilterInterceptor>>();
 		
-//		interceptors.add(ThreadingFilterInterceptor.class);
+		interceptors.add(ThreadingFilterInterceptor.class);
 		
 		return interceptors;
 	}
