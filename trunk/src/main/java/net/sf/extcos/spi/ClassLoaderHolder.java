@@ -10,10 +10,6 @@ public class ClassLoaderHolder {
     }
     
     public static void setClassLoader(ClassLoader classLoader) {
-        if (ClassLoaderHolder.classLoader == null) {
-            ClassLoaderHolder.classLoader = classLoader;
-        } else {
-            throw new IllegalStateException("class loader already set");
-        }
+    	ClassLoaderHolder.classLoader = classLoader;
     }
 }

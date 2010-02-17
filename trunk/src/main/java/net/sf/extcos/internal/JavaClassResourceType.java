@@ -1,6 +1,5 @@
 package net.sf.extcos.internal;
 
-import net.sf.extcos.spi.ClassGenerator;
 import net.sf.extcos.spi.ResourceAccessor;
 import net.sf.extcos.spi.ResourceType;
 
@@ -29,10 +28,6 @@ public class JavaClassResourceType implements ResourceType {
 	    }
 		
 		return instance;
-	}
-
-	public ClassGenerator getClassGenerator() {
-		return new JavaClassGenerator();
 	}
 
 	public ResourceAccessor getResourceAccessor() {

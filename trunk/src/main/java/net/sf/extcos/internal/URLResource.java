@@ -13,7 +13,6 @@ import net.sf.extcos.classgeneration.ClassGenerationListener;
 import net.sf.extcos.exception.ConcurrentInspectionException;
 import net.sf.extcos.resource.Resource;
 import net.sf.extcos.spi.AnnotationMetadata;
-import net.sf.extcos.spi.ClassGenerator;
 import net.sf.extcos.spi.ResourceAccessor;
 import net.sf.extcos.spi.ResourceType;
 import net.sf.extcos.util.Assert;
@@ -22,7 +21,6 @@ public class URLResource implements Resource {
 	private URL resourceUrl;
 	private ResourceType resourceType;
 	private ResourceAccessor resourceAccessor;
-	private ClassGenerator classGenerator;
 	
 	private Object inspectionMutex = new Object();
 	private boolean inspected;
@@ -60,7 +58,7 @@ public class URLResource implements Resource {
 	}
 
 	public void generateAndDispatchClass() {
-		Class<?> clazz = getClassGenerator().generateClass();
+		Class<?> clazz = getResourceAccessor().generateClass();
 		for (ClassGenerationListener listener : listeners) {
 			listener.classGenerated(clazz);
 		}
@@ -90,14 +88,6 @@ public class URLResource implements Resource {
 
 	public String toString() {
 		return append("URL [", resourceUrl, "]");
-	}
-
-	private ClassGenerator getClassGenerator() {
-		if (classGenerator == null) {
-			classGenerator = resourceType.getClassGenerator();
-			classGenerator.setResourceUrl(resourceUrl);
-		}
-		return classGenerator;
 	}
 
 	private ResourceAccessor getResourceAccessor() {
