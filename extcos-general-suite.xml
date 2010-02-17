@@ -1,9 +1,11 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
 <suite name="eXtcos">
-  <test verbose="2" name="All Tests" annotations="JDK">
+  <test verbose="2" name="Important Tests" annotations="JDK">
     <classes>
       <class name="unittests.AbstractClassSelectorTest"/>
       <class name="unittests.ResourceResolverImplTest"/>
+      <class name="systemtests.ClassGenerationAndUseTest"/>
+      <class name="systemtests.ClasspathScannerTest"/>
     </classes>
   </test>
 </suite>

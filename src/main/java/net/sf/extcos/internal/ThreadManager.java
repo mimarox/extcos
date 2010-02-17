@@ -17,7 +17,9 @@ import com.google.inject.Singleton;
 public class ThreadManager {
 	private AtomicInteger registered = new AtomicInteger();
 	private AtomicInteger invoked = new AtomicInteger();
+	private AtomicInteger finished = new AtomicInteger();
 	private ThreadPoolExecutor executor;
+	private Object sync = new Object();
 	
 	public void register() {
 		registered.incrementAndGet();
@@ -46,10 +48,32 @@ public class ThreadManager {
 			} catch (InterruptedException ignored) {
 			}
 		}
+		
+		finished.incrementAndGet();
+		
+		while (finished.get() < registered.get()) {
+			try {
+				synchronized (sync) {
+					sync.wait();
+				}
+			} catch (InterruptedException ignored) {
+			}
+		}
+		
+		executor.shutdownNow();
 	}
 	
-	private void invokeNonBlocking(Runnable runnable) {
-		getExecutor().execute(runnable);
+	private void invokeNonBlocking(final Runnable runnable) {
+		getExecutor().execute(new Runnable() {
+			public void run() {
+				runnable.run();
+				finished.incrementAndGet();
+				
+				synchronized (sync) {
+					sync.notify();
+				}
+			}
+		});
 	}
 	
 	// for lazy initialization
