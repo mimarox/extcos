@@ -23,6 +23,7 @@ import net.sf.extcos.util.PropertyInjector;
 
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import resources.annotations.EnumBasedAnnotation;
@@ -52,7 +53,7 @@ public class ClassGenerationAndUseTest extends TestBase {
 	}
 	
 	@BeforeMethod
-	public void initClassLoader() throws Exception {
+	public void initClassLoader() {
 		ClassLoaderHolder.setClassLoader(new Loader());
 	}
 	
@@ -61,10 +62,8 @@ public class ClassGenerationAndUseTest extends TestBase {
 		classes.clear();
 	}
 	
-	@Test
-	public void testGetRootFilteredClasses() throws Exception {
-		Set<Resource> resources = getResources();
-		
+	@Test(dataProvider = "resources")
+	public void testGetRootFilteredClasses(Set<Resource> resources) throws Exception {
 		for (Resource resource : resources) {
 			try {
 				if (resource.isClass()) {
@@ -106,10 +105,8 @@ public class ClassGenerationAndUseTest extends TestBase {
 		assertEquals(invokableMethodCounter, getIntProperty("classes.invokableMethod.amount"));
 	}
 	
-	@Test
-	public void testGetAnnotatedWithStateClasses() {
-		Set<Resource> resources = getResources();
-		
+	@Test(dataProvider = "resources")
+	public void testGetAnnotatedWithStateClasses(Set<Resource> resources) {
 		for (Resource resource : resources) {
 			try {
 				if (resource.isClass() &&
@@ -126,10 +123,8 @@ public class ClassGenerationAndUseTest extends TestBase {
 				"classes.annotatedWith.State.amount"));
 	}
 	
-	@Test
-	public void testGetAnnotatedWithEnumBasedClasses() {
-		Set<Resource> resources = getResources();
-		
+	@Test(dataProvider = "resources")
+	public void testGetAnnotatedWithEnumBasedClasses(Set<Resource> resources) {
 		for (Resource resource : resources) {
 			try {
 				if (resource.isClass() &&
@@ -147,10 +142,8 @@ public class ClassGenerationAndUseTest extends TestBase {
 				"classes.annotatedWith.EnumBasedAnnotation.amount"));
 	}
 	
-	@Test
-	public void testGetImplementingClasses() {
-		Set<Resource> resources = getResources();
-		
+	@Test(dataProvider = "resources")
+	public void testGetImplementingClasses(Set<Resource> resources) {
 		for (Resource resource : resources) {
 			try {
 				if (resource.isClass() &&
@@ -167,10 +160,8 @@ public class ClassGenerationAndUseTest extends TestBase {
 				"classes.implementing.TestInterface.amount"));
 	}
 	
-	@Test
-	public void testGetExtendingClasses() {
-		Set<Resource> resources = getResources();
-		
+	@Test(dataProvider = "resources")
+	public void testGetExtendingClasses(Set<Resource> resources) {
 		for (Resource resource : resources) {
 			try {
 				if (resource.isClass() &&
@@ -187,12 +178,19 @@ public class ClassGenerationAndUseTest extends TestBase {
 				"classes.extending.JComponent.amount"));
 	}
 	
-	private Set<Resource> getResources() {
+	@DataProvider(name = "resources")
+	public Object[][] getResources() {
 		Set<ResourceType> resourceTypes = new HashSet<ResourceType>();
 		resourceTypes.add(JavaClassResourceType.javaClasses());
 		
 		Package basePackage = new PackageImpl(getProperty("resources.package"));
 		
-		return resolver.getResources(resourceTypes, basePackage);
+		return new Object[][]{{
+			resolver.getResources(resourceTypes, basePackage)
+		}};
+	}
+	
+	public ResourceResolver getResolver() {
+		return resolver;
 	}
 }

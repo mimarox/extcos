@@ -47,13 +47,22 @@ public class MatchingChainedFilterImpl extends AbstractChainedFilter implements
 	
 	//filter is node in filter tree, but not an endpoint
 	//these filters will be built for performance reasons only
-	protected Iterator<Resource> filter(Iterator<Resource> resources,
+	protected Iterable<Resource> filter(Iterator<Resource> resources,
 			Set<Resource> resultSet) {
 		this.resources = resources;
 		
 		if (resourceMatcher == null) {
 			logger.warn("resource matcher is not set, hence no filtering will take place");
-			return resources;
+			
+			while (hasNextResource()) {
+				try {
+					resultSet.add(nextResource());
+				} catch (StateChangedException e) {
+					continue;
+				}
+			}
+			
+			return resultSet;
 		}
 		
 		while (hasNextResource()) {
@@ -78,7 +87,7 @@ public class MatchingChainedFilterImpl extends AbstractChainedFilter implements
 			}
 		}
 		
-		return resultSet.iterator();
+		return resultSet;
 	}
 
 	//filter is leaf in filter tree and must therefore be an endpoint
@@ -126,7 +135,7 @@ public class MatchingChainedFilterImpl extends AbstractChainedFilter implements
 	}
 
 	//filter is node in filter tree and an endpoint
-	protected Iterator<Resource> filter(Iterator<Resource> resources,
+	protected Iterable<Resource> filter(Iterator<Resource> resources,
 			MultiplexingConnector resourceDispatcher, Set<Resource> resultSet) {
 		this.resources = resources;
 		
@@ -143,9 +152,10 @@ public class MatchingChainedFilterImpl extends AbstractChainedFilter implements
 				}
 				
 				resourceDispatcher.connect(resource);
+				resultSet.add(resource);
 			}
 			
-			return resources;
+			return resultSet;
 		}
 		
 		while (hasNextResource()) {
@@ -171,7 +181,7 @@ public class MatchingChainedFilterImpl extends AbstractChainedFilter implements
 			}
 		}
 		
-		return resultSet.iterator();
+		return resultSet;
 	}
 	
 	private boolean hasNextResource() {

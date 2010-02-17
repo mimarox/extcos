@@ -65,7 +65,7 @@ public class ClassSelectionProcessorImpl implements
 			Filter filter = filterChainBuilder.build(storeBindings, returning,
 					filtered, classes);
 
-			filter.filter(resources.iterator());
+			filter.filter(resources);
 
 			for (Resource resource : filtered) {
 				resource.generateAndDispatchClass();

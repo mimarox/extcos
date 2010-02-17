@@ -28,21 +28,24 @@ public class ImplementingFilterObjectsBuilder extends AbstractFilterObjectsBuild
         
         Set<Class<?>> interfaces = ((ImplementingTypeFilter) filter).getInterfaces();
         
-        ConjunctiveChainedConnector conjunction = injector.getInstance(ConjunctiveChainedConnector.class);
-        conjunction.setParentConnector(connector);
-        conjunction.setChildCount(interfaces.size());
+        if (interfaces.size() > 1) {
+            ConjunctiveChainedConnector conjunction = injector.getInstance(ConjunctiveChainedConnector.class);
+            conjunction.setParentConnector(connector);
+            conjunction.setChildCount(interfaces.size());
+            connector = conjunction;
+        }
         
         for (Class<?> interfaze : interfaces) {
         	ImplementingResourceMatcher matcher = new ImplementingResourceMatcher(interfaze);
         	
         	if (buildContext.isRegistered(matcher)) {
         		FilterObjects fo = buildContext.getFilterObjects(matcher);
-        		fo.getResourceDispatcher().addConnector(conjunction);
+        		fo.getResourceDispatcher().addConnector(connector);
         	} else {
     			MultiplexingConnector dispatcher =
     				new StandardMultiplexingConnector();
     			
-    			dispatcher.addConnector(conjunction);
+    			dispatcher.addConnector(connector);
     			
     			FilterObjects filterObjects =
     				createFilterObjects(dispatcher, matcher, provider);
@@ -51,6 +54,9 @@ public class ImplementingFilterObjectsBuilder extends AbstractFilterObjectsBuild
         	}
         }
         
-		buildContext.register(filter, conjunction);
+        if (connector instanceof ConjunctiveChainedConnector) {
+    		buildContext.register(filter,
+    				(ConjunctiveChainedConnector)connector);
+        }
     }
 }

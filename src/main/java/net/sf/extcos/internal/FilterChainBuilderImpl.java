@@ -81,6 +81,7 @@ public class FilterChainBuilderImpl implements FilterChainBuilder {
 		for (StoreBinding storeBinding : storeBindings) {
 			ImmediateConnector ic = new ImmediateConnectorImpl();
 			ic.setReceivingSet(storeBinding.getStore());
+			buildContext.addImmediateConnector(ic);
 			buildSupport.buildFilterObjects(storeBinding.getTypeFilter(), ic);
 		}
 	}

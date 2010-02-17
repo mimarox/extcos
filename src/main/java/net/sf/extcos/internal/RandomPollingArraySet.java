@@ -72,13 +72,15 @@ public class RandomPollingArraySet<E> extends ArraySet<E> implements
 	private static final long serialVersionUID = -5304262039454673339L;
 	
 	private class Itr implements Iterator<E> {
+		private RandomPollingArraySet<E> workingCopy;
+		
 		public boolean hasNext() {
-			return size() > 0;
+			return workingCopy.size() > 0;
 		}
 
 		public E next() {
 			if (hasNext()) {
-				return pollRandom();
+				return workingCopy.pollRandom();
 			} else {
 				throw new NoSuchElementException();
 			}
@@ -121,7 +123,16 @@ public class RandomPollingArraySet<E> extends ArraySet<E> implements
 	 * @see java.util.AbstractCollection#iterator()
 	 */
 	public Iterator<E> iterator(){
-		return new Itr();
+		RandomPollingArraySet<E> workingCopy = new RandomPollingArraySet<E>();
+		
+		for (int i = 0; i < size(); i++) {
+			workingCopy.add(get(i));
+		}
+		
+		Itr itr = new Itr();
+		itr.workingCopy = workingCopy;
+		
+		return itr;
 	}
 	
 	/*

@@ -69,7 +69,7 @@ public abstract class AbstractChainedFilter implements ChainedFilter {
 		}
 	}
 	
-	public final void filter(Iterator<Resource> resources) {
+	public final void filter(Iterable<Resource> resources) {
 		if (resources == null) {
 			logger.debug("resources must not be null, nothing to filter");
 			return;
@@ -83,32 +83,32 @@ public abstract class AbstractChainedFilter implements ChainedFilter {
 				invokeFilters(resources);
 			} else {
 				invokeFilters(
-						filter(resources,
+						filter(resources.iterator(),
 								resultSetProvider.getResultSet()));
 			}
 		} else if (resourceDispatcher != null && filters == null) {
-			filter(resources, resourceDispatcher);
+			filter(resources.iterator(), resourceDispatcher);
 		} else /* resourceDispatcher != null && filters != null */{
 			if (resultSetProvider == null) {
-				filter(resources, resourceDispatcher);
+				filter(resources.iterator(), resourceDispatcher);
 				invokeFilters(resources);				
 			} else {
 				invokeFilters(
-						filter(resources, resourceDispatcher,
+						filter(resources.iterator(), resourceDispatcher,
 								resultSetProvider.getResultSet()));
 			}
 		}
 	}
 
-	private void invokeFilters(Iterator<Resource> resources) {
+	private void invokeFilters(Iterable<Resource> resources) {
 		for (Filter filter : filters) {
 			filter.filter(resources);
 		}
 	}
 	
-	protected abstract Iterator<Resource> filter(Iterator<Resource> resources, Set<Resource> resultSet);
+	protected abstract Iterable<Resource> filter(Iterator<Resource> resources, Set<Resource> resultSet);
 	
 	protected abstract void filter(Iterator<Resource> resources, MultiplexingConnector resourceDispatcher);
 	
-	protected abstract Iterator<Resource> filter(Iterator<Resource> resources, MultiplexingConnector resourceDispatcher, Set<Resource> resultSet);
+	protected abstract Iterable<Resource> filter(Iterator<Resource> resources, MultiplexingConnector resourceDispatcher, Set<Resource> resultSet);
 }
