@@ -116,7 +116,6 @@ public class ArraySet<E> extends AbstractSet<E>
 	 * @param c the collection whose elements are to be placed into this list
 	 * @throws NullPointerException if the specified collection is null
 	 */
-	@SuppressWarnings("unchecked")
 	public ArraySet(Collection<? extends E> c){
 		// Init backing list
 		if(c instanceof Set){

@@ -20,4 +20,6 @@ public interface ResourceAccessor {
 	boolean isSubclassOf(Class<?> clazz);
 
 	boolean isClass();
+	
+	Class<?> generateClass();
 }
