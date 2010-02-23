@@ -83,4 +83,22 @@ public class ClasspathScannerTest extends TestBase {
 		
 		assertEquals(classes.size(), getIntProperty("classes.implementing.TestInterface_Serializable.amount"));		
 	}
+	
+	@Test
+	public void testGetImplementingAndExtendingClasses() {
+		ClasspathScanner scanner = new ClasspathScanner();
+		
+		Set<Class<?>> classes = scanner.getClasses(new ClassQuery() {
+			protected void query() {
+				select().
+				from(getProperty("resources.package")).
+				returning(allBeing(
+						and(
+							subclassOf(JComponent.class),
+							implementorOf(TestInterface.class))));
+			}
+		});
+		
+		assertEquals(classes.size(), 1);		
+	}
 }
