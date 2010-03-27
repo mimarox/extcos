@@ -10,17 +10,17 @@ import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 
-public class ClasspathScanner {
-	public Set<Class<?>> getClasses(ClassSelector classSelector) {
-		return getClasses(classSelector, getDefaultClassLoader());
+public class ComponentScanner {
+	public Set<Class<?>> getClasses(ComponentQuery componentQuery) {
+		return getClasses(componentQuery, getDefaultClassLoader());
 	}
 
-	public Set<Class<?>> getClasses(final ClassSelector classSelector,
+	public Set<Class<?>> getClasses(final ComponentQuery componentQuery,
 			final ClassLoader classLoader) {
 		Injector injector = Guice.createInjector(new BindingDefinitions(),
 				new AbstractModule() {
 					protected void configure() {
-						bind(ClassSelector.class).toInstance(classSelector);
+						bind(ClassSelector.class).toInstance(componentQuery);
 						bind(ClassLoader.class).toInstance(classLoader);
 					}
 				});

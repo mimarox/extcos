@@ -7,7 +7,7 @@ import java.util.Set;
 
 import javax.swing.JPanel;
 
-import net.sf.extcos.ClassQuery;
+import net.sf.extcos.ComponentQuery;
 import net.sf.extcos.BindingDefinitions;
 import net.sf.extcos.filter.Filter;
 import net.sf.extcos.filter.builder.FilterChainBuilder;
@@ -41,7 +41,7 @@ public class FilterChainBuilderImplTest {
 				new AbstractModule() {
 					protected void configure() {
 						bind(ClassSelector.class).toInstance(
-							new ClassQuery() {
+							new ComponentQuery() {
 								@Override protected void query() {}
 							}
 						);

@@ -5,7 +5,7 @@ import static org.testng.Assert.assertTrue;
 
 import java.util.Set;
 
-import net.sf.extcos.ClassQuery;
+import net.sf.extcos.ComponentQuery;
 import net.sf.extcos.internal.ArraySet;
 import net.sf.extcos.internal.BasePackageSelectorImpl;
 import net.sf.extcos.internal.ForwardingBuilderImpl;
@@ -19,7 +19,7 @@ import net.sf.extcos.util.PropertyInjector;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-public class AbstractClassSelectorTest {
+public class ComponentQueryTest {
 
 	ResourceTypeSelector resourceTypeSelector;
 	
@@ -39,7 +39,7 @@ public class AbstractClassSelectorTest {
 	
 	@Test
 	public void testEmptySelect() {
-		ClassSelector selector = new ClassQuery() {
+		ClassSelector selector = new ComponentQuery() {
 			protected void query() {
 				select();
 			}
@@ -54,7 +54,7 @@ public class AbstractClassSelectorTest {
 	
 	@Test(expectedExceptions = IllegalArgumentException.class)
 	public void testEmptyFrom() {
-		ClassSelector selector = new ClassQuery() {
+		ClassSelector selector = new ComponentQuery() {
 			protected void query() {
 				select().from();
 			}
@@ -65,7 +65,7 @@ public class AbstractClassSelectorTest {
 	
 	@Test(expectedExceptions = IllegalArgumentException.class)
 	public void testEmptyStringFrom() {
-		ClassSelector selector = new ClassQuery() {
+		ClassSelector selector = new ComponentQuery() {
 			protected void query() {
 				select().from("");
 			}
@@ -76,7 +76,7 @@ public class AbstractClassSelectorTest {
 	
 	@Test(dataProviderClass = TestDataProvider.class, dataProvider = "validPackages")
 	public void testValidPackagesFrom(final String packageA, final String packageB, final String packageC) {
-		ClassSelector selector = new ClassQuery() {
+		ClassSelector selector = new ComponentQuery() {
 			protected void query() {
 				select().from(packageA, packageB, packageC);
 			}
@@ -87,7 +87,7 @@ public class AbstractClassSelectorTest {
 	
 	@Test(expectedExceptions = IllegalArgumentException.class)
 	public void testEmptyAndStore() {
-		ClassSelector selector = new ClassQuery() {
+		ClassSelector selector = new ComponentQuery() {
 			protected void query() {
 				select().from("net.sf").andStore();
 			}

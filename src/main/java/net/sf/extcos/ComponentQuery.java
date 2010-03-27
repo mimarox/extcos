@@ -16,7 +16,7 @@ import net.sf.extcos.selector.annotation.ArgumentsDescriptor;
 import net.sf.extcos.spi.ResourceType;
 import net.sf.extcos.util.Assert;
 
-public abstract class ClassQuery implements ClassSelector {
+public abstract class ComponentQuery implements ClassSelector {
 	private ResourceTypeSelector resourceSelector;
 	private boolean entryAllowed = true;
 	private boolean selectAllowed = true;
