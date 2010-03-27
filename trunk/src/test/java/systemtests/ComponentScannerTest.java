@@ -7,8 +7,8 @@ import java.util.Set;
 
 import javax.swing.JComponent;
 
-import net.sf.extcos.ClassQuery;
-import net.sf.extcos.ClasspathScanner;
+import net.sf.extcos.ComponentQuery;
+import net.sf.extcos.ComponentScanner;
 import net.sf.extcos.internal.ArraySet;
 
 import org.testng.annotations.Test;
@@ -18,11 +18,11 @@ import resources.classes.generic.TestInterface;
 
 import common.TestBase;
 
-public class ClasspathScannerTest extends TestBase {
+public class ComponentScannerTest extends TestBase {
 	
 	@Test
 	public void testGetClasses() {
-		ClasspathScanner scanner = new ClasspathScanner();
+		ComponentScanner scanner = new ComponentScanner();
 		
 		final Set<Class<? extends TestInterface>> implementingStore =
 			new ArraySet<Class<? extends TestInterface>>();
@@ -32,7 +32,7 @@ public class ClasspathScannerTest extends TestBase {
 		final Set<Class<? extends JComponent>> jComponentStore =
 			new ArraySet<Class<? extends JComponent>>();
 		
-		Set<Class<?>> classes = scanner.getClasses(new ClassQuery() {
+		Set<Class<?>> classes = scanner.getClasses(new ComponentQuery() {
 			protected void query() {
 				select().
 				from(getProperty("resources.package")).
@@ -56,9 +56,9 @@ public class ClasspathScannerTest extends TestBase {
 	
 	@Test
 	public void testGetImplementingClasses() {
-		ClasspathScanner scanner = new ClasspathScanner();
+		ComponentScanner scanner = new ComponentScanner();
 		
-		Set<Class<?>> classes = scanner.getClasses(new ClassQuery() {
+		Set<Class<?>> classes = scanner.getClasses(new ComponentQuery() {
 			protected void query() {
 				select().
 				from(getProperty("resources.package")).
@@ -71,9 +71,9 @@ public class ClasspathScannerTest extends TestBase {
 	
 	@Test
 	public void testGetMultiImplementingClasses() {
-		ClasspathScanner scanner = new ClasspathScanner();
+		ComponentScanner scanner = new ComponentScanner();
 		
-		Set<Class<?>> classes = scanner.getClasses(new ClassQuery() {
+		Set<Class<?>> classes = scanner.getClasses(new ComponentQuery() {
 			protected void query() {
 				select().
 				from(getProperty("resources.package")).
@@ -86,9 +86,9 @@ public class ClasspathScannerTest extends TestBase {
 	
 	@Test
 	public void testGetImplementingAndExtendingClasses() {
-		ClasspathScanner scanner = new ClasspathScanner();
+		ComponentScanner scanner = new ComponentScanner();
 		
-		Set<Class<?>> classes = scanner.getClasses(new ClassQuery() {
+		Set<Class<?>> classes = scanner.getClasses(new ComponentQuery() {
 			protected void query() {
 				select().
 				from(getProperty("resources.package")).
