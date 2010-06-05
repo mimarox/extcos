@@ -2,10 +2,10 @@
 <suite name="eXtcos">
   <test verbose="2" name="Important Tests" annotations="JDK">
     <classes>
-      <class name="unittests.AbstractClassSelectorTest"/>
+      <class name="unittests.ComponentQueryTest"/>
       <class name="unittests.ResourceResolverImplTest"/>
       <class name="systemtests.ClassGenerationAndUseTest"/>
-      <class name="systemtests.ClasspathScannerTest"/>
+      <class name="systemtests.ComponentScannerTest"/>
     </classes>
   </test>
 </suite>

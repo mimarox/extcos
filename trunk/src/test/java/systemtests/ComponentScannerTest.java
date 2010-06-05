@@ -101,4 +101,23 @@ public class ComponentScannerTest extends TestBase {
 		
 		assertEquals(classes.size(), 1);		
 	}
+	
+	@Test
+	public void testAndStoreNoReturning() {
+		final Set<Class<? extends TestInterface>> store =
+			new ArraySet<Class<? extends TestInterface>>();
+		
+		ComponentScanner scanner = new ComponentScanner();
+		
+		Set<Class<?>> classes = scanner.getClasses(new ComponentQuery() {
+			protected void query() {
+				select().
+				from(getProperty("resources.package")).
+				andStore(thoseImplementing(TestInterface.class).into(store));
+			}
+		});
+		
+		assertEquals(store.size(), 5);
+		assertEquals(classes.size(), 0);		
+	}
 }
