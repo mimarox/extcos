@@ -49,18 +49,6 @@
 			</plugin>
 		</plugins>
 	</build>
-	
-	<!-- THIS PART NEEDS TO REMOVED BEFORE RELEASE -->
-	<pluginRepositories>
-		<pluginRepository>
-			<id>java.net</id>
-			<name>java.net Maven Repository</name>
-			<url>https://maven-repository.dev.java.net/nonav/repository</url>
-			<layout>legacy</layout>
-		</pluginRepository>
-	</pluginRepositories>
-	<!-- END OF REMOVE BEFORE RELEASE -->
-	
 	<dependencies>
 		<dependency>
 			<groupId>com.google.inject</groupId>
