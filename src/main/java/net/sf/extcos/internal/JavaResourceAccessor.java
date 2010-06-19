@@ -34,6 +34,8 @@ import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 import org.objectweb.asm.commons.EmptyVisitor;
 
+import com.google.inject.internal.Maps;
+
 public class JavaResourceAccessor implements ResourceAccessor {
 	private class BooleanHolder {
 		boolean value;
@@ -43,7 +45,21 @@ public class JavaResourceAccessor implements ResourceAccessor {
 		String name;
 	}
 	
-	private class GeneralVisitor extends EmptyVisitor {
+	private abstract class AnnotatedClassVisitor extends EmptyVisitor {
+		@Override
+		public AnnotationVisitor visitAnnotation(String desc, boolean visible) {
+			if (shouldVisitAnnotation(visible)) {
+				if (annotations == null) annotations = Maps.newHashMap();
+				return new AnnotationVisitorImpl(desc);
+			} else {
+				return null;
+			}
+		}
+		
+		protected abstract boolean shouldVisitAnnotation(boolean visible);
+	}
+	
+	private class GeneralVisitor extends AnnotatedClassVisitor {
 		private final NameHolder nameHolder;
 		private final BooleanHolder isClassHolder;
 
@@ -75,55 +91,6 @@ public class JavaResourceAccessor implements ResourceAccessor {
 			}
 		}
 
-		public AnnotationVisitor visitAnnotation(String desc, boolean visible) {
-			annotations = new HashMap<String, AnnotationMetadata>();
-			
-			if (isClassHolder.value && visible) {
-				final AnnotationMetadataImpl metadata = new AnnotationMetadataImpl();
-				final String className = Type.getType(desc).getClassName();
-
-				return new EmptyVisitor() {
-					public void visit(String name, Object value) {
-						metadata.register(name, value);
-					}
-
-					public void visitEnum(String name, String desc, String value) {
-						try {
-							String enumName = Type.getType(desc).getClassName();
-							Class<?> enumClass = ClassLoaderHolder.getClassLoader().loadClass(enumName);
-							Method valueOf = enumClass.getDeclaredMethod("valueOf",	String.class);
-							Object object = valueOf.invoke(null, value);
-							metadata.register(name, object);
-						} catch (Exception ex) {
-						}
-					}
-					
-					public void visitEnd() {
-						try {
-							Class<?> annotationClass =
-								ClassLoaderHolder.getClassLoader().loadClass(className);
-							// Check declared default values of attributes in the annotation type.
-							Method[] annotationAttributes = annotationClass.getMethods();
-							for (int i = 0; i < annotationAttributes.length; i++) {
-								Method annotationAttribute = annotationAttributes[i];
-								String attributeName = annotationAttribute.getName();
-								Object defaultValue = annotationAttribute.getDefaultValue();
-								if (defaultValue != null && !metadata.hasKey(attributeName)) {
-									metadata.register(attributeName, defaultValue);
-								}
-							}
-							annotations.put(className, metadata);
-						}
-						catch (ClassNotFoundException ex) {
-							// Class not found - can't determine meta-annotations.
-						}
-					}
-				};
-			} else {
-				return null;
-			}
-		}
-
 		@Override
 		public void visitInnerClass(String name, String outerName,
 				String innerName, int access) {
@@ -136,8 +103,58 @@ public class JavaResourceAccessor implements ResourceAccessor {
 		public void visitOuterClass(String owner, String name, String desc) {
 			isClassHolder.value = false;
 		}
-	}
 
+		protected boolean shouldVisitAnnotation(boolean visible) {
+			return isClassHolder.value && visible;
+		}
+	}
+	
+	private class AnnotationVisitorImpl extends EmptyVisitor {
+		private AnnotationMetadataImpl metadata;
+		private String className;
+		
+		private AnnotationVisitorImpl(String desc) {
+			metadata = new AnnotationMetadataImpl();
+			className = Type.getType(desc).getClassName();
+		}
+		
+		public void visit(String name, Object value) {
+			metadata.putParameter(name, value);
+		}
+
+		public void visitEnum(String name, String desc, String value) {
+			try {
+				String enumName = Type.getType(desc).getClassName();
+				Class<?> enumClass = ClassLoaderHolder.getClassLoader().loadClass(enumName);
+				Method valueOf = enumClass.getDeclaredMethod("valueOf",	String.class);
+				Object object = valueOf.invoke(null, value);
+				metadata.putParameter(name, object);
+			} catch (Exception ex) {
+			}
+		}
+		
+		public void visitEnd() {
+			try {
+				Class<?> annotationClass =
+					ClassLoaderHolder.getClassLoader().loadClass(className);
+				// Check declared default values of attributes in the annotation type.
+				Method[] annotationAttributes = annotationClass.getMethods();
+				for (int i = 0; i < annotationAttributes.length; i++) {
+					Method annotationAttribute = annotationAttributes[i];
+					String attributeName = annotationAttribute.getName();
+					Object defaultValue = annotationAttribute.getDefaultValue();
+					if (defaultValue != null && !metadata.hasKey(attributeName)) {
+						metadata.putParameter(attributeName, defaultValue);
+					}
+				}
+				annotations.put(className, metadata);
+			}
+			catch (ClassNotFoundException ex) {
+				// Class not found - can't determine meta-annotations.
+			}
+		}		
+	}
+	
 	private class AnnotationMetadataImpl implements AnnotationMetadata {
 		private Map<String, Object> parameters =
 			new HashMap<String, Object>();
@@ -150,7 +167,7 @@ public class JavaResourceAccessor implements ResourceAccessor {
 			return parameters.containsKey(key);
 		}
 		
-		protected void register(String key, Object value) {
+		protected void putParameter(String key, Object value) {
 			parameters.put(key, value);
 		}
 	}
@@ -334,11 +351,15 @@ public class JavaResourceAccessor implements ResourceAccessor {
 			
 			try {
 				ClassReader reader = new ClassReader(superClass);
-				reader.accept(new EmptyVisitor() {
+				reader.accept(new AnnotatedClassVisitor() {
 					@Override
 					public void visit(int version, int access, String name,
 							String signature, String superName, String[] interfaces) {
 						readSuperClasses(superName);
+					}
+
+					protected boolean shouldVisitAnnotation(boolean visible) {
+						return visible;
 					}
 				}, ASM_FLAGS);
 			} catch (Exception e) {}
