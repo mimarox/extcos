@@ -1,6 +1,7 @@
 package systemtests;
 
 import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
 
 import java.io.Serializable;
 import java.util.Set;
@@ -13,7 +14,11 @@ import net.sf.extcos.internal.ArraySet;
 
 import org.testng.annotations.Test;
 
+import resources.annotations.First;
+import resources.annotations.Second;
 import resources.annotations.State;
+import resources.classes.annotated.inherited.InheritedAnnotationClass;
+import resources.classes.annotated.multi.MultipleAnnotationsClass;
 import resources.classes.generic.TestInterface;
 
 import common.TestBase;
@@ -120,4 +125,37 @@ public class ComponentScannerTest extends TestBase {
 		assertEquals(store.size(), 5);
 		assertEquals(classes.size(), 0);		
 	}
+	
+	@Test
+	public void testGetMultipleAnnotationsClasses() {
+		ComponentScanner scanner = new ComponentScanner();
+		
+		Set<Class<?>> classes = scanner.getClasses(new ComponentQuery() {
+			protected void query() {
+				select().
+				from(getProperty("resources.package")).
+				returning(allBeing(and(
+						annotatedWith(First.class),
+						annotatedWith(Second.class))));
+			}
+		});
+		
+		assertTrue(classes.contains(MultipleAnnotationsClass.class));
+	}
+	
+	@Test
+	public void testGetInheritedAnnotationClasses() {
+		ComponentScanner scanner = new ComponentScanner();
+		
+		Set<Class<?>> classes = scanner.getClasses(new ComponentQuery() {
+			protected void query() {
+				select().
+				from(getProperty("resources.package")).
+				returning(allAnnotatedWith(First.class));
+			}
+		});
+		
+		assertTrue(classes.contains(MultipleAnnotationsClass.class));
+		assertTrue(classes.contains(InheritedAnnotationClass.class));
+	}	
 }
