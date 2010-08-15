@@ -18,6 +18,7 @@ import java.util.Set;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
+import net.sf.extcos.internal.vfs.VfsResourceResolver;
 import net.sf.extcos.resource.Resource;
 import net.sf.extcos.resource.ResourceResolver;
 import net.sf.extcos.selector.Package;
@@ -72,6 +73,8 @@ public class ResourceResolverImpl implements ResourceResolver {
 
 				if (ResourceUtils.isJarURL(rootDirectory)) {
 					resources.addAll(findJarResources(resourceTypes, rootDirectory));
+				} else if (ResourceUtils.isVirtualFileSystemURL(rootDirectory)) {
+					resources.addAll(findVFSResources(resourceTypes, rootDirectory));
 				} else {
 					resources.addAll(findFileResources(resourceTypes, rootDirectory));
 				}
@@ -83,7 +86,7 @@ public class ResourceResolverImpl implements ResourceResolver {
 		}
 	}
 
-	protected Set<URL> getRootDirectories(Package basePackage) {
+	private Set<URL> getRootDirectories(Package basePackage) {
 		try {
 			Enumeration<URL> urlEnum = getClassLoader().getResources(
 					basePackage.getPath());
@@ -111,11 +114,11 @@ public class ResourceResolverImpl implements ResourceResolver {
 		}
 	}
 
-	protected ClassLoader getClassLoader() {
+	private ClassLoader getClassLoader() {
 		return classLoader;
 	}
 
-	protected URL resolveRootDirectory(URL original) {
+	private URL resolveRootDirectory(URL original) {
 		if (getEquinoxResolveMethod() != null) {
 			if (original.getProtocol().startsWith("bundle")) {
 				return (URL) ReflectionUtils.invokeMethod(equinoxResolveMethod,
@@ -125,7 +128,7 @@ public class ResourceResolverImpl implements ResourceResolver {
 		return original;
 	}
 
-	protected Set<Resource> findJarResources(Set<ResourceType> resourceTypes,
+	private Set<Resource> findJarResources(Set<ResourceType> resourceTypes,
 			URL rootDirectory) throws IOException {
 		URLConnection con = rootDirectory.openConnection();
 		JarFile jarFile = null;
@@ -209,7 +212,7 @@ public class ResourceResolverImpl implements ResourceResolver {
 	/**
 	 * Resolve the given jar file URL into a JarFile object.
 	 */
-	protected JarFile getJarFile(String jarFileUrl) throws IOException {
+	private JarFile getJarFile(String jarFileUrl) throws IOException {
 		if (jarFileUrl.startsWith(ResourceUtils.FILE_URL_PREFIX)) {
 			try {
 				return new JarFile(ResourceUtils.toURI(jarFileUrl).getSchemeSpecificPart());
@@ -224,7 +227,13 @@ public class ResourceResolverImpl implements ResourceResolver {
 		}
 	}
 
-	protected Set<Resource> findFileResources(Set<ResourceType> resourceTypes,
+	private Set<Resource> findVFSResources(Set<ResourceType> resourceTypes,
+			URL rootDirectory) throws IOException {
+		return new VfsResourceResolver().findResources(resourceTypes,
+				rootDirectory);
+	}
+	
+	private Set<Resource> findFileResources(Set<ResourceType> resourceTypes,
 			URL rootDirectory) {
 		try {
 			File file = ResourceUtils.getFile(rootDirectory).getAbsoluteFile();
@@ -271,15 +280,15 @@ public class ResourceResolverImpl implements ResourceResolver {
 		return resources;
 	}
 	
-	protected boolean matches(File file, ResourceType resourceType) {
+	private boolean matches(File file, ResourceType resourceType) {
 		return matches(file.getAbsolutePath(), resourceType);		
 	}
 	
-	protected boolean matches(String path, ResourceType resourceType) {
+	private boolean matches(String path, ResourceType resourceType) {
 		return path.endsWith(resourceType.getFileSuffix());
 	}
 	
-	protected Resource createResource(File file, ResourceType resourceType) {
+	private Resource createResource(File file, ResourceType resourceType) {
 		if (matches(file, resourceType)) {
 			URL resourceUrl = toURL(file);
 			

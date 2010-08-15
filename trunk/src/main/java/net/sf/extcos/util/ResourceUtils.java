@@ -25,6 +25,9 @@ public class ResourceUtils {
 	/** URL protocol for an entry from a JBoss jar file: "vfszip" */
 	public static final String URL_PROTOCOL_VFSZIP = "vfszip";
 
+	/** URL protocol for a JBoss VFS resource: "vfs" */
+	public static final String URL_PROTOCOL_VFS = "vfs";
+
 	/** URL protocol for an entry from a WebSphere jar file: "wsjar" */
 	public static final String URL_PROTOCOL_WSJAR = "wsjar";
 
@@ -54,11 +57,22 @@ public class ResourceUtils {
 		String protocol = url.getProtocol();
 		return (URL_PROTOCOL_JAR.equals(protocol)
 				|| URL_PROTOCOL_ZIP.equals(protocol)
-				|| URL_PROTOCOL_VFSZIP.equals(protocol)
 				|| URL_PROTOCOL_WSJAR.equals(protocol) || (URL_PROTOCOL_CODE_SOURCE
 				.equals(protocol) && url.getPath().indexOf(JAR_URL_SEPARATOR) != -1));
 	}
 
+	/**
+	 * Determine whether the given URL points to a JBoss virtual file system
+	 * (VFS) resource. This is the case if its protocol starts with
+	 * <code>vfs</code>.
+	 * 
+	 * @param url the URL to check
+	 * @return whether the URL has been identified as a VFS URL
+	 */
+	public static boolean isVirtualFileSystemURL(URL url) {
+		return url.getProtocol().startsWith(URL_PROTOCOL_VFS);
+	}
+	
 	/**
 	 * Resolve the given resource URL to a <code>java.io.File</code>, i.e. to a
 	 * file in the file system.
