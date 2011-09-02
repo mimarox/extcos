@@ -15,42 +15,42 @@ import com.google.inject.Singleton;
 
 @Singleton
 public class ThreadManager {
-	private AtomicInteger registered = new AtomicInteger();
-	private AtomicInteger invoked = new AtomicInteger();
-	private AtomicInteger finished = new AtomicInteger();
+	private final AtomicInteger registered = new AtomicInteger();
+	private final AtomicInteger invoked = new AtomicInteger();
+	private final AtomicInteger finished = new AtomicInteger();
 	private ThreadPoolExecutor executor;
-	private Object sync = new Object();
-	
+	private final Object sync = new Object();
+
 	public void register() {
 		registered.incrementAndGet();
 	}
-	
-	public void invoke(Runnable runnable) {
+
+	public void invoke(final Runnable runnable) {
 		Assert.isTrue(invoked.get() < registered.get(), ise());
 		Assert.notNull(runnable, iae());
-		
+
 		invoked.incrementAndGet();
-		if (invoked.get() == 1) {
+		if (invoked.get() == 1) {			// if root filter interceptor invoked
 			invokeBlocking(runnable);
-		} else {
+		} else {							// if matching filter interceptor invoked
 			invokeNonBlocking(runnable);
 		}
 	}
-	
-	private void invokeBlocking(Runnable runnable) {
+
+	private void invokeBlocking(final Runnable runnable) {
 		Thread t = new Thread(runnable, append("eXtcos managed thread ", invoked));
 		t.setDaemon(true);
 		t.start();
-		
+
 		while (t.isAlive()) {
 			try {
 				t.join();
 			} catch (InterruptedException ignored) {
 			}
 		}
-		
+
 		finished.incrementAndGet();
-		
+
 		while (finished.get() < registered.get()) {
 			try {
 				synchronized (sync) {
@@ -59,23 +59,25 @@ public class ThreadManager {
 			} catch (InterruptedException ignored) {
 			}
 		}
-		
-		executor.shutdownNow();
+
+		if (executor != null) {			// if returning all without storing any there's no executor
+			executor.shutdownNow();
+		}
 	}
-	
+
 	private void invokeNonBlocking(final Runnable runnable) {
 		getExecutor().execute(new Runnable() {
 			public void run() {
 				runnable.run();
 				finished.incrementAndGet();
-				
+
 				synchronized (sync) {
 					sync.notify();
 				}
 			}
 		});
 	}
-	
+
 	// for lazy initialization
 	private ThreadPoolExecutor getExecutor() {
 		if (executor == null) {
@@ -84,28 +86,28 @@ public class ThreadManager {
 			executor.setMaximumPoolSize(10);
 			executor.setThreadFactory(new ThreadFactory() {
 				private ThreadGroup threadGroup;
-				
-				public Thread newThread(Runnable runnable) {
+
+				public Thread newThread(final Runnable runnable) {
 					Thread thread = new Thread(getThreadGroup(), runnable, append("eXtcos managed thread ", getInvoked()));
 					thread.setDaemon(true);
 					return thread;
 				}
-				
+
 				private ThreadGroup getThreadGroup() {
 					if (threadGroup == null) {
 						threadGroup = new ThreadGroup("eXtcos Thread Group");
 						threadGroup.setDaemon(true);
 					}
-					
+
 					return threadGroup;
 				}
 			});
 			executor.prestartCoreThread();
 		}
-		
+
 		return executor;
 	}
-	
+
 	private int getInvoked() {
 		return invoked.get();
 	}
