@@ -4,7 +4,7 @@
 	<groupId>net.sf.extcos</groupId>
 	<artifactId>extcos</artifactId>
 	<name>eXtcos</name>
-	<version>0.0.0-SNAPSHOT</version>
+	<version>0.2b</version>
 	<description>Extensible Component Scanner</description>
 	<url>http://sourceforge.net/projects/extcos</url>
 	<inceptionYear>2009</inceptionYear>

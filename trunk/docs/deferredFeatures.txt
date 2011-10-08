@@ -25,3 +25,20 @@ annotatedWith(annotation,
 		)
 	)
 );
+
+---
+
+havingMethod(annotatedWith(), declaredToBe(<specifiers>), returning(), named(), takingArguments(), throwing())
+implementingMethod(..)
+overridingMethod(..)
+declaringMethod(..)
+
+---
+
+havingField(annotatedWith(), declaredToBe(<specifiers>), ofType(), named(), withDefaultValue())
+inheritingField(..)
+declaringField(..)
+
+---
+
+anyOf()
