@@ -131,7 +131,7 @@ public class BindingDefinitions extends AbstractModule {
 	}
 	
 	private void bindSelectorClasses() {
-        bind(ClassSelectionProcessor.class).to(ClassSelectionProcessorImpl.class);
+        bind(ComponentSelectionProcessor.class).to(ComponentSelectionProcessorImpl.class);
         bind(ResourceTypeSelector.class).to(ResourceTypeSelectorImpl.class);
         bind(BasePackageSelector.class).to(BasePackageSelectorImpl.class);
         bind(ForwardingBuilder.class).to(ForwardingBuilderImpl.class);

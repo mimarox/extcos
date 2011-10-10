@@ -9,26 +9,24 @@ import net.sf.extcos.selector.annotation.ArgumentMapping;
 import net.sf.extcos.util.Assert;
 
 public class AnnotationArgumentImpl implements AnnotationArgument {
-	private Class<? extends Annotation> annotation;
-	private ArgumentMapping mapping;
-	
-	/**
-	 * @param annotation
-	 * @param mapping
-	 */
-	public AnnotationArgumentImpl(Class<? extends Annotation> annotation,
-			ArgumentMapping mapping) {
+	private final Class<? extends Annotation> annotation;
+	private final ArgumentMapping mapping;
+
+	public AnnotationArgumentImpl(final Class<? extends Annotation> annotation,
+			final ArgumentMapping mapping) {
 		Assert.notNull(annotation, iae());
 		Assert.notNull(mapping, iae());
-		
+
 		this.annotation = annotation;
 		this.mapping = mapping;
 	}
 
+	@Override
 	public Class<? extends Annotation> getAnnotation() {
 		return annotation;
 	}
 
+	@Override
 	public ArgumentMapping getArgumentMapping() {
 		return mapping;
 	}
@@ -41,8 +39,8 @@ public class AnnotationArgumentImpl implements AnnotationArgument {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result
-				+ ((annotation == null) ? 0 : annotation.hashCode());
-		result = prime * result + ((mapping == null) ? 0 : mapping.hashCode());
+				+ (annotation == null ? 0 : annotation.hashCode());
+		result = prime * result + (mapping == null ? 0 : mapping.hashCode());
 		return result;
 	}
 
@@ -50,7 +48,7 @@ public class AnnotationArgumentImpl implements AnnotationArgument {
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	@Override
-	public boolean equals(Object obj) {
+	public boolean equals(final Object obj) {
 		if (this == obj) {
 			return true;
 		}

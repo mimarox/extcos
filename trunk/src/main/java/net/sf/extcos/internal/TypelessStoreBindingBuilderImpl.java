@@ -8,16 +8,17 @@ import net.sf.extcos.selector.TypelessStoreBindingBuilder;
 import net.sf.extcos.util.Assert;
 
 public class TypelessStoreBindingBuilderImpl implements
-		TypelessStoreBindingBuilder {
-	
-	private TypeFilter filter;
-	
-	public TypelessStoreBindingBuilderImpl(TypeFilter filter) {
+TypelessStoreBindingBuilder {
+
+	private final TypeFilter filter;
+
+	public TypelessStoreBindingBuilderImpl(final TypeFilter filter) {
 		Assert.notNull(filter, IllegalArgumentException.class);
 		this.filter = filter;
 	}
-	
-	public StoreBinding into(Set<Class<?>> store) {
+
+	@Override
+	public StoreBinding into(final Set<Class<?>> store) {
 		return new StoreBindingImpl(filter, store);
 	}
 }

@@ -21,8 +21,8 @@ import net.sf.extcos.selector.ImplementingTypeFilter;
 import net.sf.extcos.selector.TypeFilter;
 import net.sf.extcos.util.Assert;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.google.inject.Inject;
 import com.google.inject.Injector;
@@ -31,28 +31,28 @@ import com.google.inject.name.Named;
 
 @Singleton
 public class BuildContextImpl implements BuildContext {
-	private static Log logger = LogFactory.getLog(BuildContextImpl.class);
+	private static Logger logger = LoggerFactory.getLogger(BuildContextImpl.class);
 
 	@Inject
 	@Named("bci.annotatedConnectors")
 	private Map<TypeFilter, MergableConnector> annotatedConnectors;
-	
+
 	@Inject
 	@Named("bci.extendingConnectors")
 	private Map<TypeFilter, MergableConnector> extendingConnectors;
-	
+
 	@Inject
 	@Named("bci.implementingConnectors")
 	private Map<TypeFilter, MergableConnector> implementingConnectors;
-	
+
 	@Inject
 	@Named("bci.conjunctionConnectors")
 	private Map<TypeFilter, MergableConnector> conjunctionConnectors;
-	
+
 	@Inject
 	@Named("bci.disjunctionConnectors")
 	private Map<TypeFilter, MergableConnector> disjunctionConnectors;
-	
+
 	@Inject
 	@Named("bci.annotatedWithFilterObjects")
 	private Set<FilterObjects> annotatedWithFilterObjects;
@@ -60,7 +60,7 @@ public class BuildContextImpl implements BuildContext {
 	@Inject
 	@Named("bci.annotationArgumentFilterObjects")
 	private Set<FilterObjects> annotationArgumentFilterObjects;
-	
+
 	@Inject
 	@Named("bci.extendingFilterObjects")
 	private Set<FilterObjects> extendingFilterObjects;
@@ -79,12 +79,14 @@ public class BuildContextImpl implements BuildContext {
 
 	@Inject
 	private Injector injector;
-	
-	public void addImmediateConnector(ImmediateConnector connector) {
+
+	@Override
+	public void addImmediateConnector(final ImmediateConnector connector) {
 		Assert.notNull(connector, iae());
 		immediateConnectorRegistry.add(connector);
 	}
 
+	@Override
 	public Set<FilterObjects> getAllFilterObjects() {
 		Set<FilterObjects> all = new LinkedHashSet<FilterObjects>();
 
@@ -95,9 +97,10 @@ public class BuildContextImpl implements BuildContext {
 		return all;
 	}
 
-	public MergableConnector getConnector(TypeFilter typeFilter) {
+	@Override
+	public MergableConnector getConnector(final TypeFilter typeFilter) {
 		Assert.notNull(typeFilter, iae());
-		
+
 		if (typeFilter instanceof AnnotatedWithTypeFilter) {
 			return annotatedConnectors.get(typeFilter);
 		} else if (typeFilter instanceof ImplementingTypeFilter) {
@@ -113,13 +116,15 @@ public class BuildContextImpl implements BuildContext {
 		}
 	}
 
+	@Override
 	public Set<FilterObjects> getExtendingFilterObjects() {
 		return extendingFilterObjects;
 	}
 
-	public FilterObjects getFilterObjects(ResourceMatcher resourceMatcher) {
+	@Override
+	public FilterObjects getFilterObjects(final ResourceMatcher resourceMatcher) {
 		Assert.notNull(resourceMatcher, iae());
-		
+
 		if (resourceMatcher instanceof AnnotatedWithResourceMatcher) {
 			return getFilterObjects(annotatedWithFilterObjects, resourceMatcher);
 		} else if (resourceMatcher instanceof AnnotationArgumentResourceMatcher) {
@@ -133,28 +138,31 @@ public class BuildContextImpl implements BuildContext {
 		}
 	}
 
-	private FilterObjects getFilterObjects(Set<FilterObjects> filterObjectss,
-			ResourceMatcher resourceMatcher) {
+	private FilterObjects getFilterObjects(final Set<FilterObjects> filterObjectss,
+			final ResourceMatcher resourceMatcher) {
 		for (FilterObjects filterObjects : filterObjectss) {
 			if (filterObjects.getResourceMatcher().equals(resourceMatcher)) {
 				return filterObjects;
 			}
 		}
-		
+
 		return null;
 	}
-	
+
+	@Override
 	public Iterable<ImmediateConnector> getImmediateConnectors() {
 		return immediateConnectorRegistry;
 	}
 
+	@Override
 	public Set<FilterObjects> getImplementingFilterObjects() {
 		return implementingFilterObjects;
 	}
 
-	public boolean isRegistered(TypeFilter typeFilter) {
+	@Override
+	public boolean isRegistered(final TypeFilter typeFilter) {
 		Assert.notNull(typeFilter, iae());
-		
+
 		if (typeFilter instanceof AnnotatedWithTypeFilter) {
 			return annotatedConnectors.containsKey(typeFilter);
 		} else if (typeFilter instanceof ImplementingTypeFilter) {
@@ -170,9 +178,10 @@ public class BuildContextImpl implements BuildContext {
 		}
 	}
 
-	public boolean isRegistered(ResourceMatcher resourceMatcher) {
+	@Override
+	public boolean isRegistered(final ResourceMatcher resourceMatcher) {
 		Assert.notNull(resourceMatcher, iae());
-		
+
 		if (resourceMatcher instanceof AnnotatedWithResourceMatcher) {
 			return getFilterObjects(annotatedWithFilterObjects, resourceMatcher) != null;
 		} else if (resourceMatcher instanceof AnnotationArgumentResourceMatcher) {
@@ -186,10 +195,11 @@ public class BuildContextImpl implements BuildContext {
 		}
 	}
 
-	public void register(TypeFilter typeFilter, MergableConnector connector) {
+	@Override
+	public void register(final TypeFilter typeFilter, final MergableConnector connector) {
 		Assert.notNull(typeFilter, iae());
 		Assert.notNull(connector, iae());
-		
+
 		if (typeFilter instanceof AnnotatedWithTypeFilter) {
 			annotatedConnectors.put(typeFilter, connector);
 		} else if (typeFilter instanceof ImplementingTypeFilter) {
@@ -203,11 +213,12 @@ public class BuildContextImpl implements BuildContext {
 		}
 	}
 
-	public void register(FilterObjects filterObjects) {
+	@Override
+	public void register(final FilterObjects filterObjects) {
 		Assert.notNull(filterObjects, iae());
-		
+
 		ResourceMatcher resourceMatcher = filterObjects.getResourceMatcher();
-		
+
 		if (resourceMatcher instanceof AnnotatedWithResourceMatcher) {
 			annotatedWithFilterObjects.add(filterObjects);
 		} else if (resourceMatcher instanceof AnnotationArgumentResourceMatcher) {
@@ -219,11 +230,14 @@ public class BuildContextImpl implements BuildContext {
 		}
 	}
 
-	public Filter prependInterceptors(ChainedFilter filter) {
+	@Override
+	@SuppressWarnings("null")
+	public Filter prependInterceptors(final ChainedFilter filter) {
 		if (this.filterInterceptors.isEmpty()) {
 			return filter;
 		}
 
+		@SuppressWarnings("hiding")
 		Set<FilterInterceptor> filterInterceptors = new LinkedHashSet<FilterInterceptor>();
 
 		for (Class<? extends FilterInterceptor> clazz : this.filterInterceptors) {

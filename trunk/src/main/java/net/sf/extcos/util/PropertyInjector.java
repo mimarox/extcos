@@ -26,7 +26,7 @@ import java.lang.reflect.Field;
  */
 public class PropertyInjector {
 	private Object target;
-	
+
 	/**
 	 * Injects a property reference into the currently set target assigning
 	 * it to the named field. The field may either be declared in the currently
@@ -39,54 +39,70 @@ public class PropertyInjector {
 	 * @throws IllegalStateException if the target has not been set
 	 * @throws IllegalArgumentException if the name or the value is null, or the name is the empty string
 	 */
-	public void inject(String name, Object value) throws NoSuchFieldException {
+	public void inject(final String name, final Object value) throws NoSuchFieldException {
 		if(target == null){
 			throw new IllegalStateException("The target has not been set");
 		}
-		
+
 		if(name == null || name.length() == 0){
-		    throw new IllegalArgumentException("The name must have one character at least");
+			throw new IllegalArgumentException("The name must have one character at least");
 		}
-		
+
 		if(value == null){
 			throw new IllegalArgumentException("The value must not be null");
 		}
-		
+
 		Class<?> clazz = target.getClass();
-		
+
 		while(clazz != null){
-	        Field[] fields = clazz.getDeclaredFields();
-	        
-	        for(Field field : fields){
-	            if(field.getName().equals(name)){
-	                try {
-	                    boolean accessible = field.isAccessible();
-	                    
-	                    field.setAccessible(true);
-	                    field.set(target, value);
-	                    field.setAccessible(accessible);
-	                    
-	                    return;
-	                }
-	                catch(Exception e){}
-	            }
-	        }
-	        
-	        clazz = clazz.getSuperclass();
+			Field[] fields = clazz.getDeclaredFields();
+
+			for(Field field : fields){
+				if(field.getName().equals(name)){
+					try {
+						boolean accessible = field.isAccessible();
+
+						field.setAccessible(true);
+						field.set(target, value);
+						field.setAccessible(accessible);
+
+						return;
+					}
+					catch(Exception e){/* ignored */}
+				}
+			}
+
+			clazz = clazz.getSuperclass();
 		}
-		
+
 		throw new NoSuchFieldException("For the current target " + target +
-		        " no property called " + name + " could be found for which the "
-		        + "reference " + value + " could be set");
+				" no property called " + name + " could be found for which the "
+				+ "reference " + value + " could be set");
 	}
-	
+
+	/**
+	 * Like {@link #inject(String, Object)}, except that no exception is thrown if the
+	 * injection did not succeed, because the target doesn't have a field with the given
+	 * name or the value's type didn't match.
+	 * 
+	 * @param name  the name of the field
+	 * @param value the property reference to inject
+	 * @throws IllegalStateException if the target has not been set
+	 * @throws IllegalArgumentException if the name or the value is null, or the name is the empty string
+	 */
+	public void injectIfPossible(final String name, final Object value) {
+		try {
+			inject(name, value);
+		} catch (NoSuchFieldException e) { /* ignored */ }
+	}
+
 	/**
 	 * Sets the target for property injections
 	 * 
 	 * @param target the target to set
 	 */
-	public void setTarget(Object target) {
+	public void setTarget(final Object target) {
 		this.target = target;
 	}
-	
+
 }

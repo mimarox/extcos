@@ -13,7 +13,7 @@ import net.sf.extcos.exception.UnsuccessfulOperationException;
 /**
  * Resizable-array implementation of the <tt>RandomPollingSet</tt> interface.
  * Implements all optional Collection operations, and permits all elements,
- * excluding <tt>null</tt>.<p> 
+ * excluding <tt>null</tt>.<p>
  * 
  * In addition to implementing the <tt>RandomPollingSet</tt> interface,
  * this class provides methods to manipulate the size of the array of the
@@ -26,7 +26,7 @@ import net.sf.extcos.exception.UnsuccessfulOperationException;
  * speaking).<p>
  *
  * The <tt>ArrayList</tt> instance of each <tt>RandomPollingArraySet</tt>
- * instance has a <i>capacity</i>.  The capacity is the size of the array 
+ * instance has a <i>capacity</i>.  The capacity is the size of the array
  * used to store the elements of the set.  It is always at least as large as
  * the set size. As elements are added to a <tt>RandomPollingArraySet</tt>,
  * its capacity grows automatically. The details of the growth policy are
@@ -67,81 +67,86 @@ import net.sf.extcos.exception.UnsuccessfulOperationException;
  * @see	    ArraySet
  */
 public class RandomPollingArraySet<E> extends ArraySet<E> implements
-		RandomPollingSet<E> {
-	
+RandomPollingSet<E> {
+
 	private static final long serialVersionUID = -5304262039454673339L;
-	
+
 	private class Itr implements Iterator<E> {
 		private RandomPollingArraySet<E> workingCopy;
-		
+
+		@Override
 		public boolean hasNext() {
 			return workingCopy.size() > 0;
 		}
 
+		@Override
 		public E next() {
 			if (hasNext()) {
 				return workingCopy.pollRandom();
-			} else {
-				throw new NoSuchElementException();
 			}
+
+			throw new NoSuchElementException();
 		}
 
+		@Override
 		public void remove() {
 			throw new UnsupportedOperationException();
 		}
 	}
-	
+
 	/**
 	 * Constructs an empty set with an initial capacity of ten.
 	 */
 	public RandomPollingArraySet(){
 	}
-	
+
 	/**
 	 * Constructs an empty set with the specified initial capacity.
 	 * 
 	 * @param initialCapacity the initial capacity of the set
 	 * @throws IllegalArgumentException if the specified initial capacity is negative
 	 */
-	public RandomPollingArraySet(int initialCapacity){
+	public RandomPollingArraySet(final int initialCapacity){
 		super(initialCapacity);
 	}
-	
+
 	/**
 	 * Constructs a set containing the unique elements of the specified
-	 * collection, in the order they are returned by the collection's iterator. 
+	 * collection, in the order they are returned by the collection's iterator.
 	 *
 	 * @param c the collection whose elements are to be placed into this list
 	 * @throws NullPointerException if the specified collection is null
 	 */
-	public RandomPollingArraySet(Collection<? extends E> c){
+	public RandomPollingArraySet(final Collection<? extends E> c){
 		super(c);
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * @see java.util.AbstractCollection#iterator()
 	 */
+	@Override
 	public Iterator<E> iterator(){
 		RandomPollingArraySet<E> workingCopy = new RandomPollingArraySet<E>();
-		
+
 		for (int i = 0; i < size(); i++) {
 			workingCopy.add(get(i));
 		}
-		
+
 		Itr itr = new Itr();
 		itr.workingCopy = workingCopy;
-		
+
 		return itr;
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * @see org.jcs.collection.RandomPollingSet#pollRandom()
 	 */
+	@Override
 	public E pollRandom() {
 		int size = size();
-		
+
 		if (size == 0) {
 			throw new UnsuccessfulOperationException();
 		} else if(size == 1) {
@@ -149,7 +154,7 @@ public class RandomPollingArraySet<E> extends ArraySet<E> implements
 		} else {
 			Random prng = new Random();
 			double d = prng.nextDouble() * size;
-			return remove(((int)d == size) ? size - 1 : (int)Math.floor(d));
+			return remove((int)d == size ? size - 1 : (int)Math.floor(d));
 		}
 	}
 }

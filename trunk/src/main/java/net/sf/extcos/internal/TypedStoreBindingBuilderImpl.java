@@ -8,21 +8,22 @@ import net.sf.extcos.selector.TypedStoreBindingBuilder;
 import net.sf.extcos.util.Assert;
 
 public class TypedStoreBindingBuilderImpl<T> implements
-		TypedStoreBindingBuilder<T> {
-	
-	private TypeFilter filter;
-	
-	public TypedStoreBindingBuilderImpl(TypeFilter filter) {
+TypedStoreBindingBuilder<T> {
+
+	private final TypeFilter filter;
+
+	public TypedStoreBindingBuilderImpl(final TypeFilter filter) {
 		Assert.notNull(filter, IllegalArgumentException.class);
 		this.filter = filter;
 	}
-	
-	public StoreBinding into(Set<Class<? extends T>> store) {
+
+	@Override
+	public StoreBinding into(final Set<Class<? extends T>> store) {
 		return new StoreBindingImpl(filter, cast(store));
 	}
-	
+
 	@SuppressWarnings("unchecked")
-	private Set<Class<?>> cast(Set<Class<? extends T>> store) {
+	private Set<Class<?>> cast(final Set<Class<? extends T>> store) {
 		return (Set<Class<?>>) (Set<? extends Class<?>>) store;
 	}
 }

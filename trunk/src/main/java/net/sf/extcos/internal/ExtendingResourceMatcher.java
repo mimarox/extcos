@@ -8,14 +8,14 @@ import net.sf.extcos.resource.Resource;
 import net.sf.extcos.util.Assert;
 
 public class ExtendingResourceMatcher implements ResourceMatcher {
-	private Class<?> clazz;
+	private final Class<?> clazz;
 
-	public ExtendingResourceMatcher(Class<?> clazz) {
+	public ExtendingResourceMatcher(final Class<?> clazz) {
 		Assert.notNull(clazz, IllegalArgumentException.class);
 		Assert.isFalse(clazz.isInterface(), IllegalArgumentException.class);
 		Assert.isFalse(Modifier.isFinal(clazz.getModifiers()),
 				IllegalArgumentException.class);
-		
+
 		this.clazz = clazz;
 	}
 
@@ -23,7 +23,8 @@ public class ExtendingResourceMatcher implements ResourceMatcher {
 	 * (non-Javadoc)
 	 * @see org.jcs.filter.ResourceMatcher#matches(org.jcs.resource.Resource)
 	 */
-	public boolean matches(Resource resource) throws ConcurrentInspectionException {
+	@Override
+	public boolean matches(final Resource resource) throws ConcurrentInspectionException {
 		Assert.notNull(resource, IllegalArgumentException.class);
 		return resource.isSubclassOf(clazz);
 	}
@@ -32,7 +33,8 @@ public class ExtendingResourceMatcher implements ResourceMatcher {
 	 * (non-Javadoc)
 	 * @see org.jcs.filter.ResourceMatcher#isMatcherFor(java.lang.Object)
 	 */
-	public boolean isMatcherFor(Object obj) {
+	@Override
+	public boolean isMatcherFor(final Object obj) {
 		return clazz.equals(obj);
 	}
 
@@ -43,7 +45,7 @@ public class ExtendingResourceMatcher implements ResourceMatcher {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((clazz == null) ? 0 : clazz.hashCode());
+		result = prime * result + (clazz == null ? 0 : clazz.hashCode());
 		return result;
 	}
 
@@ -51,7 +53,7 @@ public class ExtendingResourceMatcher implements ResourceMatcher {
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	@Override
-	public boolean equals(Object obj) {
+	public boolean equals(final Object obj) {
 		if (this == obj) {
 			return true;
 		}

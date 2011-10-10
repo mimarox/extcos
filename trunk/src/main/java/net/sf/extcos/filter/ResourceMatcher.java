@@ -4,7 +4,7 @@ import net.sf.extcos.exception.ConcurrentInspectionException;
 import net.sf.extcos.resource.Resource;
 
 public interface ResourceMatcher {
-	
+
 	/**
 	 * Determines whether a given {@link Resource} matches this ResourceMatcher.
 	 * Throws an {@link ConcurrentInspectionException} if the resource is
@@ -29,8 +29,10 @@ public interface ResourceMatcher {
 	 *         object, false otherwise
 	 */
 	boolean isMatcherFor(Object obj);
-	
+
+	@Override
 	int hashCode();
-	
+
+	@Override
 	boolean equals(Object obj);
 }

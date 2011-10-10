@@ -10,25 +10,28 @@ import net.sf.extcos.spi.AnnotationMetadata;
 import net.sf.extcos.util.Assert;
 
 public class ArgumentMappingConjunctionImpl implements
-		ArgumentMappingConjunction {
-	private Set<ArgumentMapping> mappings;
-	
-	public ArgumentMappingConjunctionImpl(ArgumentMapping... mappings) {
+ArgumentMappingConjunction {
+	private final Set<ArgumentMapping> mappings;
+
+	public ArgumentMappingConjunctionImpl(final ArgumentMapping... mappings) {
 		Assert.notEmpty(mappings, IllegalArgumentException.class);
 
 		this.mappings = new HashSet<ArgumentMapping>(
 				Arrays.asList(mappings));
 	}
 
-	public boolean isSetIn(AnnotationMetadata annotation) {
+	@Override
+	public boolean isSetIn(final AnnotationMetadata annotation) {
 		for (ArgumentMapping mapping : mappings) {
-			if (!mapping.isSetIn(annotation))
+			if (!mapping.isSetIn(annotation)) {
 				return false;
+			}
 		}
-		
+
 		return true;
 	}
 
+	@Override
 	public Set<ArgumentMapping> getMappings() {
 		return mappings;
 	}
@@ -41,7 +44,7 @@ public class ArgumentMappingConjunctionImpl implements
 		final int prime = 31;
 		int result = 1;
 		result = prime * result
-				+ ((mappings == null) ? 0 : mappings.hashCode());
+				+ (mappings == null ? 0 : mappings.hashCode());
 		return result;
 	}
 
@@ -49,7 +52,7 @@ public class ArgumentMappingConjunctionImpl implements
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	@Override
-	public boolean equals(Object obj) {
+	public boolean equals(final Object obj) {
 		if (this == obj) {
 			return true;
 		}

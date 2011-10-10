@@ -11,7 +11,7 @@ import com.google.inject.Inject;
 import com.google.inject.name.Named;
 
 public class BasePackageSelectorImpl implements BasePackageSelector {
-	
+
 	@Inject
 	@Named("bpsi.basePackages")
 	private Set<Package> basePackages;
@@ -19,7 +19,8 @@ public class BasePackageSelectorImpl implements BasePackageSelector {
 	@Inject
 	private ForwardingBuilder forwardingBuilder;
 
-	public ForwardingBuilder from(String... basePackages) {
+	@Override
+	public ForwardingBuilder from(@SuppressWarnings("hiding") final String... basePackages) {
 		Assert.notEmpty(basePackages, IllegalArgumentException.class,
 				"there must be at least one basePackage set");
 
@@ -30,10 +31,12 @@ public class BasePackageSelectorImpl implements BasePackageSelector {
 		return forwardingBuilder;
 	}
 
+	@Override
 	public Set<Package> getBasePackages() {
 		return basePackages;
 	}
 
+	@Override
 	public ForwardingBuilder getForwardingBuilder() {
 		return forwardingBuilder;
 	}

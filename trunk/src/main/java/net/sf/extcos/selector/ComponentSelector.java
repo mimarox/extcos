@@ -1,6 +1,6 @@
 package net.sf.extcos.selector;
 
 
-public interface ClassSelector {
+public interface ComponentSelector {
 	void configure(ResourceTypeSelector resourceTypeSelector);
 }

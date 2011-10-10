@@ -18,17 +18,17 @@ import net.sf.extcos.spi.ResourceType;
 import net.sf.extcos.util.Assert;
 
 public class URLResource implements Resource {
-	private URL resourceUrl;
-	private ResourceType resourceType;
+	private final URL resourceUrl;
+	private final ResourceType resourceType;
 	private ResourceAccessor resourceAccessor;
-	
-	private Object inspectionMutex = new Object();
+
+	private final Object inspectionMutex = new Object();
 	private boolean inspected;
-	
-	private List<ClassGenerationListener> listeners = new ArrayList<ClassGenerationListener>();
-	private Map<Class<? extends Annotation>, AnnotationMetadata> metadataCache = new HashMap<Class<? extends Annotation>, AnnotationMetadata>();
-	
-	public URLResource(ResourceType resourceType, URL resouceUrl) {
+
+	private final List<ClassGenerationListener> listeners = new ArrayList<ClassGenerationListener>();
+	private final Map<Class<? extends Annotation>, AnnotationMetadata> metadataCache = new HashMap<Class<? extends Annotation>, AnnotationMetadata>();
+
+	public URLResource(final ResourceType resourceType, final URL resouceUrl) {
 		Assert.notNull(resourceType, IllegalArgumentException.class);
 		Assert.notNull(resouceUrl, IllegalArgumentException.class);
 
@@ -36,27 +36,26 @@ public class URLResource implements Resource {
 		this.resourceUrl = resouceUrl;
 	}
 
+	@Override
 	public AnnotationMetadata getAnnotationMetadata(
-			Class<? extends Annotation> annotation)
-			throws ConcurrentInspectionException {
+			final Class<? extends Annotation> annotation)
+					throws ConcurrentInspectionException {
 		acquireLock();
-		
+
 		try {
 			if (metadataCache.containsKey(annotation)) {
 				return metadataCache.get(annotation);
-			} else {
-				AnnotationMetadata metadata =
-					getResourceAccessor().getAnnotationMetadata(annotation);
-				
-				metadataCache.put(annotation, metadata);
-				
-				return metadata;
 			}
+
+			AnnotationMetadata metadata = getResourceAccessor().getAnnotationMetadata(annotation);
+			metadataCache.put(annotation, metadata);
+			return metadata;
 		} finally {
 			releaseLock();
 		}
 	}
 
+	@Override
 	public void generateAndDispatchClass() {
 		Class<?> clazz = getResourceAccessor().generateClass();
 		for (ClassGenerationListener listener : listeners) {
@@ -64,10 +63,11 @@ public class URLResource implements Resource {
 		}
 	}
 
-	public boolean hasInterface(Class<?> interfaze)
+	@Override
+	public boolean hasInterface(final Class<?> interfaze)
 			throws ConcurrentInspectionException {
 		acquireLock();
-		
+
 		try {
 			return getResourceAccessor().hasInterface(interfaze);
 		} finally {
@@ -75,10 +75,11 @@ public class URLResource implements Resource {
 		}
 	}
 
-	public boolean isSubclassOf(Class<?> clazz)
+	@Override
+	public boolean isSubclassOf(final Class<?> clazz)
 			throws ConcurrentInspectionException {
 		acquireLock();
-		
+
 		try {
 			return getResourceAccessor().isSubclassOf(clazz);
 		} finally {
@@ -86,6 +87,7 @@ public class URLResource implements Resource {
 		}
 	}
 
+	@Override
 	public String toString() {
 		return append("URL [", resourceUrl, "]");
 	}
@@ -98,30 +100,33 @@ public class URLResource implements Resource {
 		return resourceAccessor;
 	}
 
-	public void addClassGenerationListener(ClassGenerationListener listener) {
-		if (listener != null)
+	@Override
+	public void addClassGenerationListener(final ClassGenerationListener listener) {
+		if (listener != null) {
 			listeners.add(listener);
+		}
 	}
-	
+
 	private void acquireLock() throws ConcurrentInspectionException {
 		synchronized (inspectionMutex) {
 			if (inspected) {
 				throw new ConcurrentInspectionException(toString());
-			} else {
-				inspected = true;
 			}
+
+			inspected = true;
 		}
 	}
-	
+
 	private void releaseLock() {
 		synchronized (inspectionMutex) {
 			inspected = false;
 		}
 	}
 
+	@Override
 	public boolean isClass() throws ConcurrentInspectionException {
 		acquireLock();
-		
+
 		try {
 			return getResourceAccessor().isClass();
 		} finally {

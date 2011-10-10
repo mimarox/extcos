@@ -4,18 +4,20 @@ import net.sf.extcos.selector.annotation.ArgumentValue;
 import net.sf.extcos.util.Assert;
 
 public class ArgumentValueImpl implements ArgumentValue {
-	private Object value;
-	
-	public ArgumentValueImpl(Object value) {
+	private final Object value;
+
+	public ArgumentValueImpl(final Object value) {
 		Assert.notNull(value, IllegalArgumentException.class);
 		this.value = value;
 	}
-	
+
+	@Override
 	public Object getValue() {
 		return value;
 	}
 
-	public boolean matches(Object value) {
+	@Override
+	public boolean matches(@SuppressWarnings("hiding") final Object value) {
 		return this.value.equals(value);
 	}
 
@@ -26,7 +28,7 @@ public class ArgumentValueImpl implements ArgumentValue {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((value == null) ? 0 : value.hashCode());
+		result = prime * result + (value == null ? 0 : value.hashCode());
 		return result;
 	}
 
@@ -34,7 +36,7 @@ public class ArgumentValueImpl implements ArgumentValue {
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	@Override
-	public boolean equals(Object obj) {
+	public boolean equals(final Object obj) {
 		if (this == obj) {
 			return true;
 		}

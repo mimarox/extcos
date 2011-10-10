@@ -8,18 +8,19 @@ import net.sf.extcos.selector.ExtendingTypeFilter;
 import net.sf.extcos.util.Assert;
 
 public class ExtendingTypeFilterImpl implements ExtendingTypeFilter {
-	private Class<?> clazz;
-	
-	public ExtendingTypeFilterImpl(Class<?> clazz) {
+	private final Class<?> clazz;
+
+	public ExtendingTypeFilterImpl(final Class<?> clazz) {
 		Assert.notNull(clazz, iae());
-		
+
 		int modifiers = clazz.getModifiers();
 		Assert.isFalse(Modifier.isInterface(modifiers), iae());
 		Assert.isFalse(Modifier.isFinal(modifiers), iae());
-		
+
 		this.clazz = clazz;
 	}
 
+	@Override
 	public Class<?> getClazz() {
 		return clazz;
 	}
@@ -31,7 +32,7 @@ public class ExtendingTypeFilterImpl implements ExtendingTypeFilter {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((clazz == null) ? 0 : clazz.hashCode());
+		result = prime * result + (clazz == null ? 0 : clazz.hashCode());
 		return result;
 	}
 
@@ -39,7 +40,7 @@ public class ExtendingTypeFilterImpl implements ExtendingTypeFilter {
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	@Override
-	public boolean equals(Object obj) {
+	public boolean equals(final Object obj) {
 		if (this == obj) {
 			return true;
 		}

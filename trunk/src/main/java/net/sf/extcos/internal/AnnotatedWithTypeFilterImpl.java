@@ -9,20 +9,22 @@ import net.sf.extcos.selector.annotation.ArgumentsDescriptor;
 import net.sf.extcos.util.Assert;
 
 public class AnnotatedWithTypeFilterImpl implements AnnotatedWithTypeFilter {
-	private Class<? extends Annotation> annotation;
-	private ArgumentsDescriptor arguments;
+	private final Class<? extends Annotation> annotation;
+	private final ArgumentsDescriptor arguments;
 
-	public AnnotatedWithTypeFilterImpl(Class<? extends Annotation> annotation,
-			ArgumentsDescriptor arguments) {
+	public AnnotatedWithTypeFilterImpl(final Class<? extends Annotation> annotation,
+			final ArgumentsDescriptor arguments) {
 		Assert.notNull(annotation, iae());
 		this.annotation = annotation;
 		this.arguments = arguments;
 	}
 
+	@Override
 	public Class<? extends Annotation> getAnnotation() {
 		return annotation;
 	}
 
+	@Override
 	public ArgumentsDescriptor getArguments() {
 		return arguments;
 	}
@@ -35,9 +37,9 @@ public class AnnotatedWithTypeFilterImpl implements AnnotatedWithTypeFilter {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result
-				+ ((annotation == null) ? 0 : annotation.hashCode());
+				+ (annotation == null ? 0 : annotation.hashCode());
 		result = prime * result
-				+ ((arguments == null) ? 0 : arguments.hashCode());
+				+ (arguments == null ? 0 : arguments.hashCode());
 		return result;
 	}
 
@@ -45,7 +47,7 @@ public class AnnotatedWithTypeFilterImpl implements AnnotatedWithTypeFilter {
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	@Override
-	public boolean equals(Object obj) {
+	public boolean equals(final Object obj) {
 		if (this == obj) {
 			return true;
 		}

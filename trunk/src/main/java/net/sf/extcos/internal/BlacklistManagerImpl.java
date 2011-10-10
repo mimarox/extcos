@@ -17,31 +17,32 @@ import com.google.inject.Singleton;
 
 @Singleton
 public class BlacklistManagerImpl implements BlacklistManager {
-	private ConcurrentSkipListSet<SoftReference<BlacklistAwareSet<Resource>>> managedSets =
-		new ConcurrentSkipListSet<SoftReference<BlacklistAwareSet<Resource>>>();
-	private ReferenceQueue<BlacklistAwareSet<Resource>> setReferenceQueue =
-		new ReferenceQueue<BlacklistAwareSet<Resource>>();
-	
-	private ConcurrentSkipListSet<SoftReference<BlacklistAwareIterator<Resource>>> managedIterators =
-		new ConcurrentSkipListSet<SoftReference<BlacklistAwareIterator<Resource>>>();
-	private ReferenceQueue<BlacklistAwareIterator<Resource>> iteratorReferenceQueue =
-		new ReferenceQueue<BlacklistAwareIterator<Resource>>();
-	
-	public synchronized void blacklist(Resource resource) {
+	private final ConcurrentSkipListSet<SoftReference<BlacklistAwareSet<Resource>>> managedSets =
+			new ConcurrentSkipListSet<SoftReference<BlacklistAwareSet<Resource>>>();
+	private final ReferenceQueue<BlacklistAwareSet<Resource>> setReferenceQueue =
+			new ReferenceQueue<BlacklistAwareSet<Resource>>();
+
+	private final ConcurrentSkipListSet<SoftReference<BlacklistAwareIterator<Resource>>> managedIterators =
+			new ConcurrentSkipListSet<SoftReference<BlacklistAwareIterator<Resource>>>();
+	private final ReferenceQueue<BlacklistAwareIterator<Resource>> iteratorReferenceQueue =
+			new ReferenceQueue<BlacklistAwareIterator<Resource>>();
+
+	@Override
+	public synchronized void blacklist(final Resource resource) {
 		blacklistOnIterators(resource);
 		blacklistOnSets(resource);
 	}
 
-	private void blacklistOnIterators(Resource resource) {
+	private void blacklistOnIterators(final Resource resource) {
 		Iterator<SoftReference<BlacklistAwareIterator<Resource>>> iteratorIterator =
-			managedIterators.iterator();
-		
+				managedIterators.iterator();
+
 		while (iteratorIterator.hasNext()) {
 			SoftReference<BlacklistAwareIterator<Resource>> reference =
-				iteratorIterator.next();
-			
+					iteratorIterator.next();
+
 			BlacklistAwareIterator<Resource> iterator = reference.get();
-			
+
 			if (iterator == null || reference.isEnqueued()) {
 				iteratorIterator.remove();
 			} else {
@@ -49,17 +50,17 @@ public class BlacklistManagerImpl implements BlacklistManager {
 			}
 		}
 	}
-	
-	private void blacklistOnSets(Resource resource) {
+
+	private void blacklistOnSets(final Resource resource) {
 		Iterator<SoftReference<BlacklistAwareSet<Resource>>> setIterator =
-			managedSets.iterator();
-		
+				managedSets.iterator();
+
 		while (setIterator.hasNext()) {
 			SoftReference<BlacklistAwareSet<Resource>> reference =
-				setIterator.next();
-			
+					setIterator.next();
+
 			BlacklistAwareSet<Resource> iterator = reference.get();
-			
+
 			if (iterator == null || reference.isEnqueued()) {
 				setIterator.remove();
 			} else {
@@ -67,34 +68,36 @@ public class BlacklistManagerImpl implements BlacklistManager {
 			}
 		}
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * @see org.jcs.filter.BlacklistManager#newResultSet()
 	 */
+	@Override
 	public Set<Resource> newResultSet() {
 		RandomPollingSet<Resource> resources =
-			new RandomPollingArraySet<Resource>();
-		
+				new RandomPollingArraySet<Resource>();
+
 		ArraySet<Resource> blacklist = new ArraySet<Resource>();
-		
+
 		BlacklistAwareSet<Resource> set =
-			new BlacklistAwareSetImpl<Resource>(resources, blacklist);
-		
+				new BlacklistAwareSetImpl<Resource>(resources, blacklist);
+
 		set.setIteratorCreationListener(
 				new IteratorCreationListener<Resource>() {
-					public void created(BlacklistAwareIterator<Resource> iterator) {
+					@Override
+					public void created(final BlacklistAwareIterator<Resource> iterator) {
 						manageIterator(iterator);
 					}
-		});
-		
+				});
+
 		managedSets.add(new SoftReference<BlacklistAwareSet<Resource>>(set,
 				setReferenceQueue));
-		
+
 		return set;
 	}
-	
-	private void manageIterator(BlacklistAwareIterator<Resource> iterator) {
+
+	private void manageIterator(final BlacklistAwareIterator<Resource> iterator) {
 		managedIterators.add(new SoftReference<BlacklistAwareIterator<Resource>>(iterator, iteratorReferenceQueue));
 	}
 }

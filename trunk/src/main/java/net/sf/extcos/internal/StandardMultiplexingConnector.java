@@ -4,9 +4,10 @@ import net.sf.extcos.filter.Connector;
 import net.sf.extcos.resource.Resource;
 
 public class StandardMultiplexingConnector extends
-		AbstractMultiplexingConnector {
+AbstractMultiplexingConnector {
 
-	protected void doConnect(Resource resource) {
+	@Override
+	protected void doConnect(final Resource resource) {
 		for (Connector connector : connectors) {
 			connector.connect(resource);
 		}

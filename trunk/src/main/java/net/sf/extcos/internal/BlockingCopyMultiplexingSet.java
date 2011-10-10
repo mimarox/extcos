@@ -13,14 +13,15 @@ import net.sf.extcos.util.Assert;
 
 public class BlockingCopyMultiplexingSet<E> implements MultiplexingSet<E> {
 	private Set<E> master;
-	private List<Set<? super E>> slaves = new ArrayList<Set<? super E>>();
+	private final List<Set<? super E>> slaves = new ArrayList<Set<? super E>>();
 
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see org.jcs.collection.MultiplexingSet#addSlaveSet(java.util.Set)
 	 */
-	public boolean addSlaveSet(Set<? super E> slave) {
+	@Override
+	public boolean addSlaveSet(final Set<? super E> slave) {
 		Assert.notNull(slave, iae());
 		Assert.state(master != null);
 
@@ -34,6 +35,7 @@ public class BlockingCopyMultiplexingSet<E> implements MultiplexingSet<E> {
 	 * 
 	 * @see org.jcs.collection.MultiplexingSet#removeSets()
 	 */
+	@Override
 	public void removeSets() {
 		master = null;
 		slaves.clear();
@@ -44,7 +46,8 @@ public class BlockingCopyMultiplexingSet<E> implements MultiplexingSet<E> {
 	 * 
 	 * @see org.jcs.collection.MultiplexingSet#removeSlaveSet(java.util.Set)
 	 */
-	public boolean removeSlaveSet(Set<? super E> slave) {
+	@Override
+	public boolean removeSlaveSet(final Set<? super E> slave) {
 		Assert.notNull(slave, iae());
 		Assert.state(master != null);
 
@@ -56,7 +59,8 @@ public class BlockingCopyMultiplexingSet<E> implements MultiplexingSet<E> {
 	 * 
 	 * @see org.jcs.collection.MultiplexingSet#setMasterSet(java.util.Set)
 	 */
-	public void setMasterSet(Set<E> master) {
+	@Override
+	public void setMasterSet(final Set<E> master) {
 		Assert.notNull(master, iae());
 
 		master.clear();
@@ -68,7 +72,8 @@ public class BlockingCopyMultiplexingSet<E> implements MultiplexingSet<E> {
 	 * 
 	 * @see java.util.Set#add(java.lang.Object)
 	 */
-	public boolean add(E e) {
+	@Override
+	public boolean add(final E e) {
 		Assert.state(master != null);
 
 		if (master.add(e)) {
@@ -77,9 +82,9 @@ public class BlockingCopyMultiplexingSet<E> implements MultiplexingSet<E> {
 			}
 
 			return true;
-		} else {
-			return false;
 		}
+
+		return false;
 	}
 
 	/*
@@ -87,7 +92,8 @@ public class BlockingCopyMultiplexingSet<E> implements MultiplexingSet<E> {
 	 * 
 	 * @see java.util.Set#addAll(java.util.Collection)
 	 */
-	public boolean addAll(Collection<? extends E> c) {
+	@Override
+	public boolean addAll(final Collection<? extends E> c) {
 		Assert.state(master != null);
 
 		if (master.addAll(c)) {
@@ -96,9 +102,9 @@ public class BlockingCopyMultiplexingSet<E> implements MultiplexingSet<E> {
 			}
 
 			return true;
-		} else {
-			return false;
 		}
+
+		return false;
 	}
 
 	/*
@@ -106,6 +112,7 @@ public class BlockingCopyMultiplexingSet<E> implements MultiplexingSet<E> {
 	 * 
 	 * @see java.util.Set#clear()
 	 */
+	@Override
 	public void clear() {
 		Assert.state(master != null);
 
@@ -121,7 +128,8 @@ public class BlockingCopyMultiplexingSet<E> implements MultiplexingSet<E> {
 	 * 
 	 * @see java.util.Set#contains(java.lang.Object)
 	 */
-	public boolean contains(Object obj) {
+	@Override
+	public boolean contains(final Object obj) {
 		Assert.state(master != null);
 		return master.contains(obj);
 	}
@@ -131,7 +139,8 @@ public class BlockingCopyMultiplexingSet<E> implements MultiplexingSet<E> {
 	 * 
 	 * @see java.util.Set#containsAll(java.util.Collection)
 	 */
-	public boolean containsAll(Collection<?> c) {
+	@Override
+	public boolean containsAll(final Collection<?> c) {
 		Assert.state(master != null);
 		return master.containsAll(c);
 	}
@@ -141,6 +150,7 @@ public class BlockingCopyMultiplexingSet<E> implements MultiplexingSet<E> {
 	 * 
 	 * @see java.util.Set#isEmpty()
 	 */
+	@Override
 	public boolean isEmpty() {
 		Assert.state(master != null);
 		return master.isEmpty();
@@ -151,6 +161,7 @@ public class BlockingCopyMultiplexingSet<E> implements MultiplexingSet<E> {
 	 * 
 	 * @see java.util.Set#iterator()
 	 */
+	@Override
 	public Iterator<E> iterator() {
 		Assert.state(master != null);
 		return master.iterator();
@@ -161,7 +172,8 @@ public class BlockingCopyMultiplexingSet<E> implements MultiplexingSet<E> {
 	 * 
 	 * @see java.util.Set#remove(java.lang.Object)
 	 */
-	public boolean remove(Object obj) {
+	@Override
+	public boolean remove(final Object obj) {
 		Assert.state(master != null);
 
 		if (master.remove(obj)) {
@@ -170,9 +182,9 @@ public class BlockingCopyMultiplexingSet<E> implements MultiplexingSet<E> {
 			}
 
 			return true;
-		} else {
-			return false;
 		}
+
+		return false;
 	}
 
 	/*
@@ -180,7 +192,8 @@ public class BlockingCopyMultiplexingSet<E> implements MultiplexingSet<E> {
 	 * 
 	 * @see java.util.Set#removeAll(java.util.Collection)
 	 */
-	public boolean removeAll(Collection<?> c) {
+	@Override
+	public boolean removeAll(final Collection<?> c) {
 		Assert.state(master != null);
 
 		if (master.removeAll(c)) {
@@ -189,9 +202,9 @@ public class BlockingCopyMultiplexingSet<E> implements MultiplexingSet<E> {
 			}
 
 			return true;
-		} else {
-			return false;
 		}
+
+		return false;
 	}
 
 	/*
@@ -199,20 +212,23 @@ public class BlockingCopyMultiplexingSet<E> implements MultiplexingSet<E> {
 	 * 
 	 * @see java.util.Set#retainAll(java.util.Collection)
 	 */
-	public boolean retainAll(Collection<?> c) {
+	@Override
+	public boolean retainAll(final Collection<?> c) {
 		Assert.state(master != null);
 
 		List<E> remove = new ArrayList<E>();
-		
+
 		for (E e : master) {
-			if (!c.contains(e)) remove.add(e);
+			if (!c.contains(e)) {
+				remove.add(e);
+			}
 		}
-		
+
 		if (remove.isEmpty()) {
 			return false;
-		} else {
-			return removeAll(remove);
 		}
+
+		return removeAll(remove);
 	}
 
 	/*
@@ -220,6 +236,7 @@ public class BlockingCopyMultiplexingSet<E> implements MultiplexingSet<E> {
 	 * 
 	 * @see java.util.Set#size()
 	 */
+	@Override
 	public int size() {
 		Assert.state(master != null);
 		return master.size();
@@ -230,6 +247,7 @@ public class BlockingCopyMultiplexingSet<E> implements MultiplexingSet<E> {
 	 * 
 	 * @see java.util.Set#toArray()
 	 */
+	@Override
 	public Object[] toArray() {
 		Assert.state(master != null);
 		return master.toArray();
@@ -240,7 +258,8 @@ public class BlockingCopyMultiplexingSet<E> implements MultiplexingSet<E> {
 	 * 
 	 * @see java.util.Set#toArray(T[])
 	 */
-	public <T> T[] toArray(T[] array) {
+	@Override
+	public <T> T[] toArray(final T[] array) {
 		Assert.state(master != null);
 		return master.toArray(array);
 	}

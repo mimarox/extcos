@@ -7,8 +7,8 @@ import net.sf.extcos.filter.builder.FilterChainBuilder;
 import net.sf.extcos.resource.Resource;
 import net.sf.extcos.resource.ResourceResolver;
 import net.sf.extcos.selector.BasePackageSelector;
-import net.sf.extcos.selector.ClassSelectionProcessor;
-import net.sf.extcos.selector.ClassSelector;
+import net.sf.extcos.selector.ComponentSelectionProcessor;
+import net.sf.extcos.selector.ComponentSelector;
 import net.sf.extcos.selector.ForwardingBuilder;
 import net.sf.extcos.selector.Package;
 import net.sf.extcos.selector.ResourceTypeSelector;
@@ -19,10 +19,10 @@ import net.sf.extcos.spi.ResourceType;
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
 
-public class ClassSelectionProcessorImpl implements
-		ClassSelectionProcessor {
+public class ComponentSelectionProcessorImpl implements
+ComponentSelectionProcessor {
 	@Inject
-	private ClassSelector classSelector;
+	private ComponentSelector componentSelector;
 
 	@Inject
 	private ResourceTypeSelector resourceTypeSelector;
@@ -36,15 +36,15 @@ public class ClassSelectionProcessorImpl implements
 	@Inject
 	@Named("cspi.resources")
 	private Set<Resource> resources;
-	
+
 	@Inject
 	@Named("cspi.filtered")
 	private Set<Resource> filtered;
-	
+
 	@Inject
 	@Named("cspi.classes")
 	private Set<Class<?>> classes;
-	
+
 	private Set<ResourceType> resourceTypes;
 
 	private Set<Package> basePackages;
@@ -53,6 +53,7 @@ public class ClassSelectionProcessorImpl implements
 
 	private StoreReturning returning;
 
+	@Override
 	public Set<Class<?>> process() {
 		init();
 
@@ -76,7 +77,7 @@ public class ClassSelectionProcessorImpl implements
 	}
 
 	private void init() {
-		classSelector.configure(resourceTypeSelector);
+		componentSelector.configure(resourceTypeSelector);
 
 		resourceTypes = resourceTypeSelector.getResourceTypes();
 

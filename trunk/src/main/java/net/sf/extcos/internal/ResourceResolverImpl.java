@@ -26,17 +26,17 @@ import net.sf.extcos.spi.ResourceType;
 import net.sf.extcos.util.ReflectionUtils;
 import net.sf.extcos.util.ResourceUtils;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.google.inject.Inject;
 
 public class ResourceResolverImpl implements ResourceResolver {
-	private static Log logger = LogFactory.getLog(ResourceResolverImpl.class);
+	private static Logger logger = LoggerFactory.getLogger(ResourceResolverImpl.class);
 
 	@Inject
 	private ClassLoader classLoader;
-	
+
 	private Method equinoxResolveMethod;
 	private boolean attemptedToLoadEquinoxResolveMethod = false;
 
@@ -51,7 +51,7 @@ public class ResourceResolverImpl implements ResourceResolver {
 				equinoxResolveMethod = fileLocatorClass.getMethod("resolve",
 						new Class[] { URL.class });
 				logger
-						.debug("Found Equinox FileLocator for OSGi bundle URL resolution");
+				.debug("Found Equinox FileLocator for OSGi bundle URL resolution");
 			} catch (Throwable ex) {
 				equinoxResolveMethod = null;
 			} finally {
@@ -62,8 +62,9 @@ public class ResourceResolverImpl implements ResourceResolver {
 		return equinoxResolveMethod;
 	}
 
-	public Set<Resource> getResources(Set<ResourceType> resourceTypes,
-			Package basePackage) {
+	@Override
+	public Set<Resource> getResources(final Set<ResourceType> resourceTypes,
+			final Package basePackage) {
 		try {
 			Set<URL> rootDirectories = getRootDirectories(basePackage);
 			Set<Resource> resources = new HashSet<Resource>();
@@ -86,7 +87,7 @@ public class ResourceResolverImpl implements ResourceResolver {
 		}
 	}
 
-	private Set<URL> getRootDirectories(Package basePackage) {
+	private Set<URL> getRootDirectories(final Package basePackage) {
 		try {
 			Enumeration<URL> urlEnum = getClassLoader().getResources(
 					basePackage.getPath());
@@ -118,7 +119,7 @@ public class ResourceResolverImpl implements ResourceResolver {
 		return classLoader;
 	}
 
-	private URL resolveRootDirectory(URL original) {
+	private URL resolveRootDirectory(final URL original) {
 		if (getEquinoxResolveMethod() != null) {
 			if (original.getProtocol().startsWith("bundle")) {
 				return (URL) ReflectionUtils.invokeMethod(equinoxResolveMethod,
@@ -128,8 +129,8 @@ public class ResourceResolverImpl implements ResourceResolver {
 		return original;
 	}
 
-	private Set<Resource> findJarResources(Set<ResourceType> resourceTypes,
-			URL rootDirectory) throws IOException {
+	private Set<Resource> findJarResources(final Set<ResourceType> resourceTypes,
+			final URL rootDirectory) throws IOException {
 		URLConnection con = rootDirectory.openConnection();
 		JarFile jarFile = null;
 		String jarFileUrl = null;
@@ -143,7 +144,7 @@ public class ResourceResolverImpl implements ResourceResolver {
 			jarFile = jarCon.getJarFile();
 			jarFileUrl = jarCon.getJarFileURL().toExternalForm();
 			JarEntry jarEntry = jarCon.getJarEntry();
-			rootEntryPath = (jarEntry != null ? jarEntry.getName() : "");
+			rootEntryPath = jarEntry != null ? jarEntry.getName() : "";
 		}
 		else {
 			// No JarURLConnection -> need to resort to URL file parsing.
@@ -174,9 +175,9 @@ public class ResourceResolverImpl implements ResourceResolver {
 				// The Sun JRE does not return a slash here, but BEA JRockit does.
 				rootEntryPath = rootEntryPath + "/";
 			}
-			
+
 			Set<Resource> resources = new LinkedHashSet<Resource>();
-			
+
 			for (Enumeration<JarEntry> entries = jarFile.entries(); entries.hasMoreElements();) {
 				JarEntry entry = entries.nextElement();
 				if (isCandidate(entry, rootEntryPath)) {
@@ -191,7 +192,7 @@ public class ResourceResolverImpl implements ResourceResolver {
 					}
 				}
 			}
-			
+
 			return resources;
 		}
 		finally {
@@ -202,17 +203,17 @@ public class ResourceResolverImpl implements ResourceResolver {
 			}
 		}
 	}
-	
-	private boolean isCandidate(JarEntry entry, String rootEntryPath) {
+
+	private boolean isCandidate(final JarEntry entry, final String rootEntryPath) {
 		return
-		!entry.isDirectory() &&
-		entry.getName().startsWith(rootEntryPath);
+				!entry.isDirectory() &&
+				entry.getName().startsWith(rootEntryPath);
 	}
-	
+
 	/**
 	 * Resolve the given jar file URL into a JarFile object.
 	 */
-	private JarFile getJarFile(String jarFileUrl) throws IOException {
+	private JarFile getJarFile(final String jarFileUrl) throws IOException {
 		if (jarFileUrl.startsWith(ResourceUtils.FILE_URL_PREFIX)) {
 			try {
 				return new JarFile(ResourceUtils.toURI(jarFileUrl).getSchemeSpecificPart());
@@ -222,85 +223,85 @@ public class ResourceResolverImpl implements ResourceResolver {
 				return new JarFile(jarFileUrl.substring(ResourceUtils.FILE_URL_PREFIX.length()));
 			}
 		}
-		else {
-			return new JarFile(jarFileUrl);
-		}
+
+		return new JarFile(jarFileUrl);
 	}
 
-	private Set<Resource> findVFSResources(Set<ResourceType> resourceTypes,
-			URL rootDirectory) throws IOException {
+	private Set<Resource> findVFSResources(final Set<ResourceType> resourceTypes,
+			final URL rootDirectory) throws IOException {
 		return new VfsResourceResolver().findResources(resourceTypes,
 				rootDirectory);
 	}
-	
-	private Set<Resource> findFileResources(Set<ResourceType> resourceTypes,
-			URL rootDirectory) {
+
+	private Set<Resource> findFileResources(final Set<ResourceType> resourceTypes,
+			final URL rootDirectory) {
 		try {
 			File file = ResourceUtils.getFile(rootDirectory).getAbsoluteFile();
+
 			if (file.isDirectory()) {
 				return doFindFileResources(resourceTypes, file,
 						new LinkedHashSet<Resource>());
-			} else {
-				throw new IOException();
 			}
+
+			throw new IOException();
 		} catch (IOException e) {
 			if (logger.isDebugEnabled()) {
 				logger
-						.debug(
-								append(
-										"Cannot search for matching files underneath ",
-										rootDirectory,
-										" because it does not correspond to a directory in the file system"),
+				.debug(
+						append(
+								"Cannot search for matching files underneath ",
+								rootDirectory,
+								" because it does not correspond to a directory in the file system"),
 								e);
 			}
 			return Collections.emptySet();
 		}
 	}
 
-	private Set<Resource> doFindFileResources(Set<ResourceType> resourceTypes,
-			File root, Set<Resource> resources) {
+	private Set<Resource> doFindFileResources(final Set<ResourceType> resourceTypes,
+			final File root, final Set<Resource> resources) {
 		File[] files = root.listFiles();
-		
+
 		for (File file : files) {
 			if (file.isDirectory()) {
 				doFindFileResources(resourceTypes, file, resources);
 			} else if (file.isFile()) {
 				for (ResourceType resourceType : resourceTypes) {
 					Resource resource = createResource(file, resourceType);
-					
+
 					if (resource != null) {
 						resources.add(resource);
 					}
-					
+
 					break;
 				}
 			}
 		}
-		
+
 		return resources;
 	}
-	
-	private boolean matches(File file, ResourceType resourceType) {
-		return matches(file.getAbsolutePath(), resourceType);		
+
+	private boolean matches(final File file, final ResourceType resourceType) {
+		return matches(file.getAbsolutePath(), resourceType);
 	}
-	
-	private boolean matches(String path, ResourceType resourceType) {
+
+	private boolean matches(final String path, final ResourceType resourceType) {
 		return path.endsWith(resourceType.getFileSuffix());
 	}
-	
-	private Resource createResource(File file, ResourceType resourceType) {
+
+	private Resource createResource(final File file, final ResourceType resourceType) {
 		if (matches(file, resourceType)) {
 			URL resourceUrl = toURL(file);
-			
+
 			if (resourceUrl != null) {
 				return new URLResource(resourceType, resourceUrl);
 			}
 		}
-		
+
 		return null;
 	}
-	
-	private URL toURL(File file) {
+
+	private URL toURL(final File file) {
 		try {
 			return ResourceUtils.toURL(file);
 		} catch (MalformedURLException e) {

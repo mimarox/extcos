@@ -17,46 +17,47 @@ import com.google.inject.name.Named;
 
 public class ImplementingFilterObjectsBuilder extends AbstractFilterObjectsBuilder {
 
-    @Inject
-    @Named("ifob.provider")
-    private ResultSetProvider provider;
-    
-    public void buildFilterObjects(TypeFilter filter, Connector connector) {
-        Assert.notNull(filter, iae());
-        Assert.isTrue(filter instanceof ImplementingTypeFilter, iae());
-        Assert.notNull(connector, iae());
-        
-        Set<Class<?>> interfaces = ((ImplementingTypeFilter) filter).getInterfaces();
-        
-        if (interfaces.size() > 1) {
-            ConjunctiveChainedConnector conjunction = injector.getInstance(ConjunctiveChainedConnector.class);
-            conjunction.setParentConnector(connector);
-            conjunction.setChildCount(interfaces.size());
-            connector = conjunction;
-        }
-        
-        for (Class<?> interfaze : interfaces) {
-        	ImplementingResourceMatcher matcher = new ImplementingResourceMatcher(interfaze);
-        	
-        	if (buildContext.isRegistered(matcher)) {
-        		FilterObjects fo = buildContext.getFilterObjects(matcher);
-        		fo.getResourceDispatcher().addConnector(connector);
-        	} else {
-    			MultiplexingConnector dispatcher =
-    				new StandardMultiplexingConnector();
-    			
-    			dispatcher.addConnector(connector);
-    			
-    			FilterObjects filterObjects =
-    				createFilterObjects(dispatcher, matcher, provider);
-    			
-    			buildContext.register(filterObjects);
-        	}
-        }
-        
-        if (connector instanceof ConjunctiveChainedConnector) {
-    		buildContext.register(filter,
-    				(ConjunctiveChainedConnector)connector);
-        }
-    }
+	@Inject
+	@Named("ifob.provider")
+	private ResultSetProvider provider;
+
+	@Override
+	public void buildFilterObjects(final TypeFilter filter, Connector connector) {
+		Assert.notNull(filter, iae());
+		Assert.isTrue(filter instanceof ImplementingTypeFilter, iae());
+		Assert.notNull(connector, iae());
+
+		Set<Class<?>> interfaces = ((ImplementingTypeFilter) filter).getInterfaces();
+
+		if (interfaces.size() > 1) {
+			ConjunctiveChainedConnector conjunction = injector.getInstance(ConjunctiveChainedConnector.class);
+			conjunction.setParentConnector(connector);
+			conjunction.setChildCount(interfaces.size());
+			connector = conjunction;
+		}
+
+		for (Class<?> interfaze : interfaces) {
+			ImplementingResourceMatcher matcher = new ImplementingResourceMatcher(interfaze);
+
+			if (buildContext.isRegistered(matcher)) {
+				FilterObjects fo = buildContext.getFilterObjects(matcher);
+				fo.getResourceDispatcher().addConnector(connector);
+			} else {
+				MultiplexingConnector dispatcher =
+						new StandardMultiplexingConnector();
+
+				dispatcher.addConnector(connector);
+
+				FilterObjects filterObjects =
+						createFilterObjects(dispatcher, matcher, provider);
+
+				buildContext.register(filterObjects);
+			}
+		}
+
+		if (connector instanceof ConjunctiveChainedConnector) {
+			buildContext.register(filter,
+					(ConjunctiveChainedConnector)connector);
+		}
+	}
 }

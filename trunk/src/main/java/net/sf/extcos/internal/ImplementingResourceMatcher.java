@@ -6,19 +6,20 @@ import net.sf.extcos.resource.Resource;
 import net.sf.extcos.util.Assert;
 
 public class ImplementingResourceMatcher implements ResourceMatcher {
-	private Class<?> interfaze;
-	
-	public ImplementingResourceMatcher(Class<?> interfaze) {
+	private final Class<?> interfaze;
+
+	public ImplementingResourceMatcher(final Class<?> interfaze) {
 		Assert.notNull(interfaze, IllegalArgumentException.class);
 		Assert.isTrue(interfaze.isInterface(), IllegalArgumentException.class);
 		this.interfaze = interfaze;
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * @see org.jcs.filter.ResourceMatcher#matches(org.jcs.resource.Resource)
 	 */
-	public boolean matches(Resource resource) throws ConcurrentInspectionException {
+	@Override
+	public boolean matches(final Resource resource) throws ConcurrentInspectionException {
 		Assert.notNull(resource, IllegalArgumentException.class);
 		return resource.hasInterface(interfaze);
 	}
@@ -27,7 +28,8 @@ public class ImplementingResourceMatcher implements ResourceMatcher {
 	 * (non-Javadoc)
 	 * @see org.jcs.filter.ResourceMatcher#isMatcherFor(java.lang.Object)
 	 */
-	public boolean isMatcherFor(Object obj) {
+	@Override
+	public boolean isMatcherFor(final Object obj) {
 		return interfaze.equals(obj);
 	}
 
@@ -39,7 +41,7 @@ public class ImplementingResourceMatcher implements ResourceMatcher {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result
-				+ ((interfaze == null) ? 0 : interfaze.hashCode());
+				+ (interfaze == null ? 0 : interfaze.hashCode());
 		return result;
 	}
 
@@ -47,7 +49,7 @@ public class ImplementingResourceMatcher implements ResourceMatcher {
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	@Override
-	public boolean equals(Object obj) {
+	public boolean equals(final Object obj) {
 		if (this == obj) {
 			return true;
 		}
