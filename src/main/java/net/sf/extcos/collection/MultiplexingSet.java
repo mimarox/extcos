@@ -31,7 +31,7 @@ public interface MultiplexingSet<E> extends Set<E> {
 	 * @return true, if and only if the given slave set was added successfully,
 	 *         false otherwise
 	 */
-	boolean addSlaveSet(Set<? super E> slave);
+	boolean addSlaveSet(Set<? super E> slaveSet);
 
 	/**
 	 * Removes the given slave set from this multiplexing set.

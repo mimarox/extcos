@@ -45,8 +45,7 @@ public class ThreadManager {
 		while (t.isAlive()) {
 			try {
 				t.join();
-			} catch (InterruptedException ignored) {
-			}
+			} catch (InterruptedException ignored) { /* ignored */ }
 		}
 
 		finished.incrementAndGet();
@@ -56,8 +55,7 @@ public class ThreadManager {
 				synchronized (sync) {
 					sync.wait();
 				}
-			} catch (InterruptedException ignored) {
-			}
+			} catch (InterruptedException ignored) { /* ignored */ }
 		}
 
 		if (executor != null) {			// if returning all without storing any there's no executor
@@ -67,6 +65,7 @@ public class ThreadManager {
 
 	private void invokeNonBlocking(final Runnable runnable) {
 		getExecutor().execute(new Runnable() {
+			@Override
 			public void run() {
 				runnable.run();
 				finished.incrementAndGet();
@@ -87,6 +86,7 @@ public class ThreadManager {
 			executor.setThreadFactory(new ThreadFactory() {
 				private ThreadGroup threadGroup;
 
+				@Override
 				public Thread newThread(final Runnable runnable) {
 					Thread thread = new Thread(getThreadGroup(), runnable, append("eXtcos managed thread ", getInvoked()));
 					thread.setDaemon(true);

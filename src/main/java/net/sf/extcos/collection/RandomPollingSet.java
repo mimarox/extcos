@@ -7,7 +7,7 @@ import java.util.Set;
 import net.sf.extcos.internal.RandomPollingArraySet;
 
 public interface RandomPollingSet<E> extends Set<E> {
-	
+
 	/**
 	 * Returns an iterator over the elements in this set in random sequence.
 	 * Elements returned by the iterator's {@link Iterator#next() next()}
@@ -23,8 +23,9 @@ public interface RandomPollingSet<E> extends Set<E> {
 	 * 
 	 * @return an iterator over the elements in this set in random sequence
 	 */
+	@Override
 	Iterator<E> iterator();
-	
+
 	/**
 	 * Polls a random element from this set.
 	 * <p>

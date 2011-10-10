@@ -10,22 +10,23 @@ import net.sf.extcos.filter.MultiplexingConnector;
 import net.sf.extcos.resource.Resource;
 import net.sf.extcos.util.Assert;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public abstract class AbstractMultiplexingConnector implements MultiplexingConnector {
-	
-	protected Log logger = LogFactory.getLog(getClass());
-	
+
+	protected Logger logger = LoggerFactory.getLogger(getClass());
+
 	protected Set<Connector> connectors = new HashSet<Connector>();
-	
-	public void addConnector(Connector connector) {
+
+	@Override
+	public void addConnector(final Connector connector) {
 		try {
 			Assert.notNull(connector, IllegalArgumentException.class,
 					"connector must not be null");
 
 			connectors.add(connector);
-			
+
 			if (logger.isTraceEnabled()) {
 				logger.trace(append("successfully added connector ", connector));
 			}
@@ -34,24 +35,26 @@ public abstract class AbstractMultiplexingConnector implements MultiplexingConne
 		}
 	}
 
-	
-	public void merge(Connector connector) {
+
+	@Override
+	public void merge(final Connector connector) {
 		addConnector(connector);
 	}
-	
-	
-	public void connect(Resource resource) {
+
+
+	@Override
+	public void connect(final Resource resource) {
 		if (connectors.isEmpty()) {
 			logger.debug("can't connect: no connectors are set");
 			return;
 		}
-		
+
 		doConnect(resource);
-		
+
 		if (logger.isTraceEnabled()) {
 			logger.trace(append("successfully dispatched resource ", resource));
 		}
 	}
-	
+
 	protected abstract void doConnect(Resource resource);
 }

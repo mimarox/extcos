@@ -8,12 +8,12 @@ import net.sf.extcos.spi.AnnotationMetadata;
 import net.sf.extcos.util.Assert;
 
 public class AnnotationArgumentResourceMatcher implements ResourceMatcher {
-	private AnnotationArgument annotationArgument;
+	private final AnnotationArgument annotationArgument;
 
-	public AnnotationArgumentResourceMatcher(AnnotationArgument annotationArgument) {
+	public AnnotationArgumentResourceMatcher(final AnnotationArgument annotationArgument) {
 		Assert.notNull(annotationArgument, IllegalArgumentException.class,
 				"annotationArgument must not be null");
-		
+
 		this.annotationArgument = annotationArgument;
 	}
 
@@ -21,16 +21,17 @@ public class AnnotationArgumentResourceMatcher implements ResourceMatcher {
 	 * (non-Javadoc)
 	 * @see org.jcs.filter.ResourceMatcher#matches(org.jcs.resource.Resource)
 	 */
-	public boolean matches(Resource resource) throws ConcurrentInspectionException {
+	@Override
+	public boolean matches(final Resource resource) throws ConcurrentInspectionException {
 		Assert.notNull(resource, IllegalArgumentException.class);
-		
+
 		AnnotationMetadata metadata = resource
 				.getAnnotationMetadata(annotationArgument.getAnnotation());
 
 		if (metadata != null) {
 			return annotationArgument.getArgumentMapping().isSetIn(metadata);
 		}
-		
+
 		return false;
 	}
 
@@ -38,7 +39,8 @@ public class AnnotationArgumentResourceMatcher implements ResourceMatcher {
 	 * (non-Javadoc)
 	 * @see org.jcs.filter.ResourceMatcher#isMatcherFor(java.lang.Object)
 	 */
-	public boolean isMatcherFor(Object obj) {
+	@Override
+	public boolean isMatcherFor(final Object obj) {
 		return annotationArgument.equals(obj);
 	}
 
@@ -51,7 +53,7 @@ public class AnnotationArgumentResourceMatcher implements ResourceMatcher {
 		int result = 1;
 		result = prime
 				* result
-				+ ((annotationArgument == null) ? 0 : annotationArgument
+				+ (annotationArgument == null ? 0 : annotationArgument
 						.hashCode());
 		return result;
 	}
@@ -60,7 +62,7 @@ public class AnnotationArgumentResourceMatcher implements ResourceMatcher {
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	@Override
-	public boolean equals(Object obj) {
+	public boolean equals(final Object obj) {
 		if (this == obj) {
 			return true;
 		}

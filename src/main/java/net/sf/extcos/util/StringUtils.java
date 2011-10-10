@@ -35,7 +35,7 @@ public class StringUtils {
 	 *            The strings to be concatenated
 	 * @return The resulting string
 	 */
-	public static String append(String... strings) {
+	public static String append(final String... strings) {
 		StringBuffer result = new StringBuffer();
 
 		for (String string : strings) {
@@ -55,7 +55,7 @@ public class StringUtils {
 	 *            concatenated
 	 * @return The resulting string
 	 */
-	public static String append(Object... objects) {
+	public static String append(final Object... objects) {
 		StringBuffer result = new StringBuffer();
 
 		for (Object object : objects) {
@@ -65,7 +65,7 @@ public class StringUtils {
 		return result.toString();
 	}
 
-	
+
 	/**
 	 * Checks whether the given string is a valid Java package name, according
 	 * to the Java Language Specification.
@@ -74,18 +74,18 @@ public class StringUtils {
 	 *            The string to check
 	 * @return true, if the string is a valid Java package name, false otherwise
 	 */
-	public static boolean isJavaPackage(String string) {
+	public static boolean isJavaPackage(final String string) {
 		String identifierPattern = "[_$a-zA-Z][_$a-zA-Z0-9]*";
 		String separator = "\\.";
 		String packagePattern = append(identifierPattern, "(?:", separator, identifierPattern, ")*");
 		return string.matches(packagePattern);
 	}
-	
-	
+
+
 	public static char fileSeparator() {
 		return System.getProperty("file.separator").charAt(0);
 	}
-	
+
 	/**
 	 * Replace all occurences of a substring within a string with
 	 * another string.
@@ -94,7 +94,7 @@ public class StringUtils {
 	 * @param newPattern String to insert
 	 * @return a String with the replacements
 	 */
-	public static String replace(String inString, String oldPattern, String newPattern) {
+	public static String replace(final String inString, final String oldPattern, final String newPattern) {
 		if (!hasLength(inString) || !hasLength(oldPattern) || newPattern == null) {
 			return inString;
 		}
@@ -114,7 +114,7 @@ public class StringUtils {
 		// remember to append any characters to the right of a match
 		return sbuf.toString();
 	}
-	
+
 	/**
 	 * Check that the given CharSequence is neither <code>null</code> nor of length 0.
 	 * Note: Will return <code>true</code> for a CharSequence that purely consists of whitespace.
@@ -126,10 +126,9 @@ public class StringUtils {
 	 * </pre>
 	 * @param str the CharSequence to check (may be <code>null</code>)
 	 * @return <code>true</code> if the CharSequence is not null and has length
-	 * @see #hasText(String)
 	 */
-	public static boolean hasLength(CharSequence str) {
-		return (str != null && str.length() > 0);
+	public static boolean hasLength(final CharSequence str) {
+		return str != null && str.length() > 0;
 	}
 
 	/**
@@ -139,7 +138,7 @@ public class StringUtils {
 	 * @return <code>true</code> if the String is not null and has length
 	 * @see #hasLength(CharSequence)
 	 */
-	public static boolean hasLength(String str) {
+	public static boolean hasLength(final String str) {
 		return hasLength((CharSequence) str);
 	}
 }

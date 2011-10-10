@@ -15,35 +15,36 @@ import net.sf.extcos.util.Assert;
 import com.google.inject.Inject;
 
 public abstract class AbstractFilterObjectsJunctionBuilder extends
-		AbstractFilterObjectsBuilder {
-	
+AbstractFilterObjectsBuilder {
+
 	@Inject
 	private BuildSupport buildSupport;
 
-	public void buildFilterObjects(TypeFilter filter, Connector parent) {
+	@Override
+	public void buildFilterObjects(final TypeFilter filter, final Connector parent) {
 		Assert.notNull(filter, iae());
 		Assert.isTrue(filter instanceof TypeFilterJunction, iae());
 		Assert.notNull(parent, iae());
-		
+
 		if (!(parent instanceof ImmediateConnector) &&
 				buildContext.isRegistered(filter)) {
 			buildContext.getConnector(filter).merge(parent);
 		} else {
-			Set<TypeFilter> children = 
-				((TypeFilterJunction) filter).getTypeFilters();
-			
+			Set<TypeFilter> children =
+					((TypeFilterJunction) filter).getTypeFilters();
+
 			ChainedConnector connector = getConnector();
-			
+
 			connector.setChildCount(children.size());
 			connector.setParentConnector(parent);
-			
+
 			for (TypeFilter child : children) {
 				buildSupport.buildFilterObjects(child, connector);
 			}
-			
+
 			buildContext.register(filter, connector);
 		}
 	}
-	
+
 	protected abstract ChainedConnector getConnector();
 }

@@ -1,7 +1,6 @@
 package net.sf.extcos.internal;
 
 import static net.sf.extcos.util.Assert.iae;
-
 import net.sf.extcos.selector.annotation.ArgumentKey;
 import net.sf.extcos.selector.annotation.ArgumentMapping;
 import net.sf.extcos.selector.annotation.ArgumentMappingConjunction;
@@ -11,27 +10,28 @@ import net.sf.extcos.selector.annotation.ArgumentsDescriptor;
 import net.sf.extcos.util.Assert;
 
 public class ArgumentsDescriptorImpl implements ArgumentsDescriptor {
-	private ArgumentMapping mapping;
+	private final ArgumentMapping mapping;
 
-	public ArgumentsDescriptorImpl(ArgumentKey key, ArgumentValue value) {
+	public ArgumentsDescriptorImpl(final ArgumentKey key, final ArgumentValue value) {
 		Assert.notNull(key, iae());
 		Assert.notNull(value, iae());
 		mapping = new ArgumentMappingImpl(key, value);
 	}
 
-	public ArgumentsDescriptorImpl(ArgumentMapping mapping) {
+	public ArgumentsDescriptorImpl(final ArgumentMapping mapping) {
 		Assert.notNull(mapping, iae());
-		this.mapping = mapping;		
+		this.mapping = mapping;
 	}
 
-	public ArgumentsDescriptorImpl(ArgumentMappingConjunction mapping) {
-		this((ArgumentMapping) mapping);
-	}
-	
-	public ArgumentsDescriptorImpl(ArgumentMappingDisjunction mapping) {
+	public ArgumentsDescriptorImpl(final ArgumentMappingConjunction mapping) {
 		this((ArgumentMapping) mapping);
 	}
 
+	public ArgumentsDescriptorImpl(final ArgumentMappingDisjunction mapping) {
+		this((ArgumentMapping) mapping);
+	}
+
+	@Override
 	public ArgumentMapping getArgumentMapping() {
 		return mapping;
 	}
@@ -43,7 +43,7 @@ public class ArgumentsDescriptorImpl implements ArgumentsDescriptor {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((mapping == null) ? 0 : mapping.hashCode());
+		result = prime * result + (mapping == null ? 0 : mapping.hashCode());
 		return result;
 	}
 
@@ -51,7 +51,7 @@ public class ArgumentsDescriptorImpl implements ArgumentsDescriptor {
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	@Override
-	public boolean equals(Object obj) {
+	public boolean equals(final Object obj) {
 		if (this == obj) {
 			return true;
 		}

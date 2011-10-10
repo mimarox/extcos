@@ -10,21 +10,22 @@ import net.sf.extcos.selector.ImplementingTypeFilter;
 import net.sf.extcos.util.Assert;
 
 public class ImplementingTypeFilterImpl implements ImplementingTypeFilter {
-	private Set<Class<?>> interfaces;
-	
-	public ImplementingTypeFilterImpl(Class<?>... interfaces) {
+	private final Set<Class<?>> interfaces;
+
+	public ImplementingTypeFilterImpl(final Class<?>... interfaces) {
 		Assert.notEmpty(interfaces, iae());
-		
+
 		this.interfaces = new HashSet<Class<?>>();
-		
+
 		for (Class<?> interfaze : interfaces) {
 			Assert.isTrue(Modifier.isInterface(interfaze.getModifiers()), iae());
 			this.interfaces.add(interfaze);
 		}
 	}
-	
+
+	@Override
 	public Set<Class<?>> getInterfaces() {
-	    return interfaces;
+		return interfaces;
 	}
 
 	/* (non-Javadoc)
@@ -35,7 +36,7 @@ public class ImplementingTypeFilterImpl implements ImplementingTypeFilter {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result
-				+ ((interfaces == null) ? 0 : interfaces.hashCode());
+				+ (interfaces == null ? 0 : interfaces.hashCode());
 		return result;
 	}
 
@@ -43,7 +44,7 @@ public class ImplementingTypeFilterImpl implements ImplementingTypeFilter {
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	@Override
-	public boolean equals(Object obj) {
+	public boolean equals(final Object obj) {
 		if (this == obj) {
 			return true;
 		}

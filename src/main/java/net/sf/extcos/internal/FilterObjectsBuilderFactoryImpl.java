@@ -15,31 +15,32 @@ import com.google.inject.name.Named;
 
 @Singleton
 public class FilterObjectsBuilderFactoryImpl implements
-		FilterObjectsBuilderFactory {
+FilterObjectsBuilderFactory {
 
 	@Inject
 	@Named("fobfi.annotatedWithBuilder")
 	private FilterObjectsBuilder annotatedWithBuilder;
-	
+
 	@Inject
 	@Named("fobfi.extendingBuilder")
 	private FilterObjectsBuilder extendingBuilder;
-	
+
 	@Inject
 	@Named("fobfi.implementingBuilder")
 	private FilterObjectsBuilder implementingBuilder;
-	
+
 	@Inject
 	@Named("fobfi.conjunctionBuilder")
 	private FilterObjectsBuilder conjunctionBuilder;
-	
+
 	@Inject
 	@Named("fobfi.disjunctionBuilder")
 	private FilterObjectsBuilder disjunctionBuilder;
-	
-	public FilterObjectsBuilder getFilterObjectsBuilder(TypeFilter typeFilter) {
+
+	@Override
+	public FilterObjectsBuilder getFilterObjectsBuilder(final TypeFilter typeFilter) {
 		Assert.notNull(typeFilter, iae());
-		
+
 		if (typeFilter instanceof AnnotatedWithTypeFilter) {
 			return annotatedWithBuilder;
 		} else if (typeFilter instanceof ImplementingTypeFilter) {

@@ -9,14 +9,15 @@ import net.sf.extcos.resource.Resource;
 import com.google.inject.Inject;
 
 public class BlacklistAwareResultSetProvider implements ResultSetProvider {
-	
+
 	@Inject
 	private BlacklistManager blacklistManager;
-	
+
 	/*
 	 * (non-Javadoc)
 	 * @see org.jcs.filter.ResultSetProvider#getResultSet()
 	 */
+	@Override
 	public Set<Resource> getResultSet() {
 		return blacklistManager.newResultSet();
 	}

@@ -15,52 +15,56 @@ import com.google.inject.Inject;
 import com.google.inject.name.Named;
 
 public class ForwardingBuilderImpl implements ForwardingBuilder {
-	
+
 	@Inject
 	private ReturningSelector returningSelector;
-	
+
 	@Inject
 	@Named("fbi.storeBindings")
 	private Set<StoreBinding> storeBindings;
-	
+
 	@Inject
-    private DirectReturning returning;
-    
+	private DirectReturning returning;
+
 	private boolean calledAndStore;
 	private boolean calledReturning;
-	
-	public ReturningSelector andStore(StoreBinding... bindings) {
+
+	@Override
+	public ReturningSelector andStore(final StoreBinding... bindings) {
 		Assert.state(firstEntry());
 		Assert.notEmpty(bindings, iae());
-		
+
 		for (StoreBinding storeBinding : bindings) {
 			this.storeBindings.add(storeBinding);
 		}
-		
+
 		calledAndStore = true;
 		return returningSelector;
 	}
 
-	public void returning(DirectReturning returning) {
+	@Override
+	public void returning(@SuppressWarnings("hiding") final DirectReturning returning) {
 		Assert.state(firstEntry());
 		Assert.notNull(returning, iae());
-		
+
 		this.returning = returning;
 		calledReturning = true;
 	}
-	
+
+	@Override
 	public Set<StoreBinding> getStoreBindings() {
 		return storeBindings;
 	}
-	
+
+	@Override
 	public StoreReturning getReturning() {
 		if (calledAndStore) {
 			return returningSelector.getStoreReturning();
-		} else {
-			return returning;
 		}
+
+		return returning;
 	}
-	
+
 	private boolean firstEntry() {
 		return !calledAndStore && !calledReturning;
 	}

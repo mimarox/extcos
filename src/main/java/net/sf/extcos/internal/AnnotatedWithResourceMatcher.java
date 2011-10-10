@@ -8,11 +8,11 @@ import net.sf.extcos.resource.Resource;
 import net.sf.extcos.util.Assert;
 
 public class AnnotatedWithResourceMatcher implements ResourceMatcher {
-	private Class<? extends Annotation> annotation;
+	private final Class<? extends Annotation> annotation;
 
-	public AnnotatedWithResourceMatcher(Class<? extends Annotation> annotation) {
+	public AnnotatedWithResourceMatcher(final Class<? extends Annotation> annotation) {
 		Assert.notNull(annotation, IllegalArgumentException.class,
-			"annotation must not be null");
+				"annotation must not be null");
 
 		this.annotation = annotation;
 	}
@@ -21,7 +21,8 @@ public class AnnotatedWithResourceMatcher implements ResourceMatcher {
 	 * (non-Javadoc)
 	 * @see org.jcs.filter.ResourceMatcher#matches(org.jcs.resource.Resource)
 	 */
-	public boolean matches(Resource resource) throws ConcurrentInspectionException {
+	@Override
+	public boolean matches(final Resource resource) throws ConcurrentInspectionException {
 		Assert.notNull(resource, IllegalArgumentException.class);
 		return resource.getAnnotationMetadata(annotation) != null;
 	}
@@ -30,7 +31,8 @@ public class AnnotatedWithResourceMatcher implements ResourceMatcher {
 	 * (non-Javadoc)
 	 * @see org.jcs.filter.ResourceMatcher#isMatcherFor(java.lang.Object)
 	 */
-	public boolean isMatcherFor(Object obj) {
+	@Override
+	public boolean isMatcherFor(final Object obj) {
 		return annotation.equals(obj);
 	}
 
@@ -42,7 +44,7 @@ public class AnnotatedWithResourceMatcher implements ResourceMatcher {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result
-				+ ((annotation == null) ? 0 : annotation.hashCode());
+				+ (annotation == null ? 0 : annotation.hashCode());
 		return result;
 	}
 
@@ -50,7 +52,7 @@ public class AnnotatedWithResourceMatcher implements ResourceMatcher {
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	@Override
-	public boolean equals(Object obj) {
+	public boolean equals(final Object obj) {
 		if (this == obj) {
 			return true;
 		}

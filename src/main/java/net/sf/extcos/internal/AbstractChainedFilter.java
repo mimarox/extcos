@@ -12,25 +12,26 @@ import net.sf.extcos.filter.ResultSetProvider;
 import net.sf.extcos.resource.Resource;
 import net.sf.extcos.util.Assert;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public abstract class AbstractChainedFilter implements ChainedFilter {
-	protected Log logger = LogFactory.getLog(getClass());
-	
+	protected Logger logger = LoggerFactory.getLogger(getClass());
+
 	private Set<Filter> filters;
-	
+
 	private MultiplexingConnector resourceDispatcher;
-	
+
 	private ResultSetProvider resultSetProvider;
-	
-	public void setChildFilters(Set<Filter> filters) {
+
+	@Override
+	public void setChildFilters(final Set<Filter> filters) {
 		try {
 			Assert.notEmpty(filters, IllegalArgumentException.class,
 					"filters must not be null or empty");
-			
+
 			this.filters = filters;
-			
+
 			if (logger.isTraceEnabled()) {
 				logger.trace("successfully set filters");
 			}
@@ -39,13 +40,14 @@ public abstract class AbstractChainedFilter implements ChainedFilter {
 		}
 	}
 
-	public void setResourceDispatcher(MultiplexingConnector resourceDispatcher) {
+	@Override
+	public void setResourceDispatcher(final MultiplexingConnector resourceDispatcher) {
 		try {
 			Assert.notNull(resourceDispatcher, IllegalArgumentException.class,
 					"resourceDispatcher must not be null");
-			
+
 			this.resourceDispatcher = resourceDispatcher;
-			
+
 			if (logger.isTraceEnabled()) {
 				logger.trace(append("successfully set resource dispatcher to ", resourceDispatcher));
 			}
@@ -54,13 +56,14 @@ public abstract class AbstractChainedFilter implements ChainedFilter {
 		}
 	}
 
-	public void setResultSetProvider(ResultSetProvider resultSetProvider) {
+	@Override
+	public void setResultSetProvider(final ResultSetProvider resultSetProvider) {
 		try {
 			Assert.notNull(resultSetProvider, IllegalArgumentException.class,
 					"resultSetProvider must not be null");
-			
+
 			this.resultSetProvider = resultSetProvider;
-			
+
 			if (logger.isTraceEnabled()) {
 				logger.trace(append("successfully set result set provider to ", resultSetProvider));
 			}
@@ -68,13 +71,14 @@ public abstract class AbstractChainedFilter implements ChainedFilter {
 			logger.debug("couldn't set result set provider", e);
 		}
 	}
-	
-	public final void filter(Iterable<Resource> resources) {
+
+	@Override
+	public final void filter(final Iterable<Resource> resources) {
 		if (resources == null) {
 			logger.debug("resources must not be null, nothing to filter");
 			return;
 		}
-		
+
 		if (resourceDispatcher == null && filters == null) {
 			logger.warn("no resource dispatcher or filters are set, hence no filtering will take place");
 			return;
@@ -91,7 +95,7 @@ public abstract class AbstractChainedFilter implements ChainedFilter {
 		} else /* resourceDispatcher != null && filters != null */{
 			if (resultSetProvider == null) {
 				filter(resources.iterator(), resourceDispatcher);
-				invokeFilters(resources);				
+				invokeFilters(resources);
 			} else {
 				invokeFilters(
 						filter(resources.iterator(), resourceDispatcher,
@@ -100,15 +104,17 @@ public abstract class AbstractChainedFilter implements ChainedFilter {
 		}
 	}
 
-	private void invokeFilters(Iterable<Resource> resources) {
+	private void invokeFilters(final Iterable<Resource> resources) {
 		for (Filter filter : filters) {
 			filter.filter(resources);
 		}
 	}
-	
+
 	protected abstract Iterable<Resource> filter(Iterator<Resource> resources, Set<Resource> resultSet);
-	
+
+	@SuppressWarnings("hiding")
 	protected abstract void filter(Iterator<Resource> resources, MultiplexingConnector resourceDispatcher);
-	
+
+	@SuppressWarnings("hiding")
 	protected abstract Iterable<Resource> filter(Iterator<Resource> resources, MultiplexingConnector resourceDispatcher, Set<Resource> resultSet);
 }

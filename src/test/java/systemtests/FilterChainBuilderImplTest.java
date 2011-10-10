@@ -21,7 +21,7 @@ import net.sf.extcos.internal.StoreBindingImpl;
 import net.sf.extcos.internal.TypeFilterConjunction;
 import net.sf.extcos.internal.TypeFilterDisjunction;
 import net.sf.extcos.resource.Resource;
-import net.sf.extcos.selector.ClassSelector;
+import net.sf.extcos.selector.ComponentSelector;
 import net.sf.extcos.selector.StoreBinding;
 import net.sf.extcos.selector.StoreReturning;
 
@@ -40,7 +40,7 @@ public class FilterChainBuilderImplTest {
 		Injector injector = Guice.createInjector(new BindingDefinitions(),
 				new AbstractModule() {
 					protected void configure() {
-						bind(ClassSelector.class).toInstance(
+						bind(ComponentSelector.class).toInstance(
 							new ComponentQuery() {
 								@Override protected void query() {}
 							}

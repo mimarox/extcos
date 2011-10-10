@@ -7,26 +7,28 @@ import net.sf.extcos.spi.AnnotationMetadata;
 import net.sf.extcos.util.Assert;
 
 public class ArgumentMappingImpl implements ArgumentMapping {
-	private String key;
-	private ArgumentValue value;
-	
-	public ArgumentMappingImpl(ArgumentKey key, ArgumentValue value) {
+	private final String key;
+	private final ArgumentValue value;
+
+	public ArgumentMappingImpl(final ArgumentKey key, final ArgumentValue value) {
 		Assert.notNull(key, IllegalArgumentException.class);
 		Assert.notNull(value, IllegalArgumentException.class);
-		
+
 		this.key = key.getKey();
 		this.value = value;
 	}
 
-	public boolean isSetIn(AnnotationMetadata annotation) {
+	@Override
+	public boolean isSetIn(final AnnotationMetadata annotation) {
 		if (annotation.hasKey(key)) {
+			@SuppressWarnings("hiding")
 			Object value = annotation.getValue(key);
-			
+
 			if (value != null) {
 				return this.value.matches(value);
 			}
 		}
-		
+
 		return false;
 	}
 
@@ -37,8 +39,8 @@ public class ArgumentMappingImpl implements ArgumentMapping {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((key == null) ? 0 : key.hashCode());
-		result = prime * result + ((value == null) ? 0 : value.hashCode());
+		result = prime * result + (key == null ? 0 : key.hashCode());
+		result = prime * result + (value == null ? 0 : value.hashCode());
 		return result;
 	}
 
@@ -46,7 +48,7 @@ public class ArgumentMappingImpl implements ArgumentMapping {
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	@Override
-	public boolean equals(Object obj) {
+	public boolean equals(final Object obj) {
 		if (this == obj) {
 			return true;
 		}

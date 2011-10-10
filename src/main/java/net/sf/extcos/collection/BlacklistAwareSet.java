@@ -31,13 +31,13 @@ public interface BlacklistAwareSet<E> extends Set<E> {
 	 * successfully removed, false otherwise
 	 */
 	boolean removeFromBlacklist(E entry);
-	
+
 	/**
 	 * Removes all entries from the blacklist. The blacklist will be empty
 	 * when this method returns.
 	 */
 	void clearBlacklist();
-	
+
 	/**
 	 * Returns an iterator over the elements that were in this set at the
 	 * creation of the iterator in the sequence defined by the underlying
@@ -54,6 +54,7 @@ public interface BlacklistAwareSet<E> extends Set<E> {
 	 * iterator and will throw an {@link UnsupportedOperationException} when
 	 * called.
 	 */
+	@Override
 	BlacklistAwareIterator<E> iterator();
 
 	/**

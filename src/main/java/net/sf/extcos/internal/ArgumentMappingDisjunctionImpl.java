@@ -10,26 +10,29 @@ import net.sf.extcos.spi.AnnotationMetadata;
 import net.sf.extcos.util.Assert;
 
 public class ArgumentMappingDisjunctionImpl implements
-		ArgumentMappingDisjunction {
-	
-	private Set<ArgumentMapping> mappings;
-	
-	public ArgumentMappingDisjunctionImpl(ArgumentMapping... mappings) {
+ArgumentMappingDisjunction {
+
+	private final Set<ArgumentMapping> mappings;
+
+	public ArgumentMappingDisjunctionImpl(final ArgumentMapping... mappings) {
 		Assert.notEmpty(mappings, IllegalArgumentException.class);
 
 		this.mappings = new HashSet<ArgumentMapping>(
 				Arrays.asList(mappings));
 	}
-	
-	public boolean isSetIn(AnnotationMetadata annotation) {
+
+	@Override
+	public boolean isSetIn(final AnnotationMetadata annotation) {
 		for (ArgumentMapping mapping : mappings) {
-			if (mapping.isSetIn(annotation))
+			if (mapping.isSetIn(annotation)) {
 				return true;
+			}
 		}
-		
+
 		return false;
 	}
 
+	@Override
 	public Set<ArgumentMapping> getMappings() {
 		return mappings;
 	}
@@ -42,7 +45,7 @@ public class ArgumentMappingDisjunctionImpl implements
 		final int prime = 31;
 		int result = 1;
 		result = prime * result
-				+ ((mappings == null) ? 0 : mappings.hashCode());
+				+ (mappings == null ? 0 : mappings.hashCode());
 		return result;
 	}
 
@@ -50,7 +53,7 @@ public class ArgumentMappingDisjunctionImpl implements
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	@Override
-	public boolean equals(Object obj) {
+	public boolean equals(final Object obj) {
 		if (this == obj) {
 			return true;
 		}

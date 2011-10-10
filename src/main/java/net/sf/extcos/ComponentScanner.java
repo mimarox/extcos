@@ -2,8 +2,8 @@ package net.sf.extcos;
 
 import java.util.Set;
 
-import net.sf.extcos.selector.ClassSelectionProcessor;
-import net.sf.extcos.selector.ClassSelector;
+import net.sf.extcos.selector.ComponentSelectionProcessor;
+import net.sf.extcos.selector.ComponentSelector;
 import net.sf.extcos.spi.ClassLoaderHolder;
 
 import com.google.inject.AbstractModule;
@@ -19,7 +19,7 @@ import com.google.inject.Injector;
  * @author Matthias Rothe
  */
 public class ComponentScanner {
-	
+
 	/**
 	 * This method lets you specify a component query defining the criteria
 	 * components you are interested in must match.
@@ -38,7 +38,7 @@ public class ComponentScanner {
 	 * @return The component classes matching the criteria given with the
 	 * 			componentQuery
 	 */
-	public Set<Class<?>> getClasses(ComponentQuery componentQuery) {
+	public Set<Class<?>> getClasses(final ComponentQuery componentQuery) {
 		return getClasses(componentQuery, getDefaultClassLoader());
 	}
 
@@ -64,20 +64,21 @@ public class ComponentScanner {
 			final ClassLoader classLoader) {
 		Injector injector = Guice.createInjector(new BindingDefinitions(),
 				new AbstractModule() {
-					protected void configure() {
-						bind(ClassSelector.class).toInstance(componentQuery);
-						bind(ClassLoader.class).toInstance(classLoader);
-					}
-				});
+			@Override
+			protected void configure() {
+				bind(ComponentSelector.class).toInstance(componentQuery);
+				bind(ClassLoader.class).toInstance(classLoader);
+			}
+		});
 
 		ClassLoaderHolder.setClassLoader(classLoader);
-		
-		ClassSelectionProcessor processor = injector
-				.getInstance(ClassSelectionProcessor.class);
+
+		ComponentSelectionProcessor processor = injector
+				.getInstance(ComponentSelectionProcessor.class);
 
 		return processor.process();
 	}
-	
+
 	private ClassLoader getDefaultClassLoader() {
 		return Thread.currentThread().getContextClassLoader();
 	}

@@ -11,14 +11,15 @@ import com.google.inject.Singleton;
 
 @Singleton
 public class BuildSupportImpl implements BuildSupport {
-	
+
 	@Inject
 	private BuildContext buildContext;
-	
+
 	@Inject
 	private FilterObjectsBuilderFactory factory;
-	
-	public void buildFilterObjects(TypeFilter filter, Connector connector) {
+
+	@Override
+	public void buildFilterObjects(final TypeFilter filter, final Connector connector) {
 		if (buildContext.isRegistered(filter)) {
 			buildContext.getConnector(filter).merge(connector);
 		} else {

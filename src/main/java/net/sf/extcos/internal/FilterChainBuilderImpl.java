@@ -24,8 +24,8 @@ import com.google.inject.Inject;
 import com.google.inject.name.Named;
 
 public class FilterChainBuilderImpl implements FilterChainBuilder {
-	// private static Log logger =
-	// LogFactory.getLog(FilterChainBuilderImpl.class);
+	// private static Logger logger =
+	// LoggerFactory.getLogger(FilterChainBuilderImpl.class);
 
 	@Inject
 	@Named("fcbi.standardProvider")
@@ -42,9 +42,11 @@ public class FilterChainBuilderImpl implements FilterChainBuilder {
 	private Set<Resource> filtered;
 	private Set<Class<?>> returnClasses;
 
-	public Filter build(Set<StoreBinding> storeBindings,
-			StoreReturning returning, Set<Resource> filtered,
-			Set<Class<?>> returnClasses) {
+	@Override
+	@SuppressWarnings("hiding")
+	public Filter build(final Set<StoreBinding> storeBindings,
+			final StoreReturning returning, final Set<Resource> filtered,
+			final Set<Class<?>> returnClasses) {
 		init(storeBindings, returning, filtered, returnClasses);
 
 		processStoreBindings();
@@ -54,9 +56,10 @@ public class FilterChainBuilderImpl implements FilterChainBuilder {
 		return generateRootFilter();
 	}
 
-	private void init(Set<StoreBinding> storeBindings,
-			StoreReturning returning, Set<Resource> filtered,
-			Set<Class<?>> returnClasses) {
+	@SuppressWarnings("hiding")
+	private void init(final Set<StoreBinding> storeBindings,
+			final StoreReturning returning, final Set<Resource> filtered,
+			final Set<Class<?>> returnClasses) {
 		Assert.notNull(returning, iae());
 		Assert.notNull(filtered, iae());
 		Assert.notNull(returnClasses, iae());
@@ -155,16 +158,16 @@ public class FilterChainBuilderImpl implements FilterChainBuilder {
 	private boolean returningAll() {
 		if (returning instanceof EnumBasedReturning) {
 			return ((EnumBasedReturning) returning).getReturningType() == Returning.ALL;
-		} else {
-			return false;
 		}
+
+		return false;
 	}
 
 	private boolean returningAllMerged() {
 		if (returning instanceof EnumBasedReturning) {
 			return ((EnumBasedReturning) returning).getReturningType() == Returning.ALL_MERGED;
-		} else {
-			return false;
 		}
+
+		return false;
 	}
 }

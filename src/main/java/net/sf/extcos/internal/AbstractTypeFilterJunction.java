@@ -8,10 +8,11 @@ import net.sf.extcos.selector.TypeFilterJunction;
 public class AbstractTypeFilterJunction implements TypeFilterJunction {
 	protected Set<TypeFilter> typeFilters;
 
+	@Override
 	public Set<TypeFilter> getTypeFilters() {
 		return typeFilters;
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see java.lang.Object#hashCode()
 	 */
@@ -20,7 +21,7 @@ public class AbstractTypeFilterJunction implements TypeFilterJunction {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result
-				+ ((typeFilters == null) ? 0 : typeFilters.hashCode());
+				+ (typeFilters == null ? 0 : typeFilters.hashCode());
 		return result;
 	}
 
@@ -28,7 +29,7 @@ public class AbstractTypeFilterJunction implements TypeFilterJunction {
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	@Override
-	public boolean equals(Object obj) {
+	public boolean equals(final Object obj) {
 		if (this == obj) {
 			return true;
 		}

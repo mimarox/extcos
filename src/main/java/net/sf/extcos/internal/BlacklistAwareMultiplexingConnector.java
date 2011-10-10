@@ -7,14 +7,15 @@ import net.sf.extcos.resource.Resource;
 import com.google.inject.Inject;
 
 public class BlacklistAwareMultiplexingConnector extends
-		AbstractMultiplexingConnector {
+AbstractMultiplexingConnector {
 
 	@Inject
 	private BlacklistManager blacklistManager;
-	
-	protected void doConnect(Resource resource) {
+
+	@Override
+	protected void doConnect(final Resource resource) {
 		blacklistManager.blacklist(resource);
-		
+
 		for (Connector connector : connectors) {
 			connector.connect(resource);
 		}

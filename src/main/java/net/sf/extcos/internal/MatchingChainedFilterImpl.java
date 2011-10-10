@@ -20,23 +20,24 @@ import com.google.inject.Inject;
 import com.google.inject.name.Named;
 
 public class MatchingChainedFilterImpl extends AbstractChainedFilter implements
-		MatchingChainedFilter {
-	
+MatchingChainedFilter {
+
 	@Inject
 	@Named("mcfi.waitingResources")
 	private RandomPollingSet<Resource> waitingResources;
-	
+
 	private Iterator<Resource> resources;
-	
+
 	private ResourceMatcher resourceMatcher;
 
-	public void setResourceMatcher(ResourceMatcher resourceMatcher) {
+	@Override
+	public void setResourceMatcher(final ResourceMatcher resourceMatcher) {
 		try {
 			Assert.notNull(resourceMatcher, IllegalArgumentException.class,
 					"resourceMatcher must not be null");
-			
+
 			this.resourceMatcher = resourceMatcher;
-			
+
 			if (logger.isTraceEnabled()) {
 				logger.trace(append("successfully set resource matcher to ", resourceMatcher));
 			}
@@ -44,16 +45,17 @@ public class MatchingChainedFilterImpl extends AbstractChainedFilter implements
 			logger.debug("couldn't set resource matcher", e);
 		}
 	}
-	
+
 	//filter is node in filter tree, but not an endpoint
 	//these filters will be built for performance reasons only
-	protected Iterable<Resource> filter(Iterator<Resource> resources,
-			Set<Resource> resultSet) {
+	@Override
+	protected Iterable<Resource> filter(@SuppressWarnings("hiding") final Iterator<Resource> resources,
+			final Set<Resource> resultSet) {
 		this.resources = resources;
-		
+
 		if (resourceMatcher == null) {
 			logger.warn("resource matcher is not set, hence no filtering will take place");
-			
+
 			while (hasNextResource()) {
 				try {
 					resultSet.add(nextResource());
@@ -61,19 +63,19 @@ public class MatchingChainedFilterImpl extends AbstractChainedFilter implements
 					continue;
 				}
 			}
-			
+
 			return resultSet;
 		}
-		
+
 		while (hasNextResource()) {
 			Resource resource = null;
-			
+
 			try {
 				resource = nextResource();
 			} catch (StateChangedException e) {
 				continue;
 			}
-			
+
 			try {
 				if (resourceMatcher.matches(resource)) {
 					resultSet.add(resource);
@@ -82,43 +84,44 @@ public class MatchingChainedFilterImpl extends AbstractChainedFilter implements
 				if (logger.isTraceEnabled()) {
 					logger.trace("concurrent resource access", e);
 				}
-				
+
 				waitingResources.add(resource);
 			}
 		}
-		
+
 		return resultSet;
 	}
 
 	//filter is leaf in filter tree and must therefore be an endpoint
-	protected void filter(Iterator<Resource> resources,
-			MultiplexingConnector resourceDispatcher) {
+	@Override
+	protected void filter(@SuppressWarnings("hiding") final Iterator<Resource> resources,
+			final MultiplexingConnector resourceDispatcher) {
 		this.resources = resources;
-		
+
 		if (resourceMatcher == null) {
 			logger.warn("resource matcher is not set, hence no filtering will take place");
-			
+
 			while (hasNextResource()) {
 				Resource resource = null;
-				
+
 				try {
 					resource = nextResource();
 				} catch (StateChangedException e) {
 					continue;
 				}
-				
+
 				resourceDispatcher.connect(resource);
 			}
 		} else {
 			while (hasNextResource()) {
 				Resource resource = null;
-				
+
 				try {
 					resource = nextResource();
 				} catch (StateChangedException e) {
 					continue;
 				}
-				
+
 				try {
 					if (resourceMatcher.matches(resource)) {
 						resourceDispatcher.connect(resource);
@@ -127,7 +130,7 @@ public class MatchingChainedFilterImpl extends AbstractChainedFilter implements
 					if (logger.isTraceEnabled()) {
 						logger.trace("concurrent resource access", e);
 					}
-					
+
 					waitingResources.add(resource);
 				}
 			}
@@ -135,38 +138,39 @@ public class MatchingChainedFilterImpl extends AbstractChainedFilter implements
 	}
 
 	//filter is node in filter tree and an endpoint
-	protected Iterable<Resource> filter(Iterator<Resource> resources,
-			MultiplexingConnector resourceDispatcher, Set<Resource> resultSet) {
+	@Override
+	protected Iterable<Resource> filter(@SuppressWarnings("hiding") final Iterator<Resource> resources,
+			final MultiplexingConnector resourceDispatcher, final Set<Resource> resultSet) {
 		this.resources = resources;
-		
+
 		if (resourceMatcher == null) {
 			logger.warn("resource matcher is not set, hence no filtering will take place");
-			
+
 			while (hasNextResource()) {
 				Resource resource = null;
-				
+
 				try {
 					resource = nextResource();
 				} catch (StateChangedException e) {
 					continue;
 				}
-				
+
 				resourceDispatcher.connect(resource);
 				resultSet.add(resource);
 			}
-			
+
 			return resultSet;
 		}
-		
+
 		while (hasNextResource()) {
 			Resource resource = null;
-			
+
 			try {
 				resource = nextResource();
 			} catch (StateChangedException e) {
 				continue;
 			}
-			
+
 			try {
 				if (resourceMatcher.matches(resource)) {
 					resourceDispatcher.connect(resource);
@@ -176,32 +180,33 @@ public class MatchingChainedFilterImpl extends AbstractChainedFilter implements
 				if (logger.isTraceEnabled()) {
 					logger.trace("concurrent resource access", e);
 				}
-				
+
 				waitingResources.add(resource);
 			}
 		}
-		
+
 		return resultSet;
 	}
-	
+
 	private boolean hasNextResource() {
 		return resources.hasNext() || waitingResources.size() > 0;
 	}
-	
+
 	private Resource nextResource() {
 		if (resources.hasNext() && waitingResources.size() > 0) {
 			Random prng = new Random();
+
 			if (prng.nextBoolean()) {
 				return resources.next();
-			} else {
-				return waitingResources.pollRandom();
 			}
+
+			return waitingResources.pollRandom();
 		} else if (resources.hasNext()) {
 			return resources.next();
 		} else if (waitingResources.size() > 0) {
 			return waitingResources.pollRandom();
 		}
-		
+
 		throw new NoSuchElementException("there are no more resources");
 	}
 }

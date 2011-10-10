@@ -11,7 +11,7 @@ import net.sf.extcos.internal.BasePackageSelectorImpl;
 import net.sf.extcos.internal.ForwardingBuilderImpl;
 import net.sf.extcos.internal.ResourceTypeSelectorImpl;
 import net.sf.extcos.selector.BasePackageSelector;
-import net.sf.extcos.selector.ClassSelector;
+import net.sf.extcos.selector.ComponentSelector;
 import net.sf.extcos.selector.ResourceTypeSelector;
 import net.sf.extcos.spi.ResourceType;
 import net.sf.extcos.util.PropertyInjector;
@@ -39,7 +39,7 @@ public class ComponentQueryTest {
 	
 	@Test
 	public void testEmptySelect() {
-		ClassSelector selector = new ComponentQuery() {
+		ComponentSelector selector = new ComponentQuery() {
 			protected void query() {
 				select();
 			}
@@ -54,7 +54,7 @@ public class ComponentQueryTest {
 	
 	@Test(expectedExceptions = IllegalArgumentException.class)
 	public void testEmptyFrom() {
-		ClassSelector selector = new ComponentQuery() {
+		ComponentSelector selector = new ComponentQuery() {
 			protected void query() {
 				select().from();
 			}
@@ -65,7 +65,7 @@ public class ComponentQueryTest {
 	
 	@Test(expectedExceptions = IllegalArgumentException.class)
 	public void testEmptyStringFrom() {
-		ClassSelector selector = new ComponentQuery() {
+		ComponentSelector selector = new ComponentQuery() {
 			protected void query() {
 				select().from("");
 			}
@@ -76,7 +76,7 @@ public class ComponentQueryTest {
 	
 	@Test(dataProviderClass = TestDataProvider.class, dataProvider = "validPackages")
 	public void testValidPackagesFrom(final String packageA, final String packageB, final String packageC) {
-		ClassSelector selector = new ComponentQuery() {
+		ComponentSelector selector = new ComponentQuery() {
 			protected void query() {
 				select().from(packageA, packageB, packageC);
 			}
@@ -87,7 +87,7 @@ public class ComponentQueryTest {
 	
 	@Test(expectedExceptions = IllegalArgumentException.class)
 	public void testEmptyAndStore() {
-		ClassSelector selector = new ComponentQuery() {
+		ComponentSelector selector = new ComponentQuery() {
 			protected void query() {
 				select().from("net.sf").andStore();
 			}

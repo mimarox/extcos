@@ -11,37 +11,39 @@ import net.sf.extcos.internal.URLResource;
 import net.sf.extcos.resource.Resource;
 import net.sf.extcos.spi.ResourceType;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class VfsResourceResolver implements InvocationHandler {
-	private static Log logger = LogFactory.getLog(VfsResourceResolver.class);
-	
+	private static Logger logger = LoggerFactory.getLogger(VfsResourceResolver.class);
+
 	private String rootPath;
 	private Set<ResourceType> resourceTypes;
-	private Set<Resource> resources = new LinkedHashSet<Resource>();
-	
-	public Set<Resource> findResources(Set<ResourceType> resourceTypes,
-			URL rootDirectory) throws IOException {
+	private final Set<Resource> resources = new LinkedHashSet<Resource>();
+
+	@SuppressWarnings("hiding")
+	public Set<Resource> findResources(final Set<ResourceType> resourceTypes,
+			final URL rootDirectory) throws IOException {
 		Object root = VfsUtils.getRoot(rootDirectory);
 		setRootPath(VfsUtils.getPath(root));
 		this.resourceTypes = resourceTypes;
-		
+
 		VfsUtils.visit(root, this);
 		return resources;
 	}
 
-	private void setRootPath(String path) {
-		this.rootPath = (path.length() == 0 || path.endsWith("/") ? path : path + "/");
+	private void setRootPath(final String path) {
+		this.rootPath = path.length() == 0 || path.endsWith("/") ? path : path + "/";
 	}
 
-	public Object invoke(Object proxy, Method method, Object[] args)
+	@Override
+	public Object invoke(final Object proxy, final Method method, final Object[] args)
 			throws Throwable {
 		String methodName = method.getName();
 		if (Object.class.equals(method.getDeclaringClass())) {
 			if (methodName.equals("equals")) {
 				// Only consider equal when proxies are identical.
-				return (proxy == args[0]);
+				return proxy == args[0];
 			}
 			else if (methodName.equals("hashCode")) {
 				return System.identityHashCode(proxy);
@@ -57,7 +59,7 @@ public class VfsResourceResolver implements InvocationHandler {
 		else if ("toString".equals(methodName)) {
 			return toString();
 		}
-		
+
 		throw new IllegalStateException("Unexpected method invocation: " + method);
 	}
 
@@ -65,9 +67,9 @@ public class VfsResourceResolver implements InvocationHandler {
 		return VfsUtils.getVisitorAttribute();
 	}
 
-	private void visit(Object vfsResource) {
+	private void visit(final Object vfsResource) {
 		String resourcePath = getResourcePath(vfsResource);
-		
+
 		for (ResourceType resourceType : resourceTypes) {
 			if (resourcePath.endsWith(resourceType.getFileSuffix())) {
 				try {
@@ -82,8 +84,8 @@ public class VfsResourceResolver implements InvocationHandler {
 			}
 		}
 	}
-	
-	private String getResourcePath(Object vfsResource) {
+
+	private String getResourcePath(final Object vfsResource) {
 		return VfsUtils.getPath(vfsResource).substring(rootPath.length());
 	}
 }

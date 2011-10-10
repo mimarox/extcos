@@ -29,8 +29,8 @@ import java.net.URL;
 
 import net.sf.extcos.util.ReflectionUtils;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Utility for detecting the JBoss VFS version available in the classpath.
@@ -41,7 +41,7 @@ import org.apache.commons.logging.LogFactory;
  */
 abstract class VfsUtils {
 
-	private static final Log logger = LogFactory.getLog(VfsUtils.class);
+	private static final Logger logger = LoggerFactory.getLogger(VfsUtils.class);
 
 	private static final String VFS2_PKG = "org.jboss.virtual.";
 	private static final String VFS3_PKG = "org.jboss.vfs.";
@@ -88,16 +88,18 @@ abstract class VfsUtils {
 		}
 		catch (ClassNotFoundException ex) {
 			// fallback to JBoss 5
-			if (logger.isDebugEnabled())
+			if (logger.isDebugEnabled()) {
 				logger.debug("JBoss VFS packages for JBoss AS 6 not found; falling back to JBoss AS 5 packages");
+			}
 			try {
 				vfsClass = loader.loadClass(VFS2_PKG + VFS_NAME);
 
 				version = VFS_VER.V2;
 				pkg = VFS2_PKG;
 
-				if (logger.isDebugEnabled())
+				if (logger.isDebugEnabled()) {
 					logger.debug("JBoss VFS packages for JBoss AS 5 found");
+				}
 			} catch (ClassNotFoundException ex1) {
 				logger.error("JBoss VFS packages (for both JBoss AS 5 and 6) were not found - JBoss VFS support disabled");
 				throw new IllegalStateException("Cannot detect JBoss VFS packages", ex1);
@@ -106,7 +108,7 @@ abstract class VfsUtils {
 
 		// cache reflective information
 		try {
-			String methodName = (VFS_VER.V3.equals(version) ? "getChild" : "getRoot");
+			String methodName = VFS_VER.V3.equals(version) ? "getChild" : "getRoot";
 
 			VFS_METHOD_GET_ROOT_URL = ReflectionUtils.findMethod(vfsClass, methodName, URL.class);
 			VFS_METHOD_GET_ROOT_URI = ReflectionUtils.findMethod(vfsClass, methodName, URI.class);
@@ -123,7 +125,7 @@ abstract class VfsUtils {
 			VIRTUAL_FILE_METHOD_GET_PATH_NAME = ReflectionUtils.findMethod(virtualFile, "getPathName");
 			GET_PHYSICAL_FILE = ReflectionUtils.findMethod(virtualFile, "getPhysicalFile");
 
-			methodName = (VFS_VER.V3.equals(version) ? "getChild" : "findChild");
+			methodName = VFS_VER.V3.equals(version) ? "getChild" : "findChild";
 
 			VIRTUAL_FILE_METHOD_GET_CHILD = ReflectionUtils.findMethod(virtualFile, methodName, String.class);
 
@@ -144,7 +146,7 @@ abstract class VfsUtils {
 		}
 	}
 
-	protected static Object invokeVfsMethod(Method method, Object target, Object... args) throws IOException {
+	protected static Object invokeVfsMethod(final Method method, final Object target, final Object... args) throws IOException {
 		try {
 			return method.invoke(target, args);
 		}
@@ -162,7 +164,7 @@ abstract class VfsUtils {
 		throw new IllegalStateException("Invalid code path reached");
 	}
 
-	static boolean exists(Object vfsResource) {
+	static boolean exists(final Object vfsResource) {
 		try {
 			return (Boolean) invokeVfsMethod(VIRTUAL_FILE_METHOD_EXISTS, vfsResource);
 		}
@@ -171,32 +173,32 @@ abstract class VfsUtils {
 		}
 	}
 
-	static boolean isReadable(Object vfsResource) {
+	static boolean isReadable(final Object vfsResource) {
 		try {
-			return ((Long) invokeVfsMethod(VIRTUAL_FILE_METHOD_GET_SIZE, vfsResource) > 0);
+			return (Long) invokeVfsMethod(VIRTUAL_FILE_METHOD_GET_SIZE, vfsResource) > 0;
 		}
 		catch (IOException ex) {
 			return false;
 		}
 	}
 
-	static long getLastModified(Object vfsResource) throws IOException {
+	static long getLastModified(final Object vfsResource) throws IOException {
 		return (Long) invokeVfsMethod(VIRTUAL_FILE_METHOD_GET_LAST_MODIFIED, vfsResource);
 	}
 
-	static InputStream getInputStream(Object vfsResource) throws IOException {
+	static InputStream getInputStream(final Object vfsResource) throws IOException {
 		return (InputStream) invokeVfsMethod(VIRTUAL_FILE_METHOD_GET_INPUT_STREAM, vfsResource);
 	}
 
-	static URL getURL(Object vfsResource) throws IOException {
+	static URL getURL(final Object vfsResource) throws IOException {
 		return (URL) invokeVfsMethod(VIRTUAL_FILE_METHOD_TO_URL, vfsResource);
 	}
 
-	static URI getURI(Object vfsResource) throws IOException {
+	static URI getURI(final Object vfsResource) throws IOException {
 		return (URI) invokeVfsMethod(VIRTUAL_FILE_METHOD_TO_URI, vfsResource);
 	}
 
-	static String getName(Object vfsResource) {
+	static String getName(final Object vfsResource) {
 		try {
 			return (String) invokeVfsMethod(VIRTUAL_FILE_METHOD_GET_NAME, vfsResource);
 		}
@@ -205,15 +207,15 @@ abstract class VfsUtils {
 		}
 	}
 
-	static Object getRelative(URL url) throws IOException {
+	static Object getRelative(final URL url) throws IOException {
 		return invokeVfsMethod(VFS_METHOD_GET_ROOT_URL, null, url);
 	}
 
-	static Object getChild(Object vfsResource, String path) throws IOException {
+	static Object getChild(final Object vfsResource, final String path) throws IOException {
 		return invokeVfsMethod(VIRTUAL_FILE_METHOD_GET_CHILD, vfsResource, path);
 	}
 
-	static File getFile(Object vfsResource) throws IOException {
+	static File getFile(final Object vfsResource) throws IOException {
 		if (VFS_VER.V2.equals(version)) {
 			if ((Boolean) invokeVfsMethod(VFS_UTILS_METHOD_IS_NESTED_FILE, null, vfsResource)) {
 				throw new IOException("File resolution not supported for nested resource: " + vfsResource);
@@ -225,16 +227,15 @@ abstract class VfsUtils {
 				throw new IOException("Failed to obtain File reference for " + vfsResource, ex);
 			}
 		}
-		else {
-			return (File) invokeVfsMethod(GET_PHYSICAL_FILE, vfsResource);
-		}
+
+		return (File) invokeVfsMethod(GET_PHYSICAL_FILE, vfsResource);
 	}
 
-	static Object getRoot(URI url) throws IOException {
+	static Object getRoot(final URI url) throws IOException {
 		return invokeVfsMethod(VFS_METHOD_GET_ROOT_URI, null, url);
 	}
 
-	static Object getRoot(URL url) throws IOException {
+	static Object getRoot(final URL url) throws IOException {
 		return invokeVfsMethod(VFS_METHOD_GET_ROOT_URL, null, url);
 	}
 
@@ -242,11 +243,11 @@ abstract class VfsUtils {
 		return ReflectionUtils.getField(VISITOR_ATTRIBUTES_FIELD_RECURSE, null);
 	}
 
-	static String getPath(Object resource) {
+	static String getPath(final Object resource) {
 		return (String) ReflectionUtils.invokeMethod(VIRTUAL_FILE_METHOD_GET_PATH_NAME, resource);
 	}
-	
-	static void visit(Object resource, InvocationHandler visitor) throws IOException {
+
+	static void visit(final Object resource, final InvocationHandler visitor) throws IOException {
 		Object visitorProxy = Proxy.newProxyInstance(VIRTUAL_FILE_VISITOR_INTERFACE.getClassLoader(),
 				new Class<?>[] { VIRTUAL_FILE_VISITOR_INTERFACE }, visitor);
 		invokeVfsMethod(VIRTUAL_FILE_METHOD_VISIT, resource, visitorProxy);
