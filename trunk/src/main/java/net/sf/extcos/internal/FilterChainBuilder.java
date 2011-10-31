@@ -7,42 +7,29 @@ import java.util.Set;
 
 import net.sf.extcos.collection.MultiplexingSet;
 import net.sf.extcos.filter.Filter;
-import net.sf.extcos.filter.FilterObjects;
 import net.sf.extcos.filter.ImmediateConnector;
 import net.sf.extcos.filter.MultiplexingConnector;
 import net.sf.extcos.filter.ResultSetProvider;
-import net.sf.extcos.filter.builder.BuildContext;
-import net.sf.extcos.filter.builder.BuildSupport;
-import net.sf.extcos.filter.builder.FilterChainBuilder;
 import net.sf.extcos.resource.Resource;
 import net.sf.extcos.selector.StoreBinding;
 import net.sf.extcos.selector.StoreReturning;
 import net.sf.extcos.selector.TypeFilter;
 import net.sf.extcos.util.Assert;
 
-import com.google.inject.Inject;
-import com.google.inject.name.Named;
-
-public class FilterChainBuilderImpl implements FilterChainBuilder {
+public class FilterChainBuilder {
 	// private static Logger logger =
-	// LoggerFactory.getLogger(FilterChainBuilderImpl.class);
+	// LoggerFactory.getLogger(FilterChainBuilder.class);
 
-	@Inject
-	@Named("fcbi.standardProvider")
-	private ResultSetProvider standardProvider;
+	private final ResultSetProvider standardProvider = new StandardResultSetProvider();
 
-	@Inject
-	private BuildContext buildContext;
-
-	@Inject
-	private BuildSupport buildSupport;
+	private final BuildContext buildContext = BuildContext.getInstance();
+	private final BuildSupport buildSupport = new BuildSupport();
 
 	private Set<StoreBinding> storeBindings;
 	private StoreReturning returning;
 	private Set<Resource> filtered;
 	private Set<Class<?>> returnClasses;
 
-	@Override
 	@SuppressWarnings("hiding")
 	public Filter build(final Set<StoreBinding> storeBindings,
 			final StoreReturning returning, final Set<Resource> filtered,
@@ -68,7 +55,7 @@ public class FilterChainBuilderImpl implements FilterChainBuilder {
 			TypeFilter returningFilter = ((TypeFilterBasedReturning) returning)
 					.getTypeFilter();
 
-			StoreBinding returningBinding = new StoreBindingImpl(
+			StoreBinding returningBinding = new StoreBinding(
 					returningFilter, returnClasses);
 
 			storeBindings.add(returningBinding);
