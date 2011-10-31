@@ -10,13 +10,11 @@ import net.sf.extcos.collection.BlacklistAwareIterator;
 import net.sf.extcos.collection.BlacklistAwareSet;
 import net.sf.extcos.collection.IteratorCreationListener;
 import net.sf.extcos.collection.RandomPollingSet;
-import net.sf.extcos.filter.BlacklistManager;
 import net.sf.extcos.resource.Resource;
 
-import com.google.inject.Singleton;
+public class BlacklistManager {
+	private static BlacklistManager instance;
 
-@Singleton
-public class BlacklistManagerImpl implements BlacklistManager {
 	private final ConcurrentSkipListSet<SoftReference<BlacklistAwareSet<Resource>>> managedSets =
 			new ConcurrentSkipListSet<SoftReference<BlacklistAwareSet<Resource>>>();
 	private final ReferenceQueue<BlacklistAwareSet<Resource>> setReferenceQueue =
@@ -27,7 +25,17 @@ public class BlacklistManagerImpl implements BlacklistManager {
 	private final ReferenceQueue<BlacklistAwareIterator<Resource>> iteratorReferenceQueue =
 			new ReferenceQueue<BlacklistAwareIterator<Resource>>();
 
-	@Override
+	private BlacklistManager() {
+	}
+
+	public static BlacklistManager getInstance() {
+		if (instance == null) {
+			instance = new BlacklistManager();
+		}
+
+		return instance;
+	}
+
 	public synchronized void blacklist(final Resource resource) {
 		blacklistOnIterators(resource);
 		blacklistOnSets(resource);
@@ -69,11 +77,6 @@ public class BlacklistManagerImpl implements BlacklistManager {
 		}
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see org.jcs.filter.BlacklistManager#newResultSet()
-	 */
-	@Override
 	public Set<Resource> newResultSet() {
 		RandomPollingSet<Resource> resources =
 				new RandomPollingArraySet<Resource>();

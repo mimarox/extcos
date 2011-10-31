@@ -2,13 +2,8 @@ package net.sf.extcos;
 
 import java.util.Set;
 
-import net.sf.extcos.selector.ComponentSelectionProcessor;
-import net.sf.extcos.selector.ComponentSelector;
+import net.sf.extcos.internal.ComponentSelectionProcessor;
 import net.sf.extcos.spi.ClassLoaderHolder;
-
-import com.google.inject.AbstractModule;
-import com.google.inject.Guice;
-import com.google.inject.Injector;
 
 /**
  * The main entry point to the Extensible Component Scanner.
@@ -60,22 +55,9 @@ public class ComponentScanner {
 	 * @return The component classes matching the criteria given with the
 	 * 			componentQuery
 	 */
-	public Set<Class<?>> getClasses(final ComponentQuery componentQuery,
-			final ClassLoader classLoader) {
-		Injector injector = Guice.createInjector(new BindingDefinitions(),
-				new AbstractModule() {
-			@Override
-			protected void configure() {
-				bind(ComponentSelector.class).toInstance(componentQuery);
-				bind(ClassLoader.class).toInstance(classLoader);
-			}
-		});
-
+	public Set<Class<?>> getClasses(final ComponentQuery componentQuery, final ClassLoader classLoader) {
 		ClassLoaderHolder.setClassLoader(classLoader);
-
-		ComponentSelectionProcessor processor = injector
-				.getInstance(ComponentSelectionProcessor.class);
-
+		ComponentSelectionProcessor processor = new ComponentSelectionProcessor(componentQuery);
 		return processor.process();
 	}
 

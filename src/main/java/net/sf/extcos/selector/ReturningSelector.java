@@ -1,7 +1,19 @@
 package net.sf.extcos.selector;
 
-public interface ReturningSelector {
-	void returning(StoreReturning returning);
+import static net.sf.extcos.util.Assert.iae;
+import net.sf.extcos.internal.EnumBasedReturning;
+import net.sf.extcos.internal.Returning;
+import net.sf.extcos.util.Assert;
 
-	StoreReturning getStoreReturning();
+public class ReturningSelector {
+	private StoreReturning returning = new EnumBasedReturning(Returning.NONE);
+
+	public void returning(@SuppressWarnings("hiding") final StoreReturning returning) {
+		Assert.notNull(returning, iae());
+		this.returning = returning;
+	}
+
+	public StoreReturning getStoreReturning() {
+		return returning;
+	}
 }

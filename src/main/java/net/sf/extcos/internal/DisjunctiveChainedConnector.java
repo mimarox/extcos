@@ -6,14 +6,8 @@ import java.util.Set;
 
 import net.sf.extcos.resource.Resource;
 
-import com.google.inject.Inject;
-import com.google.inject.name.Named;
-
 public class DisjunctiveChainedConnector extends AbstractChainedConnector {
-
-	@Inject
-	@Named("dcc.receivedResources")
-	private Set<Resource> receivedResources;
+	private final Set<Resource> receivedResources = new ArraySet<Resource>();
 
 	@Override
 	public synchronized void connect(final Resource resource) {

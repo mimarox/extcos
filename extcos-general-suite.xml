@@ -3,7 +3,7 @@
   <test verbose="2" name="Important Tests" annotations="JDK">
     <classes>
       <class name="unittests.ComponentQueryTest"/>
-      <class name="unittests.ResourceResolverImplTest"/>
+      <class name="unittests.ResourceResolverTest"/>
       <class name="systemtests.ClassGenerationAndUseTest"/>
       <class name="systemtests.ComponentScannerTest"/>
     </classes>

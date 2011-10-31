@@ -11,15 +11,25 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import net.sf.extcos.util.Assert;
 
-import com.google.inject.Singleton;
-
-@Singleton
 public class ThreadManager {
+	private static ThreadManager instance;
+
 	private final AtomicInteger registered = new AtomicInteger();
 	private final AtomicInteger invoked = new AtomicInteger();
 	private final AtomicInteger finished = new AtomicInteger();
 	private ThreadPoolExecutor executor;
 	private final Object sync = new Object();
+
+	private ThreadManager() {
+	}
+
+	public static ThreadManager getInstance() {
+		if (instance == null) {
+			instance = new ThreadManager();
+		}
+
+		return instance;
+	}
 
 	public void register() {
 		registered.incrementAndGet();

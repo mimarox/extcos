@@ -1,59 +1,43 @@
 package net.sf.extcos.internal;
 
+import static net.sf.extcos.util.Assert.iae;
+
 import java.util.Set;
 
+import net.sf.extcos.ComponentQuery;
 import net.sf.extcos.filter.Filter;
-import net.sf.extcos.filter.builder.FilterChainBuilder;
 import net.sf.extcos.resource.Resource;
 import net.sf.extcos.resource.ResourceResolver;
 import net.sf.extcos.selector.BasePackageSelector;
-import net.sf.extcos.selector.ComponentSelectionProcessor;
-import net.sf.extcos.selector.ComponentSelector;
 import net.sf.extcos.selector.ForwardingBuilder;
 import net.sf.extcos.selector.Package;
 import net.sf.extcos.selector.ResourceTypeSelector;
 import net.sf.extcos.selector.StoreBinding;
 import net.sf.extcos.selector.StoreReturning;
 import net.sf.extcos.spi.ResourceType;
+import net.sf.extcos.util.Assert;
 
-import com.google.inject.Inject;
-import com.google.inject.name.Named;
+public class ComponentSelectionProcessor {
+	private final ComponentQuery componentSelector;
 
-public class ComponentSelectionProcessorImpl implements
-ComponentSelectionProcessor {
-	@Inject
-	private ComponentSelector componentSelector;
+	private final ResourceTypeSelector resourceTypeSelector = new ResourceTypeSelector();
+	private final ResourceResolver resourceResolver = new ResourceResolver();
+	private final FilterChainBuilder filterChainBuilder = new FilterChainBuilder();
 
-	@Inject
-	private ResourceTypeSelector resourceTypeSelector;
-
-	@Inject
-	private ResourceResolver resourceResolver;
-
-	@Inject
-	private FilterChainBuilder filterChainBuilder;
-
-	@Inject
-	@Named("cspi.resources")
-	private Set<Resource> resources;
-
-	@Inject
-	@Named("cspi.filtered")
-	private Set<Resource> filtered;
-
-	@Inject
-	@Named("cspi.classes")
-	private Set<Class<?>> classes;
+	private final Set<Resource> resources = new ArraySet<Resource>();
+	private final Set<Resource> filtered = new ArraySet<Resource>();
+	private final Set<Class<?>> classes = new ArraySet<Class<?>>();
 
 	private Set<ResourceType> resourceTypes;
-
 	private Set<Package> basePackages;
-
 	private Set<StoreBinding> storeBindings;
-
 	private StoreReturning returning;
 
-	@Override
+	public ComponentSelectionProcessor(final ComponentQuery componentSelector) {
+		Assert.notNull(componentSelector, iae());
+		this.componentSelector = componentSelector;
+	}
+
 	public Set<Class<?>> process() {
 		init();
 
@@ -72,6 +56,8 @@ ComponentSelectionProcessor {
 				resource.generateAndDispatchClass();
 			}
 		}
+
+		BuildContext.getInstance().reset();
 
 		return classes;
 	}

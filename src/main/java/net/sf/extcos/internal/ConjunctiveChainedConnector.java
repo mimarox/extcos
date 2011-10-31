@@ -2,18 +2,13 @@ package net.sf.extcos.internal;
 
 import static net.sf.extcos.util.StringUtils.append;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import net.sf.extcos.resource.Resource;
 
-import com.google.inject.Inject;
-import com.google.inject.name.Named;
-
 public class ConjunctiveChainedConnector extends AbstractChainedConnector {
-
-	@Inject
-	@Named("ccc.waitingResources")
-	private Map<Resource, Integer> waitingResources;
+	private final Map<Resource, Integer> waitingResources = new HashMap<Resource, Integer>();
 
 	@Override
 	public void connect(final Resource resource) {

@@ -7,18 +7,14 @@ import java.util.Set;
 import net.sf.extcos.filter.ChainedConnector;
 import net.sf.extcos.filter.Connector;
 import net.sf.extcos.filter.ImmediateConnector;
-import net.sf.extcos.filter.builder.BuildSupport;
 import net.sf.extcos.selector.TypeFilter;
 import net.sf.extcos.selector.TypeFilterJunction;
 import net.sf.extcos.util.Assert;
 
-import com.google.inject.Inject;
-
 public abstract class AbstractFilterObjectsJunctionBuilder extends
 AbstractFilterObjectsBuilder {
 
-	@Inject
-	private BuildSupport buildSupport;
+	private final BuildSupport buildSupport = new BuildSupport();
 
 	@Override
 	public void buildFilterObjects(final TypeFilter filter, final Connector parent) {

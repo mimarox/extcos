@@ -16,18 +16,9 @@ import net.sf.extcos.filter.ResourceMatcher;
 import net.sf.extcos.resource.Resource;
 import net.sf.extcos.util.Assert;
 
-import com.google.inject.Inject;
-import com.google.inject.name.Named;
-
-public class MatchingChainedFilterImpl extends AbstractChainedFilter implements
-MatchingChainedFilter {
-
-	@Inject
-	@Named("mcfi.waitingResources")
-	private RandomPollingSet<Resource> waitingResources;
-
+public class MatchingChainedFilterImpl extends AbstractChainedFilter implements MatchingChainedFilter {
+	private final RandomPollingSet<Resource> waitingResources = new RandomPollingArraySet<Resource>();
 	private Iterator<Resource> resources;
-
 	private ResourceMatcher resourceMatcher;
 
 	@Override

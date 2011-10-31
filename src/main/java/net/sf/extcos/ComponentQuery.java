@@ -6,12 +6,7 @@ import static net.sf.extcos.util.Assert.iae;
 import java.lang.annotation.Annotation;
 
 import net.sf.extcos.internal.AnnotatedWithTypeFilterImpl;
-import net.sf.extcos.internal.ArgumentKeyImpl;
-import net.sf.extcos.internal.ArgumentMappingConjunctionImpl;
-import net.sf.extcos.internal.ArgumentMappingDisjunctionImpl;
 import net.sf.extcos.internal.ArgumentMappingImpl;
-import net.sf.extcos.internal.ArgumentValueImpl;
-import net.sf.extcos.internal.ArgumentsDescriptorImpl;
 import net.sf.extcos.internal.EnumBasedReturning;
 import net.sf.extcos.internal.ExtendingTypeFilterImpl;
 import net.sf.extcos.internal.ImplementingTypeFilterImpl;
@@ -19,11 +14,8 @@ import net.sf.extcos.internal.Returning;
 import net.sf.extcos.internal.TypeFilterBasedReturning;
 import net.sf.extcos.internal.TypeFilterConjunction;
 import net.sf.extcos.internal.TypeFilterDisjunction;
-import net.sf.extcos.internal.TypedStoreBindingBuilderImpl;
-import net.sf.extcos.internal.TypelessStoreBindingBuilderImpl;
 import net.sf.extcos.selector.AnnotatedWithTypeFilter;
 import net.sf.extcos.selector.BasePackageSelector;
-import net.sf.extcos.selector.ComponentSelector;
 import net.sf.extcos.selector.DirectReturning;
 import net.sf.extcos.selector.ExtendingTypeFilter;
 import net.sf.extcos.selector.ImplementingTypeFilter;
@@ -38,19 +30,19 @@ import net.sf.extcos.selector.annotation.ArgumentKey;
 import net.sf.extcos.selector.annotation.ArgumentMapping;
 import net.sf.extcos.selector.annotation.ArgumentMappingConjunction;
 import net.sf.extcos.selector.annotation.ArgumentMappingDisjunction;
+import net.sf.extcos.selector.annotation.ArgumentMappingJunction;
 import net.sf.extcos.selector.annotation.ArgumentValue;
 import net.sf.extcos.selector.annotation.ArgumentsDescriptor;
 import net.sf.extcos.spi.ResourceType;
 import net.sf.extcos.util.Assert;
 
-public abstract class ComponentQuery implements ComponentSelector {
+public abstract class ComponentQuery {
 	private ResourceTypeSelector resourceSelector;
 	private boolean entryAllowed = true;
 	private boolean selectAllowed = true;
 
 	protected abstract void query();
 
-	@Override
 	public final synchronized void configure(
 			final ResourceTypeSelector resourceTypeSelector) {
 		Assert.state(entryAllowed, "Re-entry is not allowed.");
@@ -66,20 +58,20 @@ public abstract class ComponentQuery implements ComponentSelector {
 		}
 	}
 
-	protected ArgumentMappingConjunction and(final ArgumentMapping... mappings) {
-		return new ArgumentMappingConjunctionImpl(mappings);
+	protected ArgumentMappingJunction and(final ArgumentMapping... mappings) {
+		return new ArgumentMappingConjunction(mappings);
 	}
 
-	protected ArgumentMappingDisjunction or(final ArgumentMapping... mappings) {
-		return new ArgumentMappingDisjunctionImpl(mappings);
+	protected ArgumentMappingJunction or(final ArgumentMapping... mappings) {
+		return new ArgumentMappingDisjunction(mappings);
 	}
 
 	protected ArgumentKey key(final String key) {
-		return new ArgumentKeyImpl(key);
+		return new ArgumentKey(key);
 	}
 
 	protected ArgumentValue value(final Object value) {
-		return new ArgumentValueImpl(value);
+		return new ArgumentValue(value);
 	}
 
 	protected ArgumentMapping mapping(final ArgumentKey key, final ArgumentValue value) {
@@ -88,17 +80,12 @@ public abstract class ComponentQuery implements ComponentSelector {
 
 	protected ArgumentsDescriptor withArgument(final ArgumentKey key,
 			final ArgumentValue value) {
-		return new ArgumentsDescriptorImpl(key, value);
+		return new ArgumentsDescriptor(key, value);
 	}
 
 	protected ArgumentsDescriptor withArguments(
-			final ArgumentMappingConjunction arguments) {
-		return new ArgumentsDescriptorImpl(arguments);
-	}
-
-	protected ArgumentsDescriptor withArguments(
-			final ArgumentMappingDisjunction arguments) {
-		return new ArgumentsDescriptorImpl(arguments);
+			final ArgumentMappingJunction arguments) {
+		return new ArgumentsDescriptor(arguments);
 	}
 
 	protected TypeFilterJunction and(final MultipleTypeFilter... filters) {
@@ -170,34 +157,34 @@ public abstract class ComponentQuery implements ComponentSelector {
 	}
 
 	protected <T> TypedStoreBindingBuilder<T> thoseExtending(final Class<T> clazz) {
-		return new TypedStoreBindingBuilderImpl<T>(subclassOf(clazz));
+		return new TypedStoreBindingBuilder<T>(subclassOf(clazz));
 	}
 
 	protected <T> TypedStoreBindingBuilder<T> thoseImplementing(
 			final Class<T> interfaze) {
-		return new TypedStoreBindingBuilderImpl<T>(implementorOf(interfaze));
+		return new TypedStoreBindingBuilder<T>(implementorOf(interfaze));
 	}
 
 	protected TypelessStoreBindingBuilder thoseImplementing(
 			final Class<?>... interfaces) {
-		return new TypelessStoreBindingBuilderImpl(implementorOf(interfaces));
+		return new TypelessStoreBindingBuilder(implementorOf(interfaces));
 	}
 
 	protected TypelessStoreBindingBuilder thoseAnnotatedWith(
 			final Class<? extends Annotation> annotation) {
-		return new TypelessStoreBindingBuilderImpl(annotatedWith(annotation));
+		return new TypelessStoreBindingBuilder(annotatedWith(annotation));
 	}
 
 	protected TypelessStoreBindingBuilder thoseAnnotatedWith(
 			final Class<? extends Annotation> annotation,
 			final ArgumentsDescriptor arguments) {
-		return new TypelessStoreBindingBuilderImpl(
+		return new TypelessStoreBindingBuilder(
 				annotatedWith(annotation, arguments));
 	}
 
 	protected TypelessStoreBindingBuilder thoseBeing(
 			final TypeFilterJunction filter) {
-		return new TypelessStoreBindingBuilderImpl(filter);
+		return new TypelessStoreBindingBuilder(filter);
 	}
 
 	protected synchronized BasePackageSelector select() {

@@ -1,18 +1,16 @@
-package net.sf.extcos.internal;
+package net.sf.extcos.selector.annotation;
 
 import static net.sf.extcos.util.Assert.iae;
 
 import java.lang.annotation.Annotation;
 
-import net.sf.extcos.filter.AnnotationArgument;
-import net.sf.extcos.selector.annotation.ArgumentMapping;
 import net.sf.extcos.util.Assert;
 
-public class AnnotationArgumentImpl implements AnnotationArgument {
+public class AnnotationArgument {
 	private final Class<? extends Annotation> annotation;
 	private final ArgumentMapping mapping;
 
-	public AnnotationArgumentImpl(final Class<? extends Annotation> annotation,
+	public AnnotationArgument(final Class<? extends Annotation> annotation,
 			final ArgumentMapping mapping) {
 		Assert.notNull(annotation, iae());
 		Assert.notNull(mapping, iae());
@@ -21,12 +19,10 @@ public class AnnotationArgumentImpl implements AnnotationArgument {
 		this.mapping = mapping;
 	}
 
-	@Override
 	public Class<? extends Annotation> getAnnotation() {
 		return annotation;
 	}
 
-	@Override
 	public ArgumentMapping getArgumentMapping() {
 		return mapping;
 	}
@@ -58,7 +54,7 @@ public class AnnotationArgumentImpl implements AnnotationArgument {
 		if (getClass() != obj.getClass()) {
 			return false;
 		}
-		AnnotationArgumentImpl other = (AnnotationArgumentImpl) obj;
+		AnnotationArgument other = (AnnotationArgument) obj;
 		if (annotation == null) {
 			if (other.annotation != null) {
 				return false;

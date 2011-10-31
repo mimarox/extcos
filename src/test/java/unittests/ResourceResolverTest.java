@@ -6,8 +6,6 @@ import java.util.HashSet;
 import java.util.Set;
 
 import net.sf.extcos.internal.JavaClassResourceType;
-import net.sf.extcos.internal.PackageImpl;
-import net.sf.extcos.internal.ResourceResolverImpl;
 import net.sf.extcos.resource.Resource;
 import net.sf.extcos.resource.ResourceResolver;
 import net.sf.extcos.selector.Package;
@@ -19,27 +17,27 @@ import org.testng.annotations.Test;
 
 import common.TestBase;
 
-public class ResourceResolverImplTest extends TestBase {
+public class ResourceResolverTest extends TestBase {
 	private ResourceResolver resolver;
-	
+
 	@BeforeClass
 	public void initResolver() throws NoSuchFieldException {
-		resolver = new ResourceResolverImpl();
+		resolver = new ResourceResolver();
 		PropertyInjector injector = new PropertyInjector();
 		injector.setTarget(resolver);
 		injector.inject("classLoader", Thread.currentThread().getContextClassLoader());
 	}
-	
-	
+
+
 	@Test
 	public void testGetResources() {
 		Set<ResourceType> resourceTypes = new HashSet<ResourceType>();
 		resourceTypes.add(JavaClassResourceType.javaClasses());
-		
-		Package basePackage = new PackageImpl(getProperty("resources.package"));
-		
+
+		Package basePackage = new Package(getProperty("resources.package"));
+
 		Set<Resource> resources = resolver.getResources(resourceTypes, basePackage);
-		
+
 		assertEquals(resources.size(), getIntProperty("resources.amount"));
 	}
 }

@@ -6,26 +6,19 @@ import java.lang.annotation.Annotation;
 import java.util.Set;
 
 import net.sf.extcos.filter.Connector;
-import net.sf.extcos.filter.FilterObjects;
 import net.sf.extcos.filter.MultiplexingConnector;
 import net.sf.extcos.filter.ResultSetProvider;
 import net.sf.extcos.selector.AnnotatedWithTypeFilter;
 import net.sf.extcos.selector.TypeFilter;
+import net.sf.extcos.selector.annotation.AnnotationArgument;
 import net.sf.extcos.selector.annotation.ArgumentMapping;
 import net.sf.extcos.selector.annotation.ArgumentMappingConjunction;
-import net.sf.extcos.selector.annotation.ArgumentMappingDisjunction;
+import net.sf.extcos.selector.annotation.ArgumentMappingJunction;
 import net.sf.extcos.selector.annotation.ArgumentsDescriptor;
 import net.sf.extcos.util.Assert;
 
-import com.google.inject.Inject;
-import com.google.inject.name.Named;
-
-public class AnnotatedWithFilterObjectsBuilder extends
-AbstractFilterObjectsBuilder {
-
-	@Inject
-	@Named("awfob.provider")
-	private ResultSetProvider provider;
+public class AnnotatedWithFilterObjectsBuilder extends AbstractFilterObjectsBuilder {
+	private final ResultSetProvider provider = new StandardResultSetProvider();
 
 	@Override
 	public void buildFilterObjects(final TypeFilter filter, final Connector connector) {
@@ -70,7 +63,7 @@ AbstractFilterObjectsBuilder {
 
 	private void buildFilterObjects(final Class<? extends Annotation> annotation,
 			final ArgumentsDescriptor arguments, final Connector connector) {
-		ConjunctiveChainedConnector conjunction = injector.getInstance(ConjunctiveChainedConnector.class);
+		ConjunctiveChainedConnector conjunction = new ConjunctiveChainedConnector();
 		conjunction.setParentConnector(connector);
 		conjunction.setChildCount(2);
 
@@ -79,8 +72,8 @@ AbstractFilterObjectsBuilder {
 		ArgumentMapping mapping = arguments.getArgumentMapping();
 		if (mapping instanceof ArgumentMappingConjunction) {
 			buildFilterObjects(annotation, (ArgumentMappingConjunction) mapping, conjunction);
-		} else if (mapping instanceof ArgumentMappingDisjunction) {
-			buildFilterObjects(annotation, (ArgumentMappingDisjunction) mapping, conjunction);
+		} else if (mapping instanceof ArgumentMappingJunction) {
+			buildFilterObjects(annotation, (ArgumentMappingJunction) mapping, conjunction);
 		} else {
 			buildFilterObjects(annotation, mapping, connector);
 		}
@@ -89,7 +82,7 @@ AbstractFilterObjectsBuilder {
 	private void buildFilterObjects(final Class<? extends Annotation> annotation,
 			final ArgumentMapping mapping, final Connector connector) {
 		TypeFilter filter =
-				new AnnotatedWithTypeFilterImpl(annotation, new ArgumentsDescriptorImpl(mapping));
+				new AnnotatedWithTypeFilterImpl(annotation, new ArgumentsDescriptor(mapping));
 
 		if (buildContext.isRegistered(filter)) {
 			buildContext.getConnector(filter).merge(connector);
@@ -97,7 +90,7 @@ AbstractFilterObjectsBuilder {
 		}
 
 		AnnotationArgumentResourceMatcher matcher = new AnnotationArgumentResourceMatcher(
-				new AnnotationArgumentImpl(annotation, mapping));
+				new AnnotationArgument(annotation, mapping));
 
 		if (buildContext.isRegistered(matcher)) {
 			FilterObjects fo = buildContext.getFilterObjects(matcher);
@@ -119,7 +112,7 @@ AbstractFilterObjectsBuilder {
 	private void buildFilterObjects(final Class<? extends Annotation> annotation,
 			final ArgumentMappingConjunction mappingConjunction, final Connector connector) {
 		TypeFilter filter =	new AnnotatedWithTypeFilterImpl(annotation,
-				new ArgumentsDescriptorImpl(mappingConjunction));
+				new ArgumentsDescriptor(mappingConjunction));
 
 		if (buildContext.isRegistered(filter)) {
 			buildContext.getConnector(filter).merge(connector);
@@ -128,15 +121,15 @@ AbstractFilterObjectsBuilder {
 
 		Set<ArgumentMapping> mappings = mappingConjunction.getMappings();
 
-		ConjunctiveChainedConnector conjunction = injector.getInstance(ConjunctiveChainedConnector.class);
+		ConjunctiveChainedConnector conjunction = new ConjunctiveChainedConnector();
 		conjunction.setParentConnector(connector);
 		conjunction.setChildCount(mappings.size());
 
 		for (ArgumentMapping mapping : mappings) {
 			if (mapping instanceof ArgumentMappingConjunction) {
 				buildFilterObjects(annotation, (ArgumentMappingConjunction) mapping, conjunction);
-			} else if (mapping instanceof ArgumentMappingDisjunction) {
-				buildFilterObjects(annotation, (ArgumentMappingDisjunction) mapping, conjunction);
+			} else if (mapping instanceof ArgumentMappingJunction) {
+				buildFilterObjects(annotation, (ArgumentMappingJunction) mapping, conjunction);
 			} else {
 				buildFilterObjects(annotation, mapping, connector);
 			}
@@ -146,9 +139,9 @@ AbstractFilterObjectsBuilder {
 	}
 
 	private void buildFilterObjects(final Class<? extends Annotation> annotation,
-			final ArgumentMappingDisjunction mappingDisjunction, final Connector connector) {
+			final ArgumentMappingJunction mappingDisjunction, final Connector connector) {
 		TypeFilter filter =	new AnnotatedWithTypeFilterImpl(annotation,
-				new ArgumentsDescriptorImpl(mappingDisjunction));
+				new ArgumentsDescriptor(mappingDisjunction));
 
 		if (buildContext.isRegistered(filter)) {
 			buildContext.getConnector(filter).merge(connector);
@@ -157,15 +150,15 @@ AbstractFilterObjectsBuilder {
 
 		Set<ArgumentMapping> mappings = mappingDisjunction.getMappings();
 
-		DisjunctiveChainedConnector disjunction = injector.getInstance(DisjunctiveChainedConnector.class);
+		DisjunctiveChainedConnector disjunction = new DisjunctiveChainedConnector();
 		disjunction.setParentConnector(connector);
 		disjunction.setChildCount(mappings.size());
 
 		for (ArgumentMapping mapping : mappings) {
 			if (mapping instanceof ArgumentMappingConjunction) {
 				buildFilterObjects(annotation, (ArgumentMappingConjunction) mapping, disjunction);
-			} else if (mapping instanceof ArgumentMappingDisjunction) {
-				buildFilterObjects(annotation, (ArgumentMappingDisjunction) mapping, disjunction);
+			} else if (mapping instanceof ArgumentMappingJunction) {
+				buildFilterObjects(annotation, (ArgumentMappingJunction) mapping, disjunction);
 			} else {
 				buildFilterObjects(annotation, mapping, connector);
 			}

@@ -7,6 +7,6 @@ AbstractFilterObjectsJunctionBuilder {
 
 	@Override
 	protected ChainedConnector getConnector() {
-		return injector.getInstance(ConjunctiveChainedConnector.class);
+		return new ConjunctiveChainedConnector();
 	}
 }

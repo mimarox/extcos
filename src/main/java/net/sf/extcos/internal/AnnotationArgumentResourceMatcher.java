@@ -1,9 +1,9 @@
 package net.sf.extcos.internal;
 
 import net.sf.extcos.exception.ConcurrentInspectionException;
-import net.sf.extcos.filter.AnnotationArgument;
 import net.sf.extcos.filter.ResourceMatcher;
 import net.sf.extcos.resource.Resource;
+import net.sf.extcos.selector.annotation.AnnotationArgument;
 import net.sf.extcos.spi.AnnotationMetadata;
 import net.sf.extcos.util.Assert;
 

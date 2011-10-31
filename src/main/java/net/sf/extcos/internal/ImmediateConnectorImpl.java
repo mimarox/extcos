@@ -57,7 +57,7 @@ public class ImmediateConnectorImpl implements ImmediateConnector {
 			return;
 		}
 
-		resource.addClassGenerationListener(new ClassGenerationListener(){
+		resource.addClassGenerationListener(new ClassGenerationListener() {
 			@SuppressWarnings("hiding")
 			private final Logger logger = LoggerFactory.getLogger("ClassGenerationListener");
 
