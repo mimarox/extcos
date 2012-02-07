@@ -34,14 +34,17 @@ public class FilterObjects {
 	public Filter buildFilter() {
 		filter.setResourceDispatcher(dispatcher);
 		filter.setResourceMatcher(matcher);
-		filter.setResultSetProvider(provider);
 
-		filters.clear();
-		for (FilterObjects filterObjects : children) {
-			filters.add(filterObjects.buildFilter());
+		if (!children.isEmpty()) {
+			filters.clear();
+			for (FilterObjects filterObjects : children) {
+				filters.add(filterObjects.buildFilter());
+			}
+
+			filter.setChildFilters(filters);
+			filter.setResultSetProvider(provider);
 		}
 
-		filter.setChildFilters(filters);
 		return buildContext.prependInterceptors(filter);
 	}
 
