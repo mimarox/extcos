@@ -28,9 +28,9 @@ import net.sf.extcos.util.ClassUtils;
 
 import org.objectweb.asm.AnnotationVisitor;
 import org.objectweb.asm.ClassReader;
+import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
-import org.objectweb.asm.commons.EmptyVisitor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -43,7 +43,11 @@ public class JavaResourceAccessor implements ResourceAccessor {
 		String name;
 	}
 
-	private abstract class AnnotatedClassVisitor extends EmptyVisitor {
+	private abstract class AnnotatedClassVisitor extends ClassVisitor {
+		private AnnotatedClassVisitor() {
+			super(Opcodes.ASM4);
+		}
+
 		@Override
 		public AnnotationVisitor visitAnnotation(final String desc, final boolean visible) {
 			if (shouldVisitAnnotation(visible)) {
@@ -112,12 +116,13 @@ public class JavaResourceAccessor implements ResourceAccessor {
 		}
 	}
 
-	private class AnnotationVisitorImpl extends EmptyVisitor {
+	private class AnnotationVisitorImpl extends AnnotationVisitor {
 		private final AnnotationMetadataImpl metadata;
 		@SuppressWarnings("hiding")
 		private final String className;
 
 		private AnnotationVisitorImpl(final String desc) {
+			super(4);
 			metadata = new AnnotationMetadataImpl();
 			className = Type.getType(desc).getClassName();
 		}
@@ -365,7 +370,9 @@ public class JavaResourceAccessor implements ResourceAccessor {
 			superClasses.add(superClass);
 
 			try {
-				ClassReader reader = new ClassReader(superClass);
+				ClassReader reader = new ClassReader(
+						ClassLoaderHolder.getClassLoader().getResourceAsStream(superName + ".class"));
+
 				reader.accept(new AnnotatedClassVisitor() {
 					@Override
 					@SuppressWarnings("hiding")
@@ -379,7 +386,11 @@ public class JavaResourceAccessor implements ResourceAccessor {
 						return visible;
 					}
 				}, ASM_FLAGS);
-			} catch (Exception e) { /* ignored */ }
+			} catch (Exception e) {
+				if (logger.isErrorEnabled()) {
+					logger.error("Unable to read super class [" + superName + "]", e);
+				}
+			}
 		}
 	}
 
@@ -406,17 +417,23 @@ public class JavaResourceAccessor implements ResourceAccessor {
 	}
 
 	private void readSuperInterfaces(final String type) {
+		String interfaze = ClassUtils.convertResourcePathToClassName(type);
+
 		try {
 			ClassReader reader = new ClassReader(
-					ClassUtils.convertResourcePathToClassName(type));
+					ClassLoaderHolder.getClassLoader().getResourceAsStream(type + ".class"));
 
-			reader.accept(new EmptyVisitor() {
+			reader.accept(new ClassVisitor(Opcodes.ASM4) {
 				@Override
 				public void visit(final int version, final int access, final String name,
 						final String signature, final String superName, @SuppressWarnings("hiding") final String[] interfaces) {
 					readInterfaces(superName, interfaces);
 				}
 			}, ASM_FLAGS);
-		} catch (Exception e) { /* ignored */ }
+		} catch (Exception e) {
+			if (logger.isErrorEnabled()) {
+				logger.error("Unable to read interface [" + interfaze + "]", e);
+			}
+		}
 	}
 }

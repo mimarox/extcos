@@ -55,12 +55,12 @@
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
-			<version>1.6.2</version>
+			<version>1.6.4</version>
 		</dependency>
 		<dependency>
 			<groupId>asm</groupId>
 			<artifactId>asm-all</artifactId>
-			<version>3.2</version>
+			<version>4.0</version>
 		</dependency>
 		<dependency>
 	    	<groupId>org.testng</groupId>
