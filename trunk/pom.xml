@@ -1,17 +1,39 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>org.sonatype.oss</groupId>
+		<artifactId>oss-parent</artifactId>
+		<version>7</version>
+	</parent>
 	<groupId>net.sf.extcos</groupId>
 	<artifactId>extcos</artifactId>
+	<version>0.4b</version>
+	<packaging>jar</packaging>
 	<name>eXtcos</name>
-	<version>0.3b</version>
 	<description>Extensible Component Scanner</description>
 	<url>http://sourceforge.net/projects/extcos</url>
+	<licenses>
+		<license>
+			<name>The Apache Software License, Version 2.0</name>
+			<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+			<distribution>repo</distribution>
+		</license>
+	</licenses>
 	<inceptionYear>2009</inceptionYear>
 	<scm>
-		<developerConnection>scm:svn:https://extcos.svn.sourceforge.net/svnroot/extcos/trunk</developerConnection>
+		<connection>scm:svn:http://extcos.svn.sourceforge.net/svnroot/extcos</connection>
+		<developerConnection>scm:svn:https://extcos.svn.sourceforge.net/svnroot/extcos</developerConnection>
+		<url>http://extcos.svn.sourceforge.net/viewvc/extcos</url>
 	</scm>
-	
+	<developers>
+		<developer>
+			<id>mimarox</id>
+			<name>Matthias Rothe</name>
+			<email>mimarox@users.sourceforge.net</email>
+			<url>http://www.matthiasrothe.com</url>
+		</developer>
+	</developers>
 	<build>
 		<finalName>extcos-${project.version}</finalName>
 		<plugins>
@@ -58,16 +80,15 @@
 			<version>1.6.4</version>
 		</dependency>
 		<dependency>
-			<groupId>asm</groupId>
+			<groupId>org.ow2.asm</groupId>
 			<artifactId>asm-all</artifactId>
 			<version>4.0</version>
 		</dependency>
 		<dependency>
 	    	<groupId>org.testng</groupId>
 	    	<artifactId>testng</artifactId>
-	    	<version>5.8</version>
+	    	<version>6.4</version>
 	    	<scope>test</scope>
-	    	<classifier>jdk15</classifier>
 		</dependency>
 	</dependencies>
 </project>
