@@ -1,0 +1,3438 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset="cp1252">
+<title>Extensible Component Scanner - User Manual</title>
+<style>
+<!--
+ /* Font Definitions */
+ @font-face
+	{font-family:"Cambria Math";
+	panose-1:2 4 5 3 5 4 6 3 2 4;
+	mso-font-charset:1;
+	mso-generic-font-family:roman;
+	mso-font-format:other;
+	mso-font-pitch:variable;
+	mso-font-signature:0 0 0 0 0 0;}
+@font-face
+	{font-family:Cambria;
+	panose-1:2 4 5 3 5 4 6 3 2 4;
+	mso-font-charset:0;
+	mso-generic-font-family:roman;
+	mso-font-pitch:variable;
+	mso-font-signature:-1610611985 1073741899 0 0 415 0;}
+@font-face
+	{font-family:Calibri;
+	panose-1:2 15 5 2 2 2 4 3 2 4;
+	mso-font-charset:0;
+	mso-generic-font-family:swiss;
+	mso-font-pitch:variable;
+	mso-font-signature:-520092929 1073786111 9 0 415 0;}
+@font-face
+	{font-family:Tahoma;
+	panose-1:2 11 6 4 3 5 4 4 2 4;
+	mso-font-charset:0;
+	mso-generic-font-family:swiss;
+	mso-font-pitch:variable;
+	mso-font-signature:-520081665 -1073717157 41 0 66047 0;}
+ /* Style Definitions */
+ p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{mso-style-unhide:no;
+	mso-style-qformat:yes;
+	mso-style-parent:"";
+	margin-top:0cm;
+	margin-right:0cm;
+	margin-bottom:10.0pt;
+	margin-left:0cm;
+	line-height:115%;
+	mso-pagination:widow-orphan;
+	font-size:11.0pt;
+	font-family:"Calibri","sans-serif";
+	mso-ascii-font-family:Calibri;
+	mso-ascii-theme-font:minor-latin;
+	mso-fareast-font-family:Calibri;
+	mso-fareast-theme-font:minor-latin;
+	mso-hansi-font-family:Calibri;
+	mso-hansi-theme-font:minor-latin;
+	mso-bidi-font-family:"Times New Roman";
+	mso-bidi-theme-font:minor-bidi;
+	mso-fareast-language:EN-US;}
+h1
+	{mso-style-priority:9;
+	mso-style-unhide:no;
+	mso-style-qformat:yes;
+	mso-style-link:"Überschrift 1 Zchn";
+	mso-style-next:Standard;
+	margin-top:24.0pt;
+	margin-right:0cm;
+	margin-bottom:0cm;
+	margin-left:0cm;
+	margin-bottom:.0001pt;
+	line-height:115%;
+	mso-pagination:widow-orphan lines-together;
+	page-break-after:avoid;
+	mso-outline-level:1;
+	font-size:14.0pt;
+	font-family:"Cambria","serif";
+	mso-ascii-font-family:Cambria;
+	mso-ascii-theme-font:major-latin;
+	mso-fareast-font-family:"Times New Roman";
+	mso-fareast-theme-font:major-fareast;
+	mso-hansi-font-family:Cambria;
+	mso-hansi-theme-font:major-latin;
+	mso-bidi-font-family:"Times New Roman";
+	mso-bidi-theme-font:major-bidi;
+	color:#365F91;
+	mso-themecolor:accent1;
+	mso-themeshade:191;
+	mso-font-kerning:0pt;
+	mso-fareast-language:EN-US;}
+h2
+	{mso-style-priority:9;
+	mso-style-qformat:yes;
+	mso-style-link:"Überschrift 2 Zchn";
+	mso-style-next:Standard;
+	margin-top:10.0pt;
+	margin-right:0cm;
+	margin-bottom:0cm;
+	margin-left:0cm;
+	margin-bottom:.0001pt;
+	line-height:115%;
+	mso-pagination:widow-orphan lines-together;
+	page-break-after:avoid;
+	mso-outline-level:2;
+	font-size:13.0pt;
+	font-family:"Cambria","serif";
+	mso-ascii-font-family:Cambria;
+	mso-ascii-theme-font:major-latin;
+	mso-fareast-font-family:"Times New Roman";
+	mso-fareast-theme-font:major-fareast;
+	mso-hansi-font-family:Cambria;
+	mso-hansi-theme-font:major-latin;
+	mso-bidi-font-family:"Times New Roman";
+	mso-bidi-theme-font:major-bidi;
+	color:#4F81BD;
+	mso-themecolor:accent1;
+	mso-fareast-language:EN-US;}
+h3
+	{mso-style-priority:9;
+	mso-style-qformat:yes;
+	mso-style-link:"Überschrift 3 Zchn";
+	mso-style-next:Standard;
+	margin-top:10.0pt;
+	margin-right:0cm;
+	margin-bottom:0cm;
+	margin-left:0cm;
+	margin-bottom:.0001pt;
+	line-height:115%;
+	mso-pagination:widow-orphan lines-together;
+	page-break-after:avoid;
+	mso-outline-level:3;
+	font-size:11.0pt;
+	font-family:"Cambria","serif";
+	mso-ascii-font-family:Cambria;
+	mso-ascii-theme-font:major-latin;
+	mso-fareast-font-family:"Times New Roman";
+	mso-fareast-theme-font:major-fareast;
+	mso-hansi-font-family:Cambria;
+	mso-hansi-theme-font:major-latin;
+	mso-bidi-font-family:"Times New Roman";
+	mso-bidi-theme-font:major-bidi;
+	color:#4F81BD;
+	mso-themecolor:accent1;
+	mso-fareast-language:EN-US;}
+p.MsoToc1, li.MsoToc1, div.MsoToc1
+	{mso-style-update:auto;
+	mso-style-priority:39;
+	mso-style-next:Standard;
+	margin-top:0cm;
+	margin-right:0cm;
+	margin-bottom:5.0pt;
+	margin-left:0cm;
+	line-height:115%;
+	mso-pagination:widow-orphan;
+	font-size:11.0pt;
+	font-family:"Calibri","sans-serif";
+	mso-ascii-font-family:Calibri;
+	mso-ascii-theme-font:minor-latin;
+	mso-fareast-font-family:Calibri;
+	mso-fareast-theme-font:minor-latin;
+	mso-hansi-font-family:Calibri;
+	mso-hansi-theme-font:minor-latin;
+	mso-bidi-font-family:"Times New Roman";
+	mso-bidi-theme-font:minor-bidi;
+	mso-fareast-language:EN-US;}
+p.MsoToc2, li.MsoToc2, div.MsoToc2
+	{mso-style-update:auto;
+	mso-style-priority:39;
+	mso-style-next:Standard;
+	margin-top:0cm;
+	margin-right:0cm;
+	margin-bottom:5.0pt;
+	margin-left:11.0pt;
+	line-height:115%;
+	mso-pagination:widow-orphan;
+	font-size:11.0pt;
+	font-family:"Calibri","sans-serif";
+	mso-ascii-font-family:Calibri;
+	mso-ascii-theme-font:minor-latin;
+	mso-fareast-font-family:Calibri;
+	mso-fareast-theme-font:minor-latin;
+	mso-hansi-font-family:Calibri;
+	mso-hansi-theme-font:minor-latin;
+	mso-bidi-font-family:"Times New Roman";
+	mso-bidi-theme-font:minor-bidi;
+	mso-fareast-language:EN-US;}
+p.MsoToc3, li.MsoToc3, div.MsoToc3
+	{mso-style-update:auto;
+	mso-style-priority:39;
+	mso-style-next:Standard;
+	margin-top:0cm;
+	margin-right:0cm;
+	margin-bottom:5.0pt;
+	margin-left:22.0pt;
+	line-height:115%;
+	mso-pagination:widow-orphan;
+	font-size:11.0pt;
+	font-family:"Calibri","sans-serif";
+	mso-ascii-font-family:Calibri;
+	mso-ascii-theme-font:minor-latin;
+	mso-fareast-font-family:Calibri;
+	mso-fareast-theme-font:minor-latin;
+	mso-hansi-font-family:Calibri;
+	mso-hansi-theme-font:minor-latin;
+	mso-bidi-font-family:"Times New Roman";
+	mso-bidi-theme-font:minor-bidi;
+	mso-fareast-language:EN-US;}
+p.MsoHeader, li.MsoHeader, div.MsoHeader
+	{mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-style-link:"Kopfzeile Zchn";
+	margin:0cm;
+	margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	tab-stops:center 8.0cm right 16.0cm;
+	font-size:11.0pt;
+	font-family:"Calibri","sans-serif";
+	mso-ascii-font-family:Calibri;
+	mso-ascii-theme-font:minor-latin;
+	mso-fareast-font-family:Calibri;
+	mso-fareast-theme-font:minor-latin;
+	mso-hansi-font-family:Calibri;
+	mso-hansi-theme-font:minor-latin;
+	mso-bidi-font-family:"Times New Roman";
+	mso-bidi-theme-font:minor-bidi;
+	mso-fareast-language:EN-US;}
+p.MsoFooter, li.MsoFooter, div.MsoFooter
+	{mso-style-priority:99;
+	mso-style-link:"Fußzeile Zchn";
+	margin:0cm;
+	margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	tab-stops:center 8.0cm right 16.0cm;
+	font-size:11.0pt;
+	font-family:"Calibri","sans-serif";
+	mso-ascii-font-family:Calibri;
+	mso-ascii-theme-font:minor-latin;
+	mso-fareast-font-family:Calibri;
+	mso-fareast-theme-font:minor-latin;
+	mso-hansi-font-family:Calibri;
+	mso-hansi-theme-font:minor-latin;
+	mso-bidi-font-family:"Times New Roman";
+	mso-bidi-theme-font:minor-bidi;
+	mso-fareast-language:EN-US;}
+a:link, span.MsoHyperlink
+	{mso-style-priority:99;
+	color:blue;
+	mso-themecolor:hyperlink;
+	text-decoration:underline;
+	text-underline:single;}
+a:visited, span.MsoHyperlinkFollowed
+	{mso-style-noshow:yes;
+	mso-style-priority:99;
+	color:purple;
+	mso-themecolor:followedhyperlink;
+	text-decoration:underline;
+	text-underline:single;}
+p.MsoAcetate, li.MsoAcetate, div.MsoAcetate
+	{mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-style-link:"Sprechblasentext Zchn";
+	margin:0cm;
+	margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	font-size:8.0pt;
+	font-family:"Tahoma","sans-serif";
+	mso-fareast-font-family:Calibri;
+	mso-fareast-theme-font:minor-latin;
+	mso-fareast-language:EN-US;}
+p.MsoNoSpacing, li.MsoNoSpacing, div.MsoNoSpacing
+	{mso-style-priority:1;
+	mso-style-unhide:no;
+	mso-style-qformat:yes;
+	mso-style-parent:"";
+	margin:0cm;
+	margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	font-size:11.0pt;
+	font-family:"Calibri","sans-serif";
+	mso-ascii-font-family:Calibri;
+	mso-ascii-theme-font:minor-latin;
+	mso-fareast-font-family:Calibri;
+	mso-fareast-theme-font:minor-latin;
+	mso-hansi-font-family:Calibri;
+	mso-hansi-theme-font:minor-latin;
+	mso-bidi-font-family:"Times New Roman";
+	mso-bidi-theme-font:minor-bidi;
+	mso-fareast-language:EN-US;}
+p.MsoListParagraph, li.MsoListParagraph, div.MsoListParagraph
+	{mso-style-priority:34;
+	mso-style-unhide:no;
+	mso-style-qformat:yes;
+	margin-top:0cm;
+	margin-right:0cm;
+	margin-bottom:10.0pt;
+	margin-left:36.0pt;
+	mso-add-space:auto;
+	line-height:115%;
+	mso-pagination:widow-orphan;
+	font-size:11.0pt;
+	font-family:"Calibri","sans-serif";
+	mso-ascii-font-family:Calibri;
+	mso-ascii-theme-font:minor-latin;
+	mso-fareast-font-family:Calibri;
+	mso-fareast-theme-font:minor-latin;
+	mso-hansi-font-family:Calibri;
+	mso-hansi-theme-font:minor-latin;
+	mso-bidi-font-family:"Times New Roman";
+	mso-bidi-theme-font:minor-bidi;
+	mso-fareast-language:EN-US;}
+p.MsoListParagraphCxSpFirst, li.MsoListParagraphCxSpFirst, div.MsoListParagraphCxSpFirst
+	{mso-style-priority:34;
+	mso-style-unhide:no;
+	mso-style-qformat:yes;
+	mso-style-type:export-only;
+	margin-top:0cm;
+	margin-right:0cm;
+	margin-bottom:0cm;
+	margin-left:36.0pt;
+	margin-bottom:.0001pt;
+	mso-add-space:auto;
+	line-height:115%;
+	mso-pagination:widow-orphan;
+	font-size:11.0pt;
+	font-family:"Calibri","sans-serif";
+	mso-ascii-font-family:Calibri;
+	mso-ascii-theme-font:minor-latin;
+	mso-fareast-font-family:Calibri;
+	mso-fareast-theme-font:minor-latin;
+	mso-hansi-font-family:Calibri;
+	mso-hansi-theme-font:minor-latin;
+	mso-bidi-font-family:"Times New Roman";
+	mso-bidi-theme-font:minor-bidi;
+	mso-fareast-language:EN-US;}
+p.MsoListParagraphCxSpMiddle, li.MsoListParagraphCxSpMiddle, div.MsoListParagraphCxSpMiddle
+	{mso-style-priority:34;
+	mso-style-unhide:no;
+	mso-style-qformat:yes;
+	mso-style-type:export-only;
+	margin-top:0cm;
+	margin-right:0cm;
+	margin-bottom:0cm;
+	margin-left:36.0pt;
+	margin-bottom:.0001pt;
+	mso-add-space:auto;
+	line-height:115%;
+	mso-pagination:widow-orphan;
+	font-size:11.0pt;
+	font-family:"Calibri","sans-serif";
+	mso-ascii-font-family:Calibri;
+	mso-ascii-theme-font:minor-latin;
+	mso-fareast-font-family:Calibri;
+	mso-fareast-theme-font:minor-latin;
+	mso-hansi-font-family:Calibri;
+	mso-hansi-theme-font:minor-latin;
+	mso-bidi-font-family:"Times New Roman";
+	mso-bidi-theme-font:minor-bidi;
+	mso-fareast-language:EN-US;}
+p.MsoListParagraphCxSpLast, li.MsoListParagraphCxSpLast, div.MsoListParagraphCxSpLast
+	{mso-style-priority:34;
+	mso-style-unhide:no;
+	mso-style-qformat:yes;
+	mso-style-type:export-only;
+	margin-top:0cm;
+	margin-right:0cm;
+	margin-bottom:10.0pt;
+	margin-left:36.0pt;
+	mso-add-space:auto;
+	line-height:115%;
+	mso-pagination:widow-orphan;
+	font-size:11.0pt;
+	font-family:"Calibri","sans-serif";
+	mso-ascii-font-family:Calibri;
+	mso-ascii-theme-font:minor-latin;
+	mso-fareast-font-family:Calibri;
+	mso-fareast-theme-font:minor-latin;
+	mso-hansi-font-family:Calibri;
+	mso-hansi-theme-font:minor-latin;
+	mso-bidi-font-family:"Times New Roman";
+	mso-bidi-theme-font:minor-bidi;
+	mso-fareast-language:EN-US;}
+p.MsoTocHeading, li.MsoTocHeading, div.MsoTocHeading
+	{mso-style-priority:39;
+	mso-style-qformat:yes;
+	mso-style-parent:"Überschrift 1";
+	mso-style-next:Standard;
+	margin-top:24.0pt;
+	margin-right:0cm;
+	margin-bottom:0cm;
+	margin-left:0cm;
+	margin-bottom:.0001pt;
+	line-height:115%;
+	mso-pagination:widow-orphan lines-together;
+	page-break-after:avoid;
+	font-size:14.0pt;
+	font-family:"Cambria","serif";
+	mso-ascii-font-family:Cambria;
+	mso-ascii-theme-font:major-latin;
+	mso-fareast-font-family:"Times New Roman";
+	mso-fareast-theme-font:major-fareast;
+	mso-hansi-font-family:Cambria;
+	mso-hansi-theme-font:major-latin;
+	mso-bidi-font-family:"Times New Roman";
+	mso-bidi-theme-font:major-bidi;
+	color:#365F91;
+	mso-themecolor:accent1;
+	mso-themeshade:191;
+	mso-fareast-language:EN-US;
+	font-weight:bold;}
+span.berschrift1Zchn
+	{mso-style-name:"Überschrift 1 Zchn";
+	mso-style-priority:9;
+	mso-style-unhide:no;
+	mso-style-locked:yes;
+	mso-style-link:"Überschrift 1";
+	mso-ansi-font-size:14.0pt;
+	mso-bidi-font-size:14.0pt;
+	font-family:"Cambria","serif";
+	mso-ascii-font-family:Cambria;
+	mso-ascii-theme-font:major-latin;
+	mso-fareast-font-family:"Times New Roman";
+	mso-fareast-theme-font:major-fareast;
+	mso-hansi-font-family:Cambria;
+	mso-hansi-theme-font:major-latin;
+	mso-bidi-font-family:"Times New Roman";
+	mso-bidi-theme-font:major-bidi;
+	color:#365F91;
+	mso-themecolor:accent1;
+	mso-themeshade:191;
+	font-weight:bold;}
+span.SprechblasentextZchn
+	{mso-style-name:"Sprechblasentext Zchn";
+	mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-style-unhide:no;
+	mso-style-locked:yes;
+	mso-style-link:Sprechblasentext;
+	mso-ansi-font-size:8.0pt;
+	mso-bidi-font-size:8.0pt;
+	font-family:"Tahoma","sans-serif";
+	mso-ascii-font-family:Tahoma;
+	mso-hansi-font-family:Tahoma;
+	mso-bidi-font-family:Tahoma;}
+span.KopfzeileZchn
+	{mso-style-name:"Kopfzeile Zchn";
+	mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-style-unhide:no;
+	mso-style-locked:yes;
+	mso-style-link:Kopfzeile;}
+span.FuzeileZchn
+	{mso-style-name:"Fußzeile Zchn";
+	mso-style-priority:99;
+	mso-style-unhide:no;
+	mso-style-locked:yes;
+	mso-style-link:Fußzeile;}
+span.berschrift2Zchn
+	{mso-style-name:"Überschrift 2 Zchn";
+	mso-style-priority:9;
+	mso-style-unhide:no;
+	mso-style-locked:yes;
+	mso-style-link:"Überschrift 2";
+	mso-ansi-font-size:13.0pt;
+	mso-bidi-font-size:13.0pt;
+	font-family:"Cambria","serif";
+	mso-ascii-font-family:Cambria;
+	mso-ascii-theme-font:major-latin;
+	mso-fareast-font-family:"Times New Roman";
+	mso-fareast-theme-font:major-fareast;
+	mso-hansi-font-family:Cambria;
+	mso-hansi-theme-font:major-latin;
+	mso-bidi-font-family:"Times New Roman";
+	mso-bidi-theme-font:major-bidi;
+	color:#4F81BD;
+	mso-themecolor:accent1;
+	font-weight:bold;}
+span.berschrift3Zchn
+	{mso-style-name:"Überschrift 3 Zchn";
+	mso-style-priority:9;
+	mso-style-unhide:no;
+	mso-style-locked:yes;
+	mso-style-link:"Überschrift 3";
+	font-family:"Cambria","serif";
+	mso-ascii-font-family:Cambria;
+	mso-ascii-theme-font:major-latin;
+	mso-fareast-font-family:"Times New Roman";
+	mso-fareast-theme-font:major-fareast;
+	mso-hansi-font-family:Cambria;
+	mso-hansi-theme-font:major-latin;
+	mso-bidi-font-family:"Times New Roman";
+	mso-bidi-theme-font:major-bidi;
+	color:#4F81BD;
+	mso-themecolor:accent1;
+	font-weight:bold;}
+.MsoChpDefault
+	{mso-style-type:export-only;
+	mso-default-props:yes;
+	mso-ascii-font-family:Calibri;
+	mso-ascii-theme-font:minor-latin;
+	mso-fareast-font-family:Calibri;
+	mso-fareast-theme-font:minor-latin;
+	mso-hansi-font-family:Calibri;
+	mso-hansi-theme-font:minor-latin;
+	mso-bidi-font-family:"Times New Roman";
+	mso-bidi-theme-font:minor-bidi;
+	mso-fareast-language:EN-US;}
+.MsoPapDefault
+	{mso-style-type:export-only;
+	margin-bottom:10.0pt;
+	line-height:115%;}
+ /* Page Definitions */
+ @page
+	{mso-footnote-separator:url("userManual-Dateien/header.htm") fs;
+	mso-footnote-continuation-separator:url("userManual-Dateien/header.htm") fcs;
+	mso-endnote-separator:url("userManual-Dateien/header.htm") es;
+	mso-endnote-continuation-separator:url("userManual-Dateien/header.htm") ecs;}
+@page WordSection1
+	{size:595.3pt 841.9pt;
+	margin:70.85pt 70.85pt 2.0cm 70.85pt;
+	mso-header-margin:35.4pt;
+	mso-footer-margin:35.4pt;
+	mso-title-page:yes;
+	mso-header:url("userManual-Dateien/header.htm") h1;
+	mso-footer:url("userManual-Dateien/header.htm") f1;
+	mso-paper-source:0;}
+div.WordSection1
+	{page:WordSection1;}
+ /* List Definitions */
+ @list l0
+	{mso-list-id:299194991;
+	mso-list-template-ids:67567647;}
+@list l0:level1
+	{mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	margin-left:18.0pt;
+	text-indent:-18.0pt;}
+@list l0:level2
+	{mso-level-text:"%1\.%2\.";
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	margin-left:39.6pt;
+	text-indent:-21.6pt;}
+@list l0:level3
+	{mso-level-text:"%1\.%2\.%3\.";
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	margin-left:61.2pt;
+	text-indent:-25.2pt;}
+@list l0:level4
+	{mso-level-text:"%1\.%2\.%3\.%4\.";
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	margin-left:86.4pt;
+	text-indent:-32.4pt;}
+@list l0:level5
+	{mso-level-text:"%1\.%2\.%3\.%4\.%5\.";
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	margin-left:111.6pt;
+	text-indent:-39.6pt;}
+@list l0:level6
+	{mso-level-text:"%1\.%2\.%3\.%4\.%5\.%6\.";
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	margin-left:136.8pt;
+	text-indent:-46.8pt;}
+@list l0:level7
+	{mso-level-text:"%1\.%2\.%3\.%4\.%5\.%6\.%7\.";
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	margin-left:162.0pt;
+	text-indent:-54.0pt;}
+@list l0:level8
+	{mso-level-text:"%1\.%2\.%3\.%4\.%5\.%6\.%7\.%8\.";
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	margin-left:187.2pt;
+	text-indent:-61.2pt;}
+@list l0:level9
+	{mso-level-text:"%1\.%2\.%3\.%4\.%5\.%6\.%7\.%8\.%9\.";
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	margin-left:216.0pt;
+	text-indent:-72.0pt;}
+@list l1
+	{mso-list-id:439036042;
+	mso-list-template-ids:67567647;}
+@list l1:level1
+	{mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	margin-left:18.0pt;
+	text-indent:-18.0pt;}
+@list l1:level2
+	{mso-level-text:"%1\.%2\.";
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	margin-left:39.6pt;
+	text-indent:-21.6pt;}
+@list l1:level3
+	{mso-level-text:"%1\.%2\.%3\.";
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	margin-left:61.2pt;
+	text-indent:-25.2pt;}
+@list l1:level4
+	{mso-level-text:"%1\.%2\.%3\.%4\.";
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	margin-left:86.4pt;
+	text-indent:-32.4pt;}
+@list l1:level5
+	{mso-level-text:"%1\.%2\.%3\.%4\.%5\.";
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	margin-left:111.6pt;
+	text-indent:-39.6pt;}
+@list l1:level6
+	{mso-level-text:"%1\.%2\.%3\.%4\.%5\.%6\.";
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	margin-left:136.8pt;
+	text-indent:-46.8pt;}
+@list l1:level7
+	{mso-level-text:"%1\.%2\.%3\.%4\.%5\.%6\.%7\.";
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	margin-left:162.0pt;
+	text-indent:-54.0pt;}
+@list l1:level8
+	{mso-level-text:"%1\.%2\.%3\.%4\.%5\.%6\.%7\.%8\.";
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	margin-left:187.2pt;
+	text-indent:-61.2pt;}
+@list l1:level9
+	{mso-level-text:"%1\.%2\.%3\.%4\.%5\.%6\.%7\.%8\.%9\.";
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	margin-left:216.0pt;
+	text-indent:-72.0pt;}
+@list l2
+	{mso-list-id:655380843;
+	mso-list-template-ids:67567647;}
+@list l2:level1
+	{mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	margin-left:18.0pt;
+	text-indent:-18.0pt;}
+@list l2:level2
+	{mso-level-text:"%1\.%2\.";
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	margin-left:39.6pt;
+	text-indent:-21.6pt;}
+@list l2:level3
+	{mso-level-text:"%1\.%2\.%3\.";
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	margin-left:61.2pt;
+	text-indent:-25.2pt;}
+@list l2:level4
+	{mso-level-text:"%1\.%2\.%3\.%4\.";
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	margin-left:86.4pt;
+	text-indent:-32.4pt;}
+@list l2:level5
+	{mso-level-text:"%1\.%2\.%3\.%4\.%5\.";
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	margin-left:111.6pt;
+	text-indent:-39.6pt;}
+@list l2:level6
+	{mso-level-text:"%1\.%2\.%3\.%4\.%5\.%6\.";
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	margin-left:136.8pt;
+	text-indent:-46.8pt;}
+@list l2:level7
+	{mso-level-text:"%1\.%2\.%3\.%4\.%5\.%6\.%7\.";
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	margin-left:162.0pt;
+	text-indent:-54.0pt;}
+@list l2:level8
+	{mso-level-text:"%1\.%2\.%3\.%4\.%5\.%6\.%7\.%8\.";
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	margin-left:187.2pt;
+	text-indent:-61.2pt;}
+@list l2:level9
+	{mso-level-text:"%1\.%2\.%3\.%4\.%5\.%6\.%7\.%8\.%9\.";
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	margin-left:216.0pt;
+	text-indent:-72.0pt;}
+@list l3
+	{mso-list-id:866255629;
+	mso-list-template-ids:67567647;}
+@list l3:level1
+	{mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	margin-left:18.0pt;
+	text-indent:-18.0pt;}
+@list l3:level2
+	{mso-level-text:"%1\.%2\.";
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	margin-left:39.6pt;
+	text-indent:-21.6pt;}
+@list l3:level3
+	{mso-level-text:"%1\.%2\.%3\.";
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	margin-left:61.2pt;
+	text-indent:-25.2pt;}
+@list l3:level4
+	{mso-level-text:"%1\.%2\.%3\.%4\.";
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	margin-left:86.4pt;
+	text-indent:-32.4pt;}
+@list l3:level5
+	{mso-level-text:"%1\.%2\.%3\.%4\.%5\.";
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	margin-left:111.6pt;
+	text-indent:-39.6pt;}
+@list l3:level6
+	{mso-level-text:"%1\.%2\.%3\.%4\.%5\.%6\.";
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	margin-left:136.8pt;
+	text-indent:-46.8pt;}
+@list l3:level7
+	{mso-level-text:"%1\.%2\.%3\.%4\.%5\.%6\.%7\.";
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	margin-left:162.0pt;
+	text-indent:-54.0pt;}
+@list l3:level8
+	{mso-level-text:"%1\.%2\.%3\.%4\.%5\.%6\.%7\.%8\.";
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	margin-left:187.2pt;
+	text-indent:-61.2pt;}
+@list l3:level9
+	{mso-level-text:"%1\.%2\.%3\.%4\.%5\.%6\.%7\.%8\.%9\.";
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	margin-left:216.0pt;
+	text-indent:-72.0pt;}
+@list l4
+	{mso-list-id:1787237623;
+	mso-list-type:hybrid;
+	mso-list-template-ids:309762796 67567631 67567641 67567643 67567631 67567641 67567643 67567631 67567641 67567643;}
+@list l4:level1
+	{mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	margin-left:18.0pt;
+	text-indent:-18.0pt;}
+@list l5
+	{mso-list-id:2002660746;
+	mso-list-template-ids:67567647;}
+@list l5:level1
+	{mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	margin-left:18.0pt;
+	text-indent:-18.0pt;}
+@list l5:level2
+	{mso-level-text:"%1\.%2\.";
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	margin-left:39.6pt;
+	text-indent:-21.6pt;}
+@list l5:level3
+	{mso-level-text:"%1\.%2\.%3\.";
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	margin-left:61.2pt;
+	text-indent:-25.2pt;}
+@list l5:level4
+	{mso-level-text:"%1\.%2\.%3\.%4\.";
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	margin-left:86.4pt;
+	text-indent:-32.4pt;}
+@list l5:level5
+	{mso-level-text:"%1\.%2\.%3\.%4\.%5\.";
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	margin-left:111.6pt;
+	text-indent:-39.6pt;}
+@list l5:level6
+	{mso-level-text:"%1\.%2\.%3\.%4\.%5\.%6\.";
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	margin-left:136.8pt;
+	text-indent:-46.8pt;}
+@list l5:level7
+	{mso-level-text:"%1\.%2\.%3\.%4\.%5\.%6\.%7\.";
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	margin-left:162.0pt;
+	text-indent:-54.0pt;}
+@list l5:level8
+	{mso-level-text:"%1\.%2\.%3\.%4\.%5\.%6\.%7\.%8\.";
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	margin-left:187.2pt;
+	text-indent:-61.2pt;}
+@list l5:level9
+	{mso-level-text:"%1\.%2\.%3\.%4\.%5\.%6\.%7\.%8\.%9\.";
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	margin-left:216.0pt;
+	text-indent:-72.0pt;}
+ol
+	{margin-bottom:0cm;}
+ul
+	{margin-bottom:0cm;}
+
+.header {
+	border-bottom: 1px #000 solid;
+	font-size: 80%;
+	padding-bottom: 10px;
+	margin-bottom: 30px;
+	text-align: right;
+}
+-->
+</style>
+</style>
+</head>
+
+<body lang=EN link=blue vlink=purple style='background: #EEEEEE; margin: 30px 30% 30px 10%'>
+
+<div class=WordSection1 style="background: white; padding: 20px">
+
+<div class="header">
+	<a href="http://sf.net/projects/extcos">Visit the SF.net project page</a> |
+	<a href="https://sourceforge.net/projects/extcos/files/latest/download">Download the latest version</a>
+</div>
+
+<p class=MsoNormal align=center style='text-align:center'><b style='mso-bidi-font-weight:
+normal'><span lang=EN-US style='font-size:14.0pt;line-height:115%;mso-ansi-language:
+EN-US'>Extensible Component Scanner, Version 0.3b<o:p></o:p></span></b></p>
+
+<p class=MsoNormal><span lang=EN-US style='mso-ansi-language:EN-US'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNormal align=center style='text-align:center'><b style='mso-bidi-font-weight:
+normal'><span lang=EN-US style='font-size:20.0pt;line-height:115%;mso-ansi-language:
+EN-US'>User Manual<o:p></o:p></span></b></p>
+
+<p class=MsoNormal><span lang=EN-US style='mso-ansi-language:EN-US'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNormal align=center style='text-align:center'><b style='mso-bidi-font-weight:
+normal'><span lang=EN-US style='font-size:14.0pt;line-height:115%;mso-ansi-language:
+EN-US'>Matthias Rothe (</span></b><a href="mailto:mimarox@users.sourceforge.net"><b
+style='mso-bidi-font-weight:normal'><span lang=EN-US style='mso-ansi-language:
+EN-US'>mimarox@users.sourceforge.net</span></b></a><b style='mso-bidi-font-weight:
+normal'><span lang=EN-US style='font-size:14.0pt;line-height:115%;mso-ansi-language:
+EN-US'>), 2011-11-05<o:p></o:p></span></b></p>
+
+<p class=MsoNormal><span lang=EN-US style='mso-ansi-language:EN-US'><o:p>&nbsp;</o:p></span></p>
+
+<w:Sdt SdtDocPart="t" DocPartType="Table of Contents" DocPartUnique="t"
+ ID="1074772730">
+ <p class=MsoTocHeading><span lang=EN-US style='mso-ansi-language:EN-US'>Table
+ of Contents<o:p></o:p></span><span lang=EN-US style='font-size:11.0pt;
+ line-height:115%;mso-ascii-font-family:Calibri;mso-ascii-theme-font:minor-latin;
+ mso-fareast-font-family:Calibri;mso-fareast-theme-font:minor-latin;mso-hansi-font-family:
+ Calibri;mso-hansi-theme-font:minor-latin;mso-bidi-font-family:"Times New Roman";
+ mso-bidi-theme-font:minor-bidi;color:windowtext;mso-ansi-language:EN-US;
+ font-weight:normal'><w:sdtPr></w:sdtPr></span></p>
+ <p class=MsoNormal><span lang=EN-US style='mso-ansi-language:EN-US'><o:p>&nbsp;</o:p></span></p>
+ <p class=MsoToc1 style='tab-stops:22.0pt right dotted 453.1pt'><a
+ href="#_Toc288506248"><span lang=EN-US style='mso-ansi-language:EN-US;
+ mso-no-proof:yes'>1.</span><span style='mso-fareast-font-family:"Times New Roman";
+ mso-fareast-theme-font:minor-fareast;color:windowtext;mso-fareast-language:
+ DE;mso-no-proof:yes;text-decoration:none;text-underline:none'><span
+ style='mso-tab-count:1'>      </span></span><span lang=EN-US style='mso-ansi-language:
+ EN-US;mso-no-proof:yes'>The purpose of Component Scanning</span><span
+ style='color:windowtext;display:none;mso-hide:screen;mso-no-proof:yes;
+ text-decoration:none;text-underline:none'><span style='mso-tab-count:1 dotted'>. </span></span><!--[if supportFields]><span
+ style='color:windowtext;display:none;mso-hide:screen;mso-no-proof:yes;
+ text-decoration:none;text-underline:none'><span style='mso-element:field-begin'></span>
+ PAGEREF _Toc288506248 \h <span style='mso-element:field-separator'></span></span><![endif]--><span
+ style='color:windowtext;display:none;mso-hide:screen;mso-no-proof:yes;
+ text-decoration:none;text-underline:none'>4<!--[if gte mso 9]><xml>
+  <w:data>08D0C9EA79F9BACE118C8200AA004BA90B02000000080000000E0000005F0054006F0063003200380038003500300036003200340038000000</w:data>
+ </xml><![endif]--></span><!--[if supportFields]><span style='color:windowtext;
+ display:none;mso-hide:screen;mso-no-proof:yes;text-decoration:none;text-underline:
+ none'><span style='mso-element:field-end'></span></span><![endif]--></a><span
+ style='mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:minor-fareast;
+ mso-fareast-language:DE;mso-no-proof:yes'><o:p></o:p></span></p>
+ <p class=MsoToc2 style='tab-stops:44.0pt right dotted 453.1pt'><a
+ href="#_Toc288506249"><span lang=EN-US style='mso-ansi-language:EN-US;
+ mso-no-proof:yes'>1.1.</span><span style='mso-fareast-font-family:"Times New Roman";
+ mso-fareast-theme-font:minor-fareast;color:windowtext;mso-fareast-language:
+ DE;mso-no-proof:yes;text-decoration:none;text-underline:none'><span
+ style='mso-tab-count:1'>       </span></span><span lang=EN-US
+ style='mso-ansi-language:EN-US;mso-no-proof:yes'>What is a Component</span><span
+ style='color:windowtext;display:none;mso-hide:screen;mso-no-proof:yes;
+ text-decoration:none;text-underline:none'><span style='mso-tab-count:1 dotted'>. </span></span><!--[if supportFields]><span
+ style='color:windowtext;display:none;mso-hide:screen;mso-no-proof:yes;
+ text-decoration:none;text-underline:none'><span style='mso-element:field-begin'></span>
+ PAGEREF _Toc288506249 \h <span style='mso-element:field-separator'></span></span><![endif]--><span
+ style='color:windowtext;display:none;mso-hide:screen;mso-no-proof:yes;
+ text-decoration:none;text-underline:none'>4<!--[if gte mso 9]><xml>
+  <w:data>08D0C9EA79F9BACE118C8200AA004BA90B02000000080000000E0000005F0054006F0063003200380038003500300036003200340039000000</w:data>
+ </xml><![endif]--></span><!--[if supportFields]><span style='color:windowtext;
+ display:none;mso-hide:screen;mso-no-proof:yes;text-decoration:none;text-underline:
+ none'><span style='mso-element:field-end'></span></span><![endif]--></a><span
+ style='mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:minor-fareast;
+ mso-fareast-language:DE;mso-no-proof:yes'><o:p></o:p></span></p>
+ <p class=MsoToc2 style='tab-stops:44.0pt right dotted 453.1pt'><a
+ href="#_Toc288506250"><span lang=EN-US style='mso-ansi-language:EN-US;
+ mso-no-proof:yes'>1.2.</span><span style='mso-fareast-font-family:"Times New Roman";
+ mso-fareast-theme-font:minor-fareast;color:windowtext;mso-fareast-language:
+ DE;mso-no-proof:yes;text-decoration:none;text-underline:none'><span
+ style='mso-tab-count:1'>       </span></span><span lang=EN-US
+ style='mso-ansi-language:EN-US;mso-no-proof:yes'>Why to scan for Components</span><span
+ style='color:windowtext;display:none;mso-hide:screen;mso-no-proof:yes;
+ text-decoration:none;text-underline:none'><span style='mso-tab-count:1 dotted'>. </span></span><!--[if supportFields]><span
+ style='color:windowtext;display:none;mso-hide:screen;mso-no-proof:yes;
+ text-decoration:none;text-underline:none'><span style='mso-element:field-begin'></span>
+ PAGEREF _Toc288506250 \h <span style='mso-element:field-separator'></span></span><![endif]--><span
+ style='color:windowtext;display:none;mso-hide:screen;mso-no-proof:yes;
+ text-decoration:none;text-underline:none'>5<!--[if gte mso 9]><xml>
+  <w:data>08D0C9EA79F9BACE118C8200AA004BA90B02000000080000000E0000005F0054006F0063003200380038003500300036003200350030000000</w:data>
+ </xml><![endif]--></span><!--[if supportFields]><span style='color:windowtext;
+ display:none;mso-hide:screen;mso-no-proof:yes;text-decoration:none;text-underline:
+ none'><span style='mso-element:field-end'></span></span><![endif]--></a><span
+ style='mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:minor-fareast;
+ mso-fareast-language:DE;mso-no-proof:yes'><o:p></o:p></span></p>
+ <p class=MsoToc2 style='tab-stops:44.0pt right dotted 453.1pt'><a
+ href="#_Toc288506251"><span lang=EN-US style='mso-ansi-language:EN-US;
+ mso-no-proof:yes'>1.3.</span><span style='mso-fareast-font-family:"Times New Roman";
+ mso-fareast-theme-font:minor-fareast;color:windowtext;mso-fareast-language:
+ DE;mso-no-proof:yes;text-decoration:none;text-underline:none'><span
+ style='mso-tab-count:1'>       </span></span><span lang=EN-US
+ style='mso-ansi-language:EN-US;mso-no-proof:yes'>Is Component Scanning the
+ same as Classpath Scanning</span><span style='color:windowtext;display:none;
+ mso-hide:screen;mso-no-proof:yes;text-decoration:none;text-underline:none'><span
+ style='mso-tab-count:1 dotted'>. </span></span><!--[if supportFields]><span
+ style='color:windowtext;display:none;mso-hide:screen;mso-no-proof:yes;
+ text-decoration:none;text-underline:none'><span style='mso-element:field-begin'></span>
+ PAGEREF _Toc288506251 \h <span style='mso-element:field-separator'></span></span><![endif]--><span
+ style='color:windowtext;display:none;mso-hide:screen;mso-no-proof:yes;
+ text-decoration:none;text-underline:none'>5<!--[if gte mso 9]><xml>
+  <w:data>08D0C9EA79F9BACE118C8200AA004BA90B02000000080000000E0000005F0054006F0063003200380038003500300036003200350031000000</w:data>
+ </xml><![endif]--></span><!--[if supportFields]><span style='color:windowtext;
+ display:none;mso-hide:screen;mso-no-proof:yes;text-decoration:none;text-underline:
+ none'><span style='mso-element:field-end'></span></span><![endif]--></a><span
+ style='mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:minor-fareast;
+ mso-fareast-language:DE;mso-no-proof:yes'><o:p></o:p></span></p>
+ <p class=MsoToc1 style='tab-stops:22.0pt right dotted 453.1pt'><a
+ href="#_Toc288506252"><span lang=EN-US style='mso-ansi-language:EN-US;
+ mso-no-proof:yes'>2.</span><span style='mso-fareast-font-family:"Times New Roman";
+ mso-fareast-theme-font:minor-fareast;color:windowtext;mso-fareast-language:
+ DE;mso-no-proof:yes;text-decoration:none;text-underline:none'><span
+ style='mso-tab-count:1'>      </span></span><span lang=EN-US style='mso-ansi-language:
+ EN-US;mso-no-proof:yes'>The Extensible Component Scanner API</span><span
+ style='color:windowtext;display:none;mso-hide:screen;mso-no-proof:yes;
+ text-decoration:none;text-underline:none'><span style='mso-tab-count:1 dotted'> </span></span><!--[if supportFields]><span
+ style='color:windowtext;display:none;mso-hide:screen;mso-no-proof:yes;
+ text-decoration:none;text-underline:none'><span style='mso-element:field-begin'></span>
+ PAGEREF _Toc288506252 \h <span style='mso-element:field-separator'></span></span><![endif]--><span
+ style='color:windowtext;display:none;mso-hide:screen;mso-no-proof:yes;
+ text-decoration:none;text-underline:none'>6<!--[if gte mso 9]><xml>
+  <w:data>08D0C9EA79F9BACE118C8200AA004BA90B02000000080000000E0000005F0054006F0063003200380038003500300036003200350032000000</w:data>
+ </xml><![endif]--></span><!--[if supportFields]><span style='color:windowtext;
+ display:none;mso-hide:screen;mso-no-proof:yes;text-decoration:none;text-underline:
+ none'><span style='mso-element:field-end'></span></span><![endif]--></a><span
+ style='mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:minor-fareast;
+ mso-fareast-language:DE;mso-no-proof:yes'><o:p></o:p></span></p>
+ <p class=MsoToc2 style='tab-stops:44.0pt right dotted 453.1pt'><a
+ href="#_Toc288506253"><span lang=EN-US style='mso-ansi-language:EN-US;
+ mso-no-proof:yes'>2.1.</span><span style='mso-fareast-font-family:"Times New Roman";
+ mso-fareast-theme-font:minor-fareast;color:windowtext;mso-fareast-language:
+ DE;mso-no-proof:yes;text-decoration:none;text-underline:none'><span
+ style='mso-tab-count:1'>       </span></span><span lang=EN-US
+ style='mso-ansi-language:EN-US;mso-no-proof:yes'>The ComponentScanner class</span><span
+ style='color:windowtext;display:none;mso-hide:screen;mso-no-proof:yes;
+ text-decoration:none;text-underline:none'><span style='mso-tab-count:1 dotted'>. </span></span><!--[if supportFields]><span
+ style='color:windowtext;display:none;mso-hide:screen;mso-no-proof:yes;
+ text-decoration:none;text-underline:none'><span style='mso-element:field-begin'></span>
+ PAGEREF _Toc288506253 \h <span style='mso-element:field-separator'></span></span><![endif]--><span
+ style='color:windowtext;display:none;mso-hide:screen;mso-no-proof:yes;
+ text-decoration:none;text-underline:none'>6<!--[if gte mso 9]><xml>
+  <w:data>08D0C9EA79F9BACE118C8200AA004BA90B02000000080000000E0000005F0054006F0063003200380038003500300036003200350033000000</w:data>
+ </xml><![endif]--></span><!--[if supportFields]><span style='color:windowtext;
+ display:none;mso-hide:screen;mso-no-proof:yes;text-decoration:none;text-underline:
+ none'><span style='mso-element:field-end'></span></span><![endif]--></a><span
+ style='mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:minor-fareast;
+ mso-fareast-language:DE;mso-no-proof:yes'><o:p></o:p></span></p>
+ <p class=MsoToc2 style='tab-stops:44.0pt right dotted 453.1pt'><a
+ href="#_Toc288506254"><span lang=EN-US style='mso-ansi-language:EN-US;
+ mso-no-proof:yes'>2.2.</span><span style='mso-fareast-font-family:"Times New Roman";
+ mso-fareast-theme-font:minor-fareast;color:windowtext;mso-fareast-language:
+ DE;mso-no-proof:yes;text-decoration:none;text-underline:none'><span
+ style='mso-tab-count:1'>       </span></span><span lang=EN-US
+ style='mso-ansi-language:EN-US;mso-no-proof:yes'>The ComponentQuery class</span><span
+ style='color:windowtext;display:none;mso-hide:screen;mso-no-proof:yes;
+ text-decoration:none;text-underline:none'><span style='mso-tab-count:1 dotted'>. </span></span><!--[if supportFields]><span
+ style='color:windowtext;display:none;mso-hide:screen;mso-no-proof:yes;
+ text-decoration:none;text-underline:none'><span style='mso-element:field-begin'></span>
+ PAGEREF _Toc288506254 \h <span style='mso-element:field-separator'></span></span><![endif]--><span
+ style='color:windowtext;display:none;mso-hide:screen;mso-no-proof:yes;
+ text-decoration:none;text-underline:none'>6<!--[if gte mso 9]><xml>
+  <w:data>08D0C9EA79F9BACE118C8200AA004BA90B02000000080000000E0000005F0054006F0063003200380038003500300036003200350034000000</w:data>
+ </xml><![endif]--></span><!--[if supportFields]><span style='color:windowtext;
+ display:none;mso-hide:screen;mso-no-proof:yes;text-decoration:none;text-underline:
+ none'><span style='mso-element:field-end'></span></span><![endif]--></a><span
+ style='mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:minor-fareast;
+ mso-fareast-language:DE;mso-no-proof:yes'><o:p></o:p></span></p>
+ <p class=MsoToc2 style='tab-stops:44.0pt right dotted 453.1pt'><a
+ href="#_Toc288506255"><span lang=EN-US style='mso-ansi-language:EN-US;
+ mso-no-proof:yes'>2.3.</span><span style='mso-fareast-font-family:"Times New Roman";
+ mso-fareast-theme-font:minor-fareast;color:windowtext;mso-fareast-language:
+ DE;mso-no-proof:yes;text-decoration:none;text-underline:none'><span
+ style='mso-tab-count:1'>       </span></span><span lang=EN-US
+ style='mso-ansi-language:EN-US;mso-no-proof:yes'>A first code example</span><span
+ style='color:windowtext;display:none;mso-hide:screen;mso-no-proof:yes;
+ text-decoration:none;text-underline:none'><span style='mso-tab-count:1 dotted'>. </span></span><!--[if supportFields]><span
+ style='color:windowtext;display:none;mso-hide:screen;mso-no-proof:yes;
+ text-decoration:none;text-underline:none'><span style='mso-element:field-begin'></span>
+ PAGEREF _Toc288506255 \h <span style='mso-element:field-separator'></span></span><![endif]--><span
+ style='color:windowtext;display:none;mso-hide:screen;mso-no-proof:yes;
+ text-decoration:none;text-underline:none'>7<!--[if gte mso 9]><xml>
+  <w:data>08D0C9EA79F9BACE118C8200AA004BA90B02000000080000000E0000005F0054006F0063003200380038003500300036003200350035000000</w:data>
+ </xml><![endif]--></span><!--[if supportFields]><span style='color:windowtext;
+ display:none;mso-hide:screen;mso-no-proof:yes;text-decoration:none;text-underline:
+ none'><span style='mso-element:field-end'></span></span><![endif]--></a><span
+ style='mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:minor-fareast;
+ mso-fareast-language:DE;mso-no-proof:yes'><o:p></o:p></span></p>
+ <p class=MsoToc1 style='tab-stops:22.0pt right dotted 453.1pt'><a
+ href="#_Toc288506256"><span lang=EN-US style='mso-ansi-language:EN-US;
+ mso-no-proof:yes'>3.</span><span style='mso-fareast-font-family:"Times New Roman";
+ mso-fareast-theme-font:minor-fareast;color:windowtext;mso-fareast-language:
+ DE;mso-no-proof:yes;text-decoration:none;text-underline:none'><span
+ style='mso-tab-count:1'>      </span></span><span lang=EN-US style='mso-ansi-language:
+ EN-US;mso-no-proof:yes'>The Component Query Language</span><span
+ style='color:windowtext;display:none;mso-hide:screen;mso-no-proof:yes;
+ text-decoration:none;text-underline:none'><span style='mso-tab-count:1 dotted'>. </span></span><!--[if supportFields]><span
+ style='color:windowtext;display:none;mso-hide:screen;mso-no-proof:yes;
+ text-decoration:none;text-underline:none'><span style='mso-element:field-begin'></span>
+ PAGEREF _Toc288506256 \h <span style='mso-element:field-separator'></span></span><![endif]--><span
+ style='color:windowtext;display:none;mso-hide:screen;mso-no-proof:yes;
+ text-decoration:none;text-underline:none'>8<!--[if gte mso 9]><xml>
+  <w:data>08D0C9EA79F9BACE118C8200AA004BA90B02000000080000000E0000005F0054006F0063003200380038003500300036003200350036000000</w:data>
+ </xml><![endif]--></span><!--[if supportFields]><span style='color:windowtext;
+ display:none;mso-hide:screen;mso-no-proof:yes;text-decoration:none;text-underline:
+ none'><span style='mso-element:field-end'></span></span><![endif]--></a><span
+ style='mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:minor-fareast;
+ mso-fareast-language:DE;mso-no-proof:yes'><o:p></o:p></span></p>
+ <p class=MsoToc2 style='tab-stops:44.0pt right dotted 453.1pt'><a
+ href="#_Toc288506257"><span lang=EN-US style='mso-ansi-language:EN-US;
+ mso-no-proof:yes'>3.1.</span><span style='mso-fareast-font-family:"Times New Roman";
+ mso-fareast-theme-font:minor-fareast;color:windowtext;mso-fareast-language:
+ DE;mso-no-proof:yes;text-decoration:none;text-underline:none'><span
+ style='mso-tab-count:1'>       </span></span><span lang=EN-US
+ style='mso-ansi-language:EN-US;mso-no-proof:yes'>The select clause</span><span
+ style='color:windowtext;display:none;mso-hide:screen;mso-no-proof:yes;
+ text-decoration:none;text-underline:none'><span style='mso-tab-count:1 dotted'>. </span></span><!--[if supportFields]><span
+ style='color:windowtext;display:none;mso-hide:screen;mso-no-proof:yes;
+ text-decoration:none;text-underline:none'><span style='mso-element:field-begin'></span>
+ PAGEREF _Toc288506257 \h <span style='mso-element:field-separator'></span></span><![endif]--><span
+ style='color:windowtext;display:none;mso-hide:screen;mso-no-proof:yes;
+ text-decoration:none;text-underline:none'>8<!--[if gte mso 9]><xml>
+  <w:data>08D0C9EA79F9BACE118C8200AA004BA90B02000000080000000E0000005F0054006F0063003200380038003500300036003200350037000000</w:data>
+ </xml><![endif]--></span><!--[if supportFields]><span style='color:windowtext;
+ display:none;mso-hide:screen;mso-no-proof:yes;text-decoration:none;text-underline:
+ none'><span style='mso-element:field-end'></span></span><![endif]--></a><span
+ style='mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:minor-fareast;
+ mso-fareast-language:DE;mso-no-proof:yes'><o:p></o:p></span></p>
+ <p class=MsoToc2 style='tab-stops:44.0pt right dotted 453.1pt'><a
+ href="#_Toc288506258"><span lang=EN-US style='mso-ansi-language:EN-US;
+ mso-no-proof:yes'>3.2.</span><span style='mso-fareast-font-family:"Times New Roman";
+ mso-fareast-theme-font:minor-fareast;color:windowtext;mso-fareast-language:
+ DE;mso-no-proof:yes;text-decoration:none;text-underline:none'><span
+ style='mso-tab-count:1'>       </span></span><span lang=EN-US
+ style='mso-ansi-language:EN-US;mso-no-proof:yes'>The from clause</span><span
+ style='color:windowtext;display:none;mso-hide:screen;mso-no-proof:yes;
+ text-decoration:none;text-underline:none'><span style='mso-tab-count:1 dotted'>. </span></span><!--[if supportFields]><span
+ style='color:windowtext;display:none;mso-hide:screen;mso-no-proof:yes;
+ text-decoration:none;text-underline:none'><span style='mso-element:field-begin'></span>
+ PAGEREF _Toc288506258 \h <span style='mso-element:field-separator'></span></span><![endif]--><span
+ style='color:windowtext;display:none;mso-hide:screen;mso-no-proof:yes;
+ text-decoration:none;text-underline:none'>8<!--[if gte mso 9]><xml>
+  <w:data>08D0C9EA79F9BACE118C8200AA004BA90B02000000080000000E0000005F0054006F0063003200380038003500300036003200350038000000</w:data>
+ </xml><![endif]--></span><!--[if supportFields]><span style='color:windowtext;
+ display:none;mso-hide:screen;mso-no-proof:yes;text-decoration:none;text-underline:
+ none'><span style='mso-element:field-end'></span></span><![endif]--></a><span
+ style='mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:minor-fareast;
+ mso-fareast-language:DE;mso-no-proof:yes'><o:p></o:p></span></p>
+ <p class=MsoToc2 style='tab-stops:44.0pt right dotted 453.1pt'><a
+ href="#_Toc288506259"><span lang=EN-US style='mso-ansi-language:EN-US;
+ mso-no-proof:yes'>3.3.</span><span style='mso-fareast-font-family:"Times New Roman";
+ mso-fareast-theme-font:minor-fareast;color:windowtext;mso-fareast-language:
+ DE;mso-no-proof:yes;text-decoration:none;text-underline:none'><span
+ style='mso-tab-count:1'>       </span></span><span lang=EN-US
+ style='mso-ansi-language:EN-US;mso-no-proof:yes'>The andStore clause</span><span
+ style='color:windowtext;display:none;mso-hide:screen;mso-no-proof:yes;
+ text-decoration:none;text-underline:none'><span style='mso-tab-count:1 dotted'>. </span></span><!--[if supportFields]><span
+ style='color:windowtext;display:none;mso-hide:screen;mso-no-proof:yes;
+ text-decoration:none;text-underline:none'><span style='mso-element:field-begin'></span>
+ PAGEREF _Toc288506259 \h <span style='mso-element:field-separator'></span></span><![endif]--><span
+ style='color:windowtext;display:none;mso-hide:screen;mso-no-proof:yes;
+ text-decoration:none;text-underline:none'>9<!--[if gte mso 9]><xml>
+  <w:data>08D0C9EA79F9BACE118C8200AA004BA90B02000000080000000E0000005F0054006F0063003200380038003500300036003200350039000000</w:data>
+ </xml><![endif]--></span><!--[if supportFields]><span style='color:windowtext;
+ display:none;mso-hide:screen;mso-no-proof:yes;text-decoration:none;text-underline:
+ none'><span style='mso-element:field-end'></span></span><![endif]--></a><span
+ style='mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:minor-fareast;
+ mso-fareast-language:DE;mso-no-proof:yes'><o:p></o:p></span></p>
+ <p class=MsoToc2 style='tab-stops:44.0pt right dotted 453.1pt'><a
+ href="#_Toc288506260"><span lang=EN-US style='mso-ansi-language:EN-US;
+ mso-no-proof:yes'>3.4.</span><span style='mso-fareast-font-family:"Times New Roman";
+ mso-fareast-theme-font:minor-fareast;color:windowtext;mso-fareast-language:
+ DE;mso-no-proof:yes;text-decoration:none;text-underline:none'><span
+ style='mso-tab-count:1'>       </span></span><span lang=EN-US
+ style='mso-ansi-language:EN-US;mso-no-proof:yes'>The returning clause</span><span
+ style='color:windowtext;display:none;mso-hide:screen;mso-no-proof:yes;
+ text-decoration:none;text-underline:none'><span style='mso-tab-count:1 dotted'>. </span></span><!--[if supportFields]><span
+ style='color:windowtext;display:none;mso-hide:screen;mso-no-proof:yes;
+ text-decoration:none;text-underline:none'><span style='mso-element:field-begin'></span>
+ PAGEREF _Toc288506260 \h <span style='mso-element:field-separator'></span></span><![endif]--><span
+ style='color:windowtext;display:none;mso-hide:screen;mso-no-proof:yes;
+ text-decoration:none;text-underline:none'>10<!--[if gte mso 9]><xml>
+  <w:data>08D0C9EA79F9BACE118C8200AA004BA90B02000000080000000E0000005F0054006F0063003200380038003500300036003200360030000000</w:data>
+ </xml><![endif]--></span><!--[if supportFields]><span style='color:windowtext;
+ display:none;mso-hide:screen;mso-no-proof:yes;text-decoration:none;text-underline:
+ none'><span style='mso-element:field-end'></span></span><![endif]--></a><span
+ style='mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:minor-fareast;
+ mso-fareast-language:DE;mso-no-proof:yes'><o:p></o:p></span></p>
+ <p class=MsoToc2 style='tab-stops:44.0pt right dotted 453.1pt'><a
+ href="#_Toc288506261"><span lang=EN-US style='mso-ansi-language:EN-US;
+ mso-no-proof:yes'>3.5.</span><span style='mso-fareast-font-family:"Times New Roman";
+ mso-fareast-theme-font:minor-fareast;color:windowtext;mso-fareast-language:
+ DE;mso-no-proof:yes;text-decoration:none;text-underline:none'><span
+ style='mso-tab-count:1'>       </span></span><span lang=EN-US
+ style='mso-ansi-language:EN-US;mso-no-proof:yes'>Annotation matching clauses</span><span
+ style='color:windowtext;display:none;mso-hide:screen;mso-no-proof:yes;
+ text-decoration:none;text-underline:none'><span style='mso-tab-count:1 dotted'>. </span></span><!--[if supportFields]><span
+ style='color:windowtext;display:none;mso-hide:screen;mso-no-proof:yes;
+ text-decoration:none;text-underline:none'><span style='mso-element:field-begin'></span>
+ PAGEREF _Toc288506261 \h <span style='mso-element:field-separator'></span></span><![endif]--><span
+ style='color:windowtext;display:none;mso-hide:screen;mso-no-proof:yes;
+ text-decoration:none;text-underline:none'>11<!--[if gte mso 9]><xml>
+  <w:data>08D0C9EA79F9BACE118C8200AA004BA90B02000000080000000E0000005F0054006F0063003200380038003500300036003200360031000000</w:data>
+ </xml><![endif]--></span><!--[if supportFields]><span style='color:windowtext;
+ display:none;mso-hide:screen;mso-no-proof:yes;text-decoration:none;text-underline:
+ none'><span style='mso-element:field-end'></span></span><![endif]--></a><span
+ style='mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:minor-fareast;
+ mso-fareast-language:DE;mso-no-proof:yes'><o:p></o:p></span></p>
+ <p class=MsoToc2 style='tab-stops:44.0pt right dotted 453.1pt'><a
+ href="#_Toc288506262"><span lang=EN-US style='mso-ansi-language:EN-US;
+ mso-no-proof:yes'>3.6.</span><span style='mso-fareast-font-family:"Times New Roman";
+ mso-fareast-theme-font:minor-fareast;color:windowtext;mso-fareast-language:
+ DE;mso-no-proof:yes;text-decoration:none;text-underline:none'><span
+ style='mso-tab-count:1'>       </span></span><span lang=EN-US
+ style='mso-ansi-language:EN-US;mso-no-proof:yes'>Annotation with specific
+ arguments matching clauses</span><span style='color:windowtext;display:none;
+ mso-hide:screen;mso-no-proof:yes;text-decoration:none;text-underline:none'><span
+ style='mso-tab-count:1 dotted'>. </span></span><!--[if supportFields]><span
+ style='color:windowtext;display:none;mso-hide:screen;mso-no-proof:yes;
+ text-decoration:none;text-underline:none'><span style='mso-element:field-begin'></span>
+ PAGEREF _Toc288506262 \h <span style='mso-element:field-separator'></span></span><![endif]--><span
+ style='color:windowtext;display:none;mso-hide:screen;mso-no-proof:yes;
+ text-decoration:none;text-underline:none'>12<!--[if gte mso 9]><xml>
+  <w:data>08D0C9EA79F9BACE118C8200AA004BA90B02000000080000000E0000005F0054006F0063003200380038003500300036003200360032000000</w:data>
+ </xml><![endif]--></span><!--[if supportFields]><span style='color:windowtext;
+ display:none;mso-hide:screen;mso-no-proof:yes;text-decoration:none;text-underline:
+ none'><span style='mso-element:field-end'></span></span><![endif]--></a><span
+ style='mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:minor-fareast;
+ mso-fareast-language:DE;mso-no-proof:yes'><o:p></o:p></span></p>
+ <p class=MsoToc2 style='tab-stops:44.0pt right dotted 453.1pt'><a
+ href="#_Toc288506263"><span style='mso-no-proof:yes'>3.7.</span><span
+ style='mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:minor-fareast;
+ color:windowtext;mso-fareast-language:DE;mso-no-proof:yes;text-decoration:
+ none;text-underline:none'><span style='mso-tab-count:1'>       </span></span><span
+ lang=EN-US style='mso-ansi-language:EN-US;mso-no-proof:yes'>Extending</span><span
+ style='mso-no-proof:yes'> superclass<span style='mso-spacerun:yes'> 
+ </span>matching clauses</span><span style='color:windowtext;display:none;
+ mso-hide:screen;mso-no-proof:yes;text-decoration:none;text-underline:none'><span
+ style='mso-tab-count:1 dotted'>. </span></span><!--[if supportFields]><span
+ style='color:windowtext;display:none;mso-hide:screen;mso-no-proof:yes;
+ text-decoration:none;text-underline:none'><span style='mso-element:field-begin'></span>
+ PAGEREF _Toc288506263 \h <span style='mso-element:field-separator'></span></span><![endif]--><span
+ style='color:windowtext;display:none;mso-hide:screen;mso-no-proof:yes;
+ text-decoration:none;text-underline:none'>14<!--[if gte mso 9]><xml>
+  <w:data>08D0C9EA79F9BACE118C8200AA004BA90B02000000080000000E0000005F0054006F0063003200380038003500300036003200360033000000</w:data>
+ </xml><![endif]--></span><!--[if supportFields]><span style='color:windowtext;
+ display:none;mso-hide:screen;mso-no-proof:yes;text-decoration:none;text-underline:
+ none'><span style='mso-element:field-end'></span></span><![endif]--></a><span
+ style='mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:minor-fareast;
+ mso-fareast-language:DE;mso-no-proof:yes'><o:p></o:p></span></p>
+ <p class=MsoToc2 style='tab-stops:44.0pt right dotted 453.1pt'><a
+ href="#_Toc288506264"><span lang=EN-US style='mso-ansi-language:EN-US;
+ mso-no-proof:yes'>3.8.</span><span style='mso-fareast-font-family:"Times New Roman";
+ mso-fareast-theme-font:minor-fareast;color:windowtext;mso-fareast-language:
+ DE;mso-no-proof:yes;text-decoration:none;text-underline:none'><span
+ style='mso-tab-count:1'>       </span></span><span lang=EN-US
+ style='mso-ansi-language:EN-US;mso-no-proof:yes'>Implementing a single
+ interface matching clause</span><span style='color:windowtext;display:none;
+ mso-hide:screen;mso-no-proof:yes;text-decoration:none;text-underline:none'><span
+ style='mso-tab-count:1 dotted'>. </span></span><!--[if supportFields]><span
+ style='color:windowtext;display:none;mso-hide:screen;mso-no-proof:yes;
+ text-decoration:none;text-underline:none'><span style='mso-element:field-begin'></span>
+ PAGEREF _Toc288506264 \h <span style='mso-element:field-separator'></span></span><![endif]--><span
+ style='color:windowtext;display:none;mso-hide:screen;mso-no-proof:yes;
+ text-decoration:none;text-underline:none'>15<!--[if gte mso 9]><xml>
+  <w:data>08D0C9EA79F9BACE118C8200AA004BA90B02000000080000000E0000005F0054006F0063003200380038003500300036003200360034000000</w:data>
+ </xml><![endif]--></span><!--[if supportFields]><span style='color:windowtext;
+ display:none;mso-hide:screen;mso-no-proof:yes;text-decoration:none;text-underline:
+ none'><span style='mso-element:field-end'></span></span><![endif]--></a><span
+ style='mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:minor-fareast;
+ mso-fareast-language:DE;mso-no-proof:yes'><o:p></o:p></span></p>
+ <p class=MsoToc2 style='tab-stops:44.0pt right dotted 453.1pt'><a
+ href="#_Toc288506265"><span lang=EN-US style='mso-ansi-language:EN-US;
+ mso-no-proof:yes'>3.9.</span><span style='mso-fareast-font-family:"Times New Roman";
+ mso-fareast-theme-font:minor-fareast;color:windowtext;mso-fareast-language:
+ DE;mso-no-proof:yes;text-decoration:none;text-underline:none'><span
+ style='mso-tab-count:1'>       </span></span><span lang=EN-US
+ style='mso-ansi-language:EN-US;mso-no-proof:yes'>Implementing one or more
+ interfaces matching clauses</span><span style='color:windowtext;display:none;
+ mso-hide:screen;mso-no-proof:yes;text-decoration:none;text-underline:none'><span
+ style='mso-tab-count:1 dotted'>. </span></span><!--[if supportFields]><span
+ style='color:windowtext;display:none;mso-hide:screen;mso-no-proof:yes;
+ text-decoration:none;text-underline:none'><span style='mso-element:field-begin'></span>
+ PAGEREF _Toc288506265 \h <span style='mso-element:field-separator'></span></span><![endif]--><span
+ style='color:windowtext;display:none;mso-hide:screen;mso-no-proof:yes;
+ text-decoration:none;text-underline:none'>15<!--[if gte mso 9]><xml>
+  <w:data>08D0C9EA79F9BACE118C8200AA004BA90B02000000080000000E0000005F0054006F0063003200380038003500300036003200360035000000</w:data>
+ </xml><![endif]--></span><!--[if supportFields]><span style='color:windowtext;
+ display:none;mso-hide:screen;mso-no-proof:yes;text-decoration:none;text-underline:
+ none'><span style='mso-element:field-end'></span></span><![endif]--></a><span
+ style='mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:minor-fareast;
+ mso-fareast-language:DE;mso-no-proof:yes'><o:p></o:p></span></p>
+ <p class=MsoToc2 style='tab-stops:55.0pt right dotted 453.1pt'><a
+ href="#_Toc288506266"><span lang=EN-US style='mso-ansi-language:EN-US;
+ mso-no-proof:yes'>3.10.</span><span lang=EN-US style='mso-ansi-language:EN-US'><span
+ style='mso-spacerun:yes'>     </span><span style='mso-no-proof:yes'>Combining
+ matching clauses</span></span><span style='color:windowtext;display:none;
+ mso-hide:screen;mso-no-proof:yes;text-decoration:none;text-underline:none'><span
+ style='mso-tab-count:1 dotted'>. </span></span><!--[if supportFields]><span
+ style='color:windowtext;display:none;mso-hide:screen;mso-no-proof:yes;
+ text-decoration:none;text-underline:none'><span style='mso-element:field-begin'></span>
+ PAGEREF _Toc288506266 \h <span style='mso-element:field-separator'></span></span><![endif]--><span
+ style='color:windowtext;display:none;mso-hide:screen;mso-no-proof:yes;
+ text-decoration:none;text-underline:none'>16<!--[if gte mso 9]><xml>
+  <w:data>08D0C9EA79F9BACE118C8200AA004BA90B02000000080000000E0000005F0054006F0063003200380038003500300036003200360036000000</w:data>
+ </xml><![endif]--></span><!--[if supportFields]><span style='color:windowtext;
+ display:none;mso-hide:screen;mso-no-proof:yes;text-decoration:none;text-underline:
+ none'><span style='mso-element:field-end'></span></span><![endif]--></a><span
+ style='mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:minor-fareast;
+ mso-fareast-language:DE;mso-no-proof:yes'><o:p></o:p></span></p>
+ <p class=MsoToc1 style='tab-stops:22.0pt right dotted 453.1pt'><a
+ href="#_Toc288506267"><span lang=EN-US style='mso-ansi-language:EN-US;
+ mso-no-proof:yes'>4.</span><span style='mso-fareast-font-family:"Times New Roman";
+ mso-fareast-theme-font:minor-fareast;color:windowtext;mso-fareast-language:
+ DE;mso-no-proof:yes;text-decoration:none;text-underline:none'><span
+ style='mso-tab-count:1'>      </span></span><span lang=EN-US style='mso-ansi-language:
+ EN-US;mso-no-proof:yes'>Afterword</span><span style='color:windowtext;
+ display:none;mso-hide:screen;mso-no-proof:yes;text-decoration:none;text-underline:
+ none'><span style='mso-tab-count:1 dotted'>. </span></span><!--[if supportFields]><span
+ style='color:windowtext;display:none;mso-hide:screen;mso-no-proof:yes;
+ text-decoration:none;text-underline:none'><span style='mso-element:field-begin'></span>
+ PAGEREF _Toc288506267 \h <span style='mso-element:field-separator'></span></span><![endif]--><span
+ style='color:windowtext;display:none;mso-hide:screen;mso-no-proof:yes;
+ text-decoration:none;text-underline:none'>19<!--[if gte mso 9]><xml>
+  <w:data>08D0C9EA79F9BACE118C8200AA004BA90B02000000080000000E0000005F0054006F0063003200380038003500300036003200360037000000</w:data>
+ </xml><![endif]--></span><!--[if supportFields]><span style='color:windowtext;
+ display:none;mso-hide:screen;mso-no-proof:yes;text-decoration:none;text-underline:
+ none'><span style='mso-element:field-end'></span></span><![endif]--></a><span
+ style='mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:minor-fareast;
+ mso-fareast-language:DE;mso-no-proof:yes'><o:p></o:p></span></p>
+ <p class=MsoNormal><!--[if supportFields]><span lang=EN-US style='mso-ansi-language:
+ EN-US'><span style='mso-element:field-end'></span></span><![endif]--><span
+ lang=EN-US style='mso-ansi-language:EN-US'><o:p>&nbsp;</o:p></span></p>
+</w:Sdt><span lang=EN-US style='font-size:11.0pt;line-height:115%;font-family:
+"Calibri","sans-serif";mso-ascii-theme-font:minor-latin;mso-fareast-font-family:
+Calibri;mso-fareast-theme-font:minor-latin;mso-hansi-theme-font:minor-latin;
+mso-bidi-font-family:"Times New Roman";mso-bidi-theme-font:minor-bidi;
+mso-ansi-language:EN-US;mso-fareast-language:EN-US;mso-bidi-language:AR-SA'><br
+clear=all style='mso-special-character:line-break;page-break-before:always'>
+</span>
+
+<p class=MsoNormal><span lang=EN-US style='mso-ansi-language:EN-US'><o:p>&nbsp;</o:p></span></p>
+
+<h1 style='margin-left:18.0pt;text-indent:-18.0pt;mso-list:l0 level1 lfo3'><a
+name="_Toc288506248"><![if !supportLists]><span lang=EN-US style='mso-fareast-font-family:
+Cambria;mso-fareast-theme-font:major-latin;mso-bidi-font-family:Cambria;
+mso-bidi-theme-font:major-latin;mso-ansi-language:EN-US'><span
+style='mso-list:Ignore'>1.<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><![endif]><span lang=EN-US style='mso-ansi-language:EN-US'>The
+purpose of Component Scanning</span></a><span lang=EN-US style='mso-ansi-language:
+EN-US'><o:p></o:p></span></h1>
+
+<h2 style='margin-left:21.6pt;text-indent:-21.6pt;mso-list:l0 level2 lfo3'><![if !supportLists]><span
+lang=EN-US style='mso-fareast-font-family:Cambria;mso-fareast-theme-font:major-latin;
+mso-bidi-font-family:Cambria;mso-bidi-theme-font:major-latin;mso-ansi-language:
+EN-US'><span style='mso-list:Ignore'>1.1.<span style='font:7.0pt "Times New Roman"'>
+</span></span></span><![endif]><span lang=EN-US style='mso-ansi-language:EN-US'><span
+style='mso-spacerun:yes'> </span><a name="_Toc288506249">What is a Component</a><o:p></o:p></span></h2>
+
+<p class=MsoNormal style='text-align:justify'><span lang=EN-US
+style='mso-ansi-language:EN-US'>For the matters of the Extensible Component
+Scanner a component is some artifact that can be loaded and used as a Java
+class and conforms to some restrictions. It could either be a precompiled Java
+class or any class defined in source code of a programming language targeting
+the Java Virtual Machine (JVM) for which there is an extension for the
+Extensible Component Scanner available.<o:p></o:p></span></p>
+
+<p class=MsoNormal style='text-align:justify'><span lang=EN-US
+style='mso-ansi-language:EN-US'>Currently only precompiled Java classes can be
+used, an extension for Groovy is under development. To be considered a
+component a Java class needs to conform to the following restrictions:<o:p></o:p></span></p>
+
+<p class=MsoListParagraphCxSpFirst style='margin-left:18.0pt;mso-add-space:
+auto;text-align:justify;text-indent:-18.0pt;mso-list:l5 level1 lfo4'><![if !supportLists]><span
+lang=EN-US style='mso-bidi-font-family:Calibri;mso-bidi-theme-font:minor-latin;
+mso-ansi-language:EN-US'><span style='mso-list:Ignore'>1.<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span></span><![endif]><span
+lang=EN-US style='mso-ansi-language:EN-US'>It must be a <b style='mso-bidi-font-weight:
+normal'>class</b>: Interfaces, annotations and enums cannot be components<o:p></o:p></span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:18.0pt;mso-add-space:
+auto;text-align:justify;text-indent:-18.0pt;mso-list:l5 level1 lfo4'><![if !supportLists]><span
+lang=EN-US style='mso-bidi-font-family:Calibri;mso-bidi-theme-font:minor-latin;
+mso-ansi-language:EN-US'><span style='mso-list:Ignore'>2.<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span></span><![endif]><span
+lang=EN-US style='mso-ansi-language:EN-US'>It must be a <b style='mso-bidi-font-weight:
+normal'>primary</b> class: Nested or inner classes of any kind cannot be
+components<o:p></o:p></span></p>
+
+<p class=MsoListParagraphCxSpLast style='margin-left:18.0pt;mso-add-space:auto;
+text-align:justify;text-indent:-18.0pt;mso-list:l5 level1 lfo4'><![if !supportLists]><span
+lang=EN-US style='mso-bidi-font-family:Calibri;mso-bidi-theme-font:minor-latin;
+mso-ansi-language:EN-US'><span style='mso-list:Ignore'>3.<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span></span><![endif]><span
+lang=EN-US style='mso-ansi-language:EN-US'>It must be an <b style='mso-bidi-font-weight:
+normal'>instantiable</b> class: Abstract classes cannot be components<o:p></o:p></span></p>
+
+<p class=MsoNoSpacing><span lang=EN-US style='mso-ansi-language:EN-US'>Note:<o:p></o:p></span></p>
+
+<p class=MsoNormal><span lang=EN-US style='mso-ansi-language:EN-US'>A class
+does not need to be public to be considered a component. It could also be
+package private. However, to be able to instantiate a package private class it
+must have at least one declared public constructor. This constructor must then
+also be made accessible before calling it. Supposing you want to work with a
+default constructor without any parameters you would have to instantiate that
+class this way:<o:p></o:p></span></p>
+
+<p class=MsoNoSpacing style='text-align:justify'><span lang=EN-US
+style='font-size:10.0pt;font-family:"Courier New";mso-ansi-language:EN-US'>Constructor&lt;?&gt;
+constructor = clazz.getConstructor();<o:p></o:p></span></p>
+
+<p class=MsoNoSpacing style='text-align:justify'><span lang=EN-US
+style='font-size:10.0pt;font-family:"Courier New";mso-ansi-language:EN-US'>constructor.setAccessible(true);<o:p></o:p></span></p>
+
+<p class=MsoNoSpacing style='text-align:justify'><span lang=EN-US
+style='font-size:10.0pt;font-family:"Courier New";mso-ansi-language:EN-US'>constructor.newInstance();<o:p></o:p></span></p>
+
+<p class=MsoNoSpacing style='text-align:justify'><span lang=EN-US
+style='mso-bidi-font-family:"Courier New";mso-ansi-language:EN-US'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNormal><span lang=EN-US style='mso-ansi-language:EN-US'>instead of
+just using the standard approach of:<o:p></o:p></span></p>
+
+<p class=MsoNoSpacing style='text-align:justify'><span lang=EN-US
+style='font-size:10.0pt;font-family:"Courier New";mso-ansi-language:EN-US'>clazz.newInstance();<o:p></o:p></span></p>
+
+<p class=MsoNoSpacing style='text-align:justify'><span lang=EN-US
+style='mso-bidi-font-family:"Courier New";mso-ansi-language:EN-US'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNormal style='text-align:justify'><span lang=EN-US
+style='mso-ansi-language:EN-US'>This last way only works with public classes,
+since they are accessible per se. Needless to say that public classes also need
+a defined public no-args constructor or no defined constructor at all for this
+to work.<o:p></o:p></span></p>
+
+<p class=MsoNormal><span lang=EN-US style='mso-ansi-language:EN-US'>Any further
+advice on instantiating the classes retrieved by the Extensible Component
+Scanner, or on using them in any other way, is beyond the scope of this manual.<o:p></o:p></span></p>
+
+<p class=MsoNoSpacing><span lang=EN-US style='mso-ansi-language:EN-US'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNormal style='text-align:justify'><span lang=EN-US
+style='mso-ansi-language:EN-US'>Besides conforming to the restrictions just
+given, components should also be annotated with any kind of annotation,
+implement some interface or extend some class, other than java.lang.Object, or
+have a combination of these characteristics. This ensures that they have a
+special meaning and purpose in your application and can be found by matching
+them against criteria more narrow than extending java.lang.Object.<o:p></o:p></span></p>
+
+<span lang=EN-US style='font-size:11.0pt;line-height:115%;font-family:"Calibri","sans-serif";
+mso-ascii-theme-font:minor-latin;mso-fareast-font-family:Calibri;mso-fareast-theme-font:
+minor-latin;mso-hansi-theme-font:minor-latin;mso-bidi-font-family:"Times New Roman";
+mso-bidi-theme-font:minor-bidi;mso-ansi-language:EN-US;mso-fareast-language:
+EN-US;mso-bidi-language:AR-SA'><br clear=all style='mso-special-character:line-break;
+page-break-before:always'>
+</span>
+
+<p class=MsoNormal><span lang=EN-US style='mso-ansi-language:EN-US'><o:p>&nbsp;</o:p></span></p>
+
+<h2 style='margin-left:21.6pt;text-indent:-21.6pt;mso-list:l0 level2 lfo3'><![if !supportLists]><span
+lang=EN-US style='mso-fareast-font-family:Cambria;mso-fareast-theme-font:major-latin;
+mso-bidi-font-family:Cambria;mso-bidi-theme-font:major-latin;mso-ansi-language:
+EN-US'><span style='mso-list:Ignore'>1.2.<span style='font:7.0pt "Times New Roman"'>
+</span></span></span><![endif]><span lang=EN-US style='mso-ansi-language:EN-US'><span
+style='mso-spacerun:yes'> </span><a name="_Toc288506250">Why to scan for
+Components</a><o:p></o:p></span></h2>
+
+<p class=MsoNormal style='text-align:justify'><span lang=EN-US
+style='mso-ansi-language:EN-US'>There are two primary cases in which you’d
+probably like to use component scanning. The first one is to replace
+configuration files e.g. telling your application which classes to use as
+plug-ins or your framework or container which classes to use for a particular
+application. For example in the Spring framework </span><span lang=EN-US
+style='font-size:10.0pt;line-height:115%;mso-ansi-language:EN-US'>(</span><a
+href="http://www.springframework.com"><span lang=EN-US style='font-size:10.0pt;
+line-height:115%;mso-ansi-language:EN-US'>www.springframework.com</span></a><span
+lang=EN-US style='font-size:10.0pt;line-height:115%;mso-ansi-language:EN-US'>)</span><span
+lang=EN-US style='mso-ansi-language:EN-US'> component scanning is used as an
+alternative to defining all the different beans of an application in
+configuration XML files. As these can become quite large this reduces the
+amount of configuration code quite a lot.<o:p></o:p></span></p>
+
+<p class=MsoNormal style='text-align:justify'><span lang=EN-US
+style='mso-ansi-language:EN-US'>So if you are developing a new application
+featuring plug-ins, a new framework or container and want to make the lives of
+the developers targeting your system as painless as possible use component
+scanning instead of configuration files.<o:p></o:p></span></p>
+
+<p class=MsoNormal style='text-align:justify'><span lang=EN-US
+style='mso-ansi-language:EN-US'>Even though in the first case component
+scanning is quite useful, you could do without. Not so in the second case. Suppose
+you wanted to know all the classes in a particular package that are
+serializable. In this case you cannot configure anything, as you simply don’t
+know all those classes. There is nothing short of manually looking through all
+classes in that package to find those that match, except component scanning.<o:p></o:p></span></p>
+
+<p class=MsoNormal style='text-align:justify'><span lang=EN-US
+style='mso-ansi-language:EN-US'>In short component scanning is good for two
+things: saving configuration code and saving time.<o:p></o:p></span></p>
+
+<p class=MsoNormal style='text-align:justify'><span lang=EN-US
+style='mso-ansi-language:EN-US'><o:p>&nbsp;</o:p></span></p>
+
+<h2 style='margin-left:21.6pt;text-indent:-21.6pt;mso-list:l0 level2 lfo3'><![if !supportLists]><span
+lang=EN-US style='mso-fareast-font-family:Cambria;mso-fareast-theme-font:major-latin;
+mso-bidi-font-family:Cambria;mso-bidi-theme-font:major-latin;mso-ansi-language:
+EN-US'><span style='mso-list:Ignore'>1.3.<span style='font:7.0pt "Times New Roman"'>
+</span></span></span><![endif]><span lang=EN-US style='mso-ansi-language:EN-US'><span
+style='mso-spacerun:yes'> </span><a name="_Toc288506251">Is Component Scanning the
+same as Classpath Scanning</a><o:p></o:p></span></h2>
+
+<p class=MsoNormal style='text-align:justify'><span lang=EN-US
+style='mso-ansi-language:EN-US'>As component scanning refers to <b
+style='mso-bidi-font-weight:normal'>what</b> you want to find and classpath
+scanning refers to <b style='mso-bidi-font-weight:normal'>where</b> you want to
+find something, those terms are strictly speaking not equal. Furthermore with
+the Extensible Component Scanner you are not restricted to scanning the
+classpath that is known to the JVM at the moment of scanning to find the
+components you are looking for.<o:p></o:p></span></p>
+
+<p class=MsoNoSpacing><span lang=EN-US style='mso-ansi-language:EN-US'>The
+components are retrieved as resources from a class loader using the method<o:p></o:p></span></p>
+
+<p class=MsoNoSpacing><span lang=EN-US style='mso-ansi-language:EN-US'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNoSpacing><span lang=EN-US style='font-size:10.0pt;font-family:
+"Courier New";mso-ansi-language:EN-US'>ClassLoader.getResources(String name)<o:p></o:p></span></p>
+
+<p class=MsoNoSpacing><span lang=EN-US style='mso-bidi-font-family:"Courier New";
+mso-ansi-language:EN-US'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNormal style='text-align:justify'><span lang=EN-US
+style='mso-ansi-language:EN-US'>Since it is possible to pass a custom class loader
+to the Extensible Component Scanner you could retrieve components from just
+about any place, depending on the implementation of the getResources method of
+the class loader you are using.<o:p></o:p></span></p>
+
+<span lang=EN-US style='font-size:11.0pt;line-height:115%;font-family:"Calibri","sans-serif";
+mso-ascii-theme-font:minor-latin;mso-fareast-font-family:Calibri;mso-fareast-theme-font:
+minor-latin;mso-hansi-theme-font:minor-latin;mso-bidi-font-family:"Times New Roman";
+mso-bidi-theme-font:minor-bidi;mso-ansi-language:EN-US;mso-fareast-language:
+EN-US;mso-bidi-language:AR-SA'><br clear=all style='mso-special-character:line-break;
+page-break-before:always'>
+</span>
+
+<p class=MsoNormal><span lang=EN-US style='mso-ansi-language:EN-US'><o:p>&nbsp;</o:p></span></p>
+
+<h1 style='margin-left:18.0pt;text-indent:-18.0pt;mso-list:l0 level1 lfo3'><![if !supportLists]><span
+lang=EN-US style='mso-fareast-font-family:Cambria;mso-fareast-theme-font:major-latin;
+mso-bidi-font-family:Cambria;mso-bidi-theme-font:major-latin;mso-ansi-language:
+EN-US'><span style='mso-list:Ignore'>2.<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><![endif]><span lang=EN-US style='mso-ansi-language:EN-US'><span
+style='mso-spacerun:yes'> </span><a name="_Toc288506252">The Extensible
+Component Scanner API</a><o:p></o:p></span></h1>
+
+<p class=MsoNormal style='text-align:justify'><span lang=EN-US
+style='mso-ansi-language:EN-US'>The API of the Extensible Component Scanner is
+split into two parts. The first one is comprised of the classes and methods you
+use to process a scanning run. This is described in this chapter. The second
+one is the Component Query Language, an embedded domain specific language
+(eDSL) you use to create a query defining which components you actually want to
+find. The Component Query Language is described in chapter 3.<o:p></o:p></span></p>
+
+<h2 style='margin-left:21.6pt;text-indent:-21.6pt;mso-list:l0 level2 lfo3'><![if !supportLists]><span
+lang=EN-US style='mso-fareast-font-family:Cambria;mso-fareast-theme-font:major-latin;
+mso-bidi-font-family:Cambria;mso-bidi-theme-font:major-latin;mso-ansi-language:
+EN-US'><span style='mso-list:Ignore'>2.1.<span style='font:7.0pt "Times New Roman"'>
+</span></span></span><![endif]><span lang=EN-US style='mso-ansi-language:EN-US'><span
+style='mso-spacerun:yes'> </span><a name="_Toc288506253">The ComponentScanner
+class</a><o:p></o:p></span></h2>
+
+<p class=MsoNormal style='text-align:justify'><span lang=EN-US
+style='mso-ansi-language:EN-US'>The main entry point to the Extensible
+Component Scanner is the class ComponentScanner in the package net.sf.extcos.
+It features two public methods, both of which are part of the API.<o:p></o:p></span></p>
+
+<p class=MsoNoSpacing><span lang=EN-US style='mso-ansi-language:EN-US'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNoSpacing><b style='mso-bidi-font-weight:normal'><span lang=EN-US
+style='mso-ansi-language:EN-US'>ComponentScanner.<o:p></o:p></span></b></p>
+
+<p class=MsoNormal style='text-align:justify'><b style='mso-bidi-font-weight:
+normal'><span lang=EN-US style='mso-ansi-language:EN-US'>getClasses(componentQuery:
+ComponentQuery): Set&lt;Class&lt;?&gt;&gt;<o:p></o:p></span></b></p>
+
+<p class=MsoNormal style='text-align:justify'><span lang=EN-US
+style='mso-ansi-language:EN-US'>This method lets you specify a component query
+defining the criteria components you are interested in must match. It looks up
+the default class loader and uses it to fulfill the request. It returns a set
+of classes matching the defined criteria of the query. The default class loader
+is retrieved via<o:p></o:p></span></p>
+
+<p class=MsoNoSpacing><span lang=EN-US style='font-size:10.0pt;font-family:
+"Courier New";mso-ansi-language:EN-US'>Thread.<i style='mso-bidi-font-style:
+normal'>currentThread</i>().getContextClassLoader();<o:p></o:p></span></p>
+
+<p class=MsoNoSpacing><span lang=EN-US style='mso-ansi-language:EN-US'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNoSpacing><span lang=EN-US style='mso-ansi-language:EN-US'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNoSpacing><b style='mso-bidi-font-weight:normal'><span lang=EN-US
+style='mso-ansi-language:EN-US'>ComponentScanner.<o:p></o:p></span></b></p>
+
+<p class=MsoNormal><b style='mso-bidi-font-weight:normal'><span lang=EN-US
+style='mso-ansi-language:EN-US'>getClasses(componentQuery: ComponentQuery,
+classLoader: ClassLoader): Set&lt;Class&lt;?&gt;&gt;</span></b><span
+lang=EN-US style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=MsoNormal style='text-align:justify'><span lang=EN-US
+style='mso-ansi-language:EN-US'>Along with the component query defining the
+criteria components you are interested in must match this method lets you
+specify a custom class loader to be used to fulfill the request. This allows you
+for example to use the Extensible Component Scanner within a web container like
+Tomcat and use its WebappClassLoader. This method returns a set of classes
+matching the defined criteria of the query.<o:p></o:p></span></p>
+
+<p class=MsoNormal style='text-align:justify'><span lang=EN-US
+style='mso-ansi-language:EN-US'><o:p>&nbsp;</o:p></span></p>
+
+<h2 style='margin-left:21.6pt;text-indent:-21.6pt;mso-list:l0 level2 lfo3'><![if !supportLists]><span
+lang=EN-US style='mso-fareast-font-family:Cambria;mso-fareast-theme-font:major-latin;
+mso-bidi-font-family:Cambria;mso-bidi-theme-font:major-latin;mso-ansi-language:
+EN-US'><span style='mso-list:Ignore'>2.2.<span style='font:7.0pt "Times New Roman"'>
+</span></span></span><![endif]><span lang=EN-US style='mso-ansi-language:EN-US'><span
+style='mso-spacerun:yes'> </span><a name="_Toc288506254">The ComponentQuery
+class</a><o:p></o:p></span></h2>
+
+<p class=MsoNormal style='text-align:justify'><span lang=EN-US
+style='mso-ansi-language:EN-US'>This abstract class in the package
+net.sf.extcos is the base for all component query definitions to be passed to
+one of the ComponentScanner methods. It defines one abstract method which needs
+to be implemented by the subclass used to define a specific component query:<o:p></o:p></span></p>
+
+<p class=MsoNormal><b style='mso-bidi-font-weight:normal'><span lang=EN-US
+style='mso-ansi-language:EN-US'>ComponentQuery.query(): void<o:p></o:p></span></b></p>
+
+<p class=MsoNormal style='text-align:justify'><span lang=EN-US
+style='mso-ansi-language:EN-US'>This method acts as a container for the actual
+query. It must contain exactly one Component Query Language query.<o:p></o:p></span></p>
+
+<p class=MsoNormal style='text-align:justify'><span lang=EN-US
+style='mso-ansi-language:EN-US'>Besides the query method this class features a
+number of eDSL methods. These are explained in chapter 3.<o:p></o:p></span></p>
+
+<span lang=EN-US style='font-size:11.0pt;line-height:115%;font-family:"Calibri","sans-serif";
+mso-ascii-theme-font:minor-latin;mso-fareast-font-family:Calibri;mso-fareast-theme-font:
+minor-latin;mso-hansi-theme-font:minor-latin;mso-bidi-font-family:"Times New Roman";
+mso-bidi-theme-font:minor-bidi;mso-ansi-language:EN-US;mso-fareast-language:
+EN-US;mso-bidi-language:AR-SA'><br clear=all style='mso-special-character:line-break;
+page-break-before:always'>
+</span>
+
+<p class=MsoNormal><span lang=EN-US style='mso-ansi-language:EN-US'><o:p>&nbsp;</o:p></span></p>
+
+<h2 style='margin-left:21.6pt;text-indent:-21.6pt;mso-list:l0 level2 lfo3'><![if !supportLists]><span
+lang=EN-US style='mso-fareast-font-family:Cambria;mso-fareast-theme-font:major-latin;
+mso-bidi-font-family:Cambria;mso-bidi-theme-font:major-latin;mso-ansi-language:
+EN-US'><span style='mso-list:Ignore'>2.3.<span style='font:7.0pt "Times New Roman"'>
+</span></span></span><![endif]><span lang=EN-US style='mso-ansi-language:EN-US'><span
+style='mso-spacerun:yes'> </span><a name="_Toc288506255">A first code example</a><o:p></o:p></span></h2>
+
+<p class=MsoNormal style='text-align:justify'><span lang=EN-US
+style='mso-ansi-language:EN-US'>Now that we know about the ComponentScanner and
+the ComponentQuery classes it’s time for a first code example. You may use it
+as a template every time you use the Extensible Component Scanner.<o:p></o:p></span></p>
+
+<p class=MsoNoSpacing><span lang=EN-US style='font-size:10.0pt;font-family:
+"Courier New";mso-ansi-language:EN-US'>ComponentScanner scanner = new
+ComponentScanner();<o:p></o:p></span></p>
+
+<p class=MsoNoSpacing><span lang=EN-US style='font-size:10.0pt;font-family:
+"Courier New";mso-ansi-language:EN-US'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNoSpacing><span lang=EN-US style='font-size:10.0pt;font-family:
+"Courier New";mso-ansi-language:EN-US'>Set&lt;Class&lt;?&gt;&gt; classes =
+scanner.getClasses(new ComponentQuery() {<o:p></o:p></span></p>
+
+<p class=MsoNoSpacing><span lang=EN-US style='font-size:10.0pt;font-family:
+"Courier New";mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>   
+</span>protected void query() {<o:p></o:p></span></p>
+
+<p class=MsoNoSpacing><span lang=EN-US style='font-size:10.0pt;font-family:
+"Courier New";mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>       
+</span>// the actual query goes here<o:p></o:p></span></p>
+
+<p class=MsoNoSpacing><span lang=EN-US style='font-size:10.0pt;font-family:
+"Courier New";mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>   
+</span>}<o:p></o:p></span></p>
+
+<p class=MsoNoSpacing><span lang=EN-US style='font-size:10.0pt;font-family:
+"Courier New";mso-ansi-language:EN-US'>});<o:p></o:p></span></p>
+
+<p class=MsoNoSpacing><span lang=EN-US style='mso-bidi-font-family:"Courier New";
+mso-ansi-language:EN-US'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNormal style='text-align:justify'><span lang=EN-US
+style='mso-ansi-language:EN-US'>This example uses the default class loader. If
+you want to use a custom class loader, pass it to the getClasses method, like
+so:<o:p></o:p></span></p>
+
+<p class=MsoNoSpacing><span lang=EN-US style='font-size:10.0pt;font-family:
+"Courier New";mso-ansi-language:EN-US'>ClassLoader customClassLoader =
+getCustomClassLoader();<o:p></o:p></span></p>
+
+<p class=MsoNoSpacing><span lang=EN-US style='font-size:10.0pt;font-family:
+"Courier New";mso-ansi-language:EN-US'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNoSpacing><span lang=EN-US style='font-size:10.0pt;font-family:
+"Courier New";mso-ansi-language:EN-US'>ComponentScanner scanner = new
+ComponentScanner();<o:p></o:p></span></p>
+
+<p class=MsoNoSpacing><span lang=EN-US style='font-size:10.0pt;font-family:
+"Courier New";mso-ansi-language:EN-US'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNoSpacing><span lang=EN-US style='font-size:10.0pt;font-family:
+"Courier New";mso-ansi-language:EN-US'>Set&lt;Class&lt;?&gt;&gt; classes =
+scanner.getClasses(new ComponentQuery() {<o:p></o:p></span></p>
+
+<p class=MsoNoSpacing><span lang=EN-US style='font-size:10.0pt;font-family:
+"Courier New";mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>   
+</span>protected void query() {<o:p></o:p></span></p>
+
+<p class=MsoNoSpacing><span lang=EN-US style='font-size:10.0pt;font-family:
+"Courier New";mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>       
+</span>// the actual query goes here<o:p></o:p></span></p>
+
+<p class=MsoNoSpacing><span lang=EN-US style='font-size:10.0pt;font-family:
+"Courier New";mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>   
+</span>}<o:p></o:p></span></p>
+
+<p class=MsoNoSpacing><span lang=EN-US style='font-size:10.0pt;font-family:
+"Courier New";mso-ansi-language:EN-US'>}, customClassLoader);<o:p></o:p></span></p>
+
+<p class=MsoNoSpacing><span lang=EN-US style='mso-ansi-language:EN-US'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNormal style='text-align:justify'><span lang=EN-US
+style='mso-ansi-language:EN-US'>Implement the getCustomClassLoader method in
+whatever manner you like and you’re done.<o:p></o:p></span></p>
+
+<span lang=EN-US style='font-size:11.0pt;line-height:115%;font-family:"Calibri","sans-serif";
+mso-ascii-theme-font:minor-latin;mso-fareast-font-family:Calibri;mso-fareast-theme-font:
+minor-latin;mso-hansi-theme-font:minor-latin;mso-bidi-font-family:"Times New Roman";
+mso-bidi-theme-font:minor-bidi;mso-ansi-language:EN-US;mso-fareast-language:
+EN-US;mso-bidi-language:AR-SA'><br clear=all style='mso-special-character:line-break;
+page-break-before:always'>
+</span>
+
+<p class=MsoNormal><span lang=EN-US style='mso-ansi-language:EN-US'><o:p>&nbsp;</o:p></span></p>
+
+<h1 style='margin-left:18.0pt;text-indent:-18.0pt;mso-list:l0 level1 lfo3'><a
+name="_Toc288506256"><![if !supportLists]><span lang=EN-US style='mso-fareast-font-family:
+Cambria;mso-fareast-theme-font:major-latin;mso-bidi-font-family:Cambria;
+mso-bidi-theme-font:major-latin;mso-ansi-language:EN-US'><span
+style='mso-list:Ignore'>3.<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><![endif]><span lang=EN-US style='mso-ansi-language:EN-US'>The
+Component Query Language</span></a><span lang=EN-US style='mso-ansi-language:
+EN-US'><o:p></o:p></span></h1>
+
+<p class=MsoNormal style='text-align:justify'><span lang=EN-US
+style='mso-ansi-language:EN-US'>The Component Query Language (CQL) is an eDSL
+and the heart and soul of the Extensible Component Scanner. It defines what
+kind of artifacts to find from which packages matching which criteria and how
+to return or where to store the resulting components. The CQL is currently
+comprised of the four clauses select, from, andStore, and returning.<o:p></o:p></span></p>
+
+<h2 style='margin-left:21.6pt;text-indent:-21.6pt;mso-list:l0 level2 lfo3'><![if !supportLists]><span
+lang=EN-US style='mso-fareast-font-family:Cambria;mso-fareast-theme-font:major-latin;
+mso-bidi-font-family:Cambria;mso-bidi-theme-font:major-latin;mso-ansi-language:
+EN-US'><span style='mso-list:Ignore'>3.1.<span style='font:7.0pt "Times New Roman"'>
+</span></span></span><![endif]><span lang=EN-US style='mso-ansi-language:EN-US'><span
+style='mso-spacerun:yes'> </span><a name="_Toc288506257">The select clause</a><o:p></o:p></span></h2>
+
+<p class=MsoNormal style='text-align:justify'><span lang=EN-US
+style='mso-ansi-language:EN-US'>The select clause defines which kinds of
+artifacts to find components of. It’s defined as the two methods<o:p></o:p></span></p>
+
+<p class=MsoNormal style='text-align:justify'><b style='mso-bidi-font-weight:
+normal'><span lang=EN-US style='mso-ansi-language:EN-US'>ComponentQuery.select():
+BasePackageSelector</span></b><span lang=EN-US style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=MsoNormal style='text-align:justify'><span lang=EN-US
+style='mso-ansi-language:EN-US'>and<o:p></o:p></span></p>
+
+<p class=MsoNormal style='text-align:justify'><b style='mso-bidi-font-weight:
+normal'><span lang=EN-US style='mso-ansi-language:EN-US'>ComponentQuery.select(ResourceType...
+resourceTypes): BasePackageSelector</span></b><span lang=EN-US
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=MsoNormal style='text-align:justify'><span lang=EN-US
+style='mso-ansi-language:EN-US'>The first acts as a default and calls the
+second with the resource type for precompiled Java classes. So every time you
+just want to find precompiled Java classes you can use that method without
+needing to specify any resource type.<o:p></o:p></span></p>
+
+<p class=MsoNormal style='text-align:justify'><span lang=EN-US
+style='mso-ansi-language:EN-US'>In order to make the CQL easily readable resource
+types are required to comply with a convention. They need to be classes with a
+private constructor and a static method returning an instance, rather like
+singletons. That static method should be called something like javaClasses or
+groovySources and needs to be imported as a static import. In the case of
+resource type for precompiled Java classes this method is implemented as<o:p></o:p></span></p>
+
+<p class=MsoNoSpacing><span lang=EN-US style='font-size:10.0pt;font-family:
+"Courier New";mso-ansi-language:EN-US'>JavaClassResourceType.javaClasses()<o:p></o:p></span></p>
+
+<p class=MsoNoSpacing><span lang=EN-US style='mso-ansi-language:EN-US'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNormal style='text-align:justify'><span lang=EN-US
+style='mso-ansi-language:EN-US'>in the net.sf.extcos.internal package. The
+specifics for extensions for other kinds of artifacts are documented with each
+extension separately.<o:p></o:p></span></p>
+
+<p class=MsoNormal style='text-align:justify'><span lang=EN-US
+style='mso-ansi-language:EN-US'>For precompiled Java classes the following two
+listings are equivalent:<o:p></o:p></span></p>
+
+<p class=MsoNoSpacing><span lang=EN-US style='font-size:10.0pt;font-family:
+"Courier New";mso-ansi-language:EN-US'>select()<o:p></o:p></span></p>
+
+<p class=MsoNoSpacing><span lang=EN-US style='mso-bidi-font-family:"Courier New";
+mso-ansi-language:EN-US'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNormal><span lang=EN-US style='mso-ansi-language:EN-US'>and<o:p></o:p></span></p>
+
+<p class=MsoNoSpacing><span lang=EN-US style='font-size:10.0pt;font-family:
+"Courier New";mso-ansi-language:EN-US'>import static
+net.sf.extcos.internal.JavaClassResourceType.javaClasses;<o:p></o:p></span></p>
+
+<p class=MsoNoSpacing><span lang=EN-US style='font-size:10.0pt;font-family:
+"Courier New";mso-ansi-language:EN-US'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNoSpacing><span lang=EN-US style='font-size:10.0pt;font-family:
+"Courier New";mso-ansi-language:EN-US'>select(javaClasses())<o:p></o:p></span></p>
+
+<p class=MsoNormal><span lang=EN-US style='mso-ansi-language:EN-US'><o:p>&nbsp;</o:p></span></p>
+
+<h2 style='margin-left:21.6pt;text-indent:-21.6pt;mso-list:l0 level2 lfo3'><![if !supportLists]><span
+lang=EN-US style='mso-fareast-font-family:Cambria;mso-fareast-theme-font:major-latin;
+mso-bidi-font-family:Cambria;mso-bidi-theme-font:major-latin;mso-ansi-language:
+EN-US'><span style='mso-list:Ignore'>3.2.<span style='font:7.0pt "Times New Roman"'>
+</span></span></span><![endif]><span lang=EN-US style='mso-ansi-language:EN-US'><span
+style='mso-spacerun:yes'> </span><a name="_Toc288506258">The from clause</a><o:p></o:p></span></h2>
+
+<p class=MsoNormal style='text-align:justify'><span lang=EN-US
+style='mso-ansi-language:EN-US'>The from clause defines where to find the
+components. More precisely it defines the base package or base packages in
+which components will be found. It’s defined as the method<o:p></o:p></span></p>
+
+<p class=MsoNormal style='text-align:justify'><b style='mso-bidi-font-weight:
+normal'><span lang=EN-US style='mso-ansi-language:EN-US'>BasePackageSelector.from(String...
+basePackages): ForwardingBuilder</span></b><span lang=EN-US style='mso-ansi-language:
+EN-US'><o:p></o:p></span></p>
+
+<p class=MsoNormal style='text-align:justify'><span lang=EN-US
+style='mso-ansi-language:EN-US'>You may specify various base packages. Make
+sure that you pass only valid package names as defined by the Java Language
+Specification. Otherwise an IllegalArgumentException will be thrown. Although
+technically possible it is not permissible to pass no base package at all.
+Doing so will also result in an IllegalArgumentException.<o:p></o:p></span></p>
+
+<p class=MsoNormal style='text-align:justify'><span lang=EN-US
+style='mso-ansi-language:EN-US'>A base package is a package that contains
+classes and / or other packages. If it contains other packages those
+subpackages will also be scanned and matching components will also be returned.
+Supposing you’ve got two packages foo.bar1 and foo.bar2 and you pass foo as the
+base package to the from clause, then all matching components from foo, foo.bar1
+and foo.bar2 will be returned.<o:p></o:p></span></p>
+
+<p class=MsoNoSpacing><b style='mso-bidi-font-weight:normal'><span lang=EN-US
+style='mso-ansi-language:EN-US'>Examples<o:p></o:p></span></b></p>
+
+<p class=MsoNormal style='text-align:justify'><span lang=EN-US
+style='mso-ansi-language:EN-US'>Now that we learned about the select clause and
+the from clause, it’s time for the first complete example. Suppose you want to
+retrieve all the precompiled Java class components from the foo package, this
+is the way to do it:<o:p></o:p></span></p>
+
+<p class=MsoNoSpacing><span lang=EN-US style='font-size:10.0pt;font-family:
+"Courier New";mso-ansi-language:EN-US'>ComponentScanner scanner = new
+ComponentScanner();<o:p></o:p></span></p>
+
+<p class=MsoNoSpacing><span lang=EN-US style='font-size:10.0pt;font-family:
+"Courier New";mso-ansi-language:EN-US'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNoSpacing><span lang=EN-US style='font-size:10.0pt;font-family:
+"Courier New";mso-ansi-language:EN-US'>Set&lt;Class&lt;?&gt;&gt; classes =
+scanner.getClasses(new ComponentQuery() {<o:p></o:p></span></p>
+
+<p class=MsoNoSpacing><span lang=EN-US style='font-size:10.0pt;font-family:
+"Courier New";mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>   
+</span>protected void query() {<o:p></o:p></span></p>
+
+<p class=MsoNoSpacing><span lang=EN-US style='font-size:10.0pt;font-family:
+"Courier New";mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>       
+</span>select().from(“foo”);<o:p></o:p></span></p>
+
+<p class=MsoNoSpacing><span lang=EN-US style='font-size:10.0pt;font-family:
+"Courier New";mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>   
+</span>}<o:p></o:p></span></p>
+
+<p class=MsoNoSpacing><span lang=EN-US style='font-size:10.0pt;font-family:
+"Courier New";mso-ansi-language:EN-US'>});<o:p></o:p></span></p>
+
+<p class=MsoNormal><span lang=EN-US style='mso-ansi-language:EN-US'><o:p>&nbsp;</o:p></span></p>
+
+<h2 style='margin-left:21.6pt;text-indent:-21.6pt;mso-list:l0 level2 lfo3'><![if !supportLists]><span
+lang=EN-US style='mso-fareast-font-family:Cambria;mso-fareast-theme-font:major-latin;
+mso-bidi-font-family:Cambria;mso-bidi-theme-font:major-latin;mso-ansi-language:
+EN-US'><span style='mso-list:Ignore'>3.3.<span style='font:7.0pt "Times New Roman"'>
+</span></span></span><![endif]><span lang=EN-US style='mso-ansi-language:EN-US'><span
+style='mso-spacerun:yes'> </span><a name="_Toc288506259">The andStore clause</a><o:p></o:p></span></h2>
+
+<p class=MsoNormal style='text-align:justify'><span lang=EN-US
+style='mso-ansi-language:EN-US'>The andStore clause allows you to retrieve
+several different sets of components with just one query. It’s an optional
+clause, so if you just need to get one set of components you don’t have to use
+it. The andStore clause is defined as<o:p></o:p></span></p>
+
+<p class=MsoNormal style='text-align:justify'><b style='mso-bidi-font-weight:
+normal'><span lang=EN-US style='mso-ansi-language:EN-US'>ForwardingBuilder.andStore(StoreBinding...
+bindings): ReturningSelector</span></b><span lang=EN-US style='mso-ansi-language:
+EN-US'><o:p></o:p></span></p>
+
+<p class=MsoNormal style='text-align:justify'><span lang=EN-US
+style='mso-ansi-language:EN-US'>and takes one or more StoreBinding objects as
+its parameters. Although it is technically possible to pass no StoreBinding
+object at all into the andStore clause, this is not permissible and will result
+in an IllegalArgumentException.<o:p></o:p></span></p>
+
+<p class=MsoNormal style='text-align:justify'><span lang=EN-US
+style='mso-ansi-language:EN-US'>The CQL way of obtaining the StoreBinding
+objects to pass into the andStore clause is to use matching clauses defining
+component filters. Only matching components will be stored. These matching
+clauses are defined in the ComponentQuery class and described in detail in
+sections 3.5 to 3.10. The following table gives an overview.<o:p></o:p></span></p>
+
+<table class=MsoTableGrid border=1 cellspacing=0 cellpadding=0
+ style='border-collapse:collapse;border:none;mso-border-alt:solid black .5pt;
+ mso-border-themecolor:text1;mso-yfti-tbllook:1184;mso-padding-alt:0cm 5.4pt 0cm 5.4pt'>
+ <tr style='mso-yfti-irow:0;mso-yfti-firstrow:yes;height:13.6pt'>
+  <td width=470 valign=top style='width:352.7pt;border:solid black 1.0pt;
+  mso-border-themecolor:text1;mso-border-alt:solid black .5pt;mso-border-themecolor:
+  text1;padding:0cm 5.4pt 0cm 5.4pt;height:13.6pt'>
+  <p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;text-align:
+  justify;line-height:normal'><b style='mso-bidi-font-weight:normal'><span
+  lang=EN-US style='mso-ansi-language:EN-US'>Matching clause<o:p></o:p></span></b></p>
+  </td>
+  <td width=142 valign=top style='width:106.3pt;border:solid black 1.0pt;
+  mso-border-themecolor:text1;border-left:none;mso-border-left-alt:solid black .5pt;
+  mso-border-left-themecolor:text1;mso-border-alt:solid black .5pt;mso-border-themecolor:
+  text1;padding:0cm 5.4pt 0cm 5.4pt;height:13.6pt'>
+  <p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;text-align:
+  justify;line-height:normal'><b style='mso-bidi-font-weight:normal'><span
+  lang=EN-US style='mso-ansi-language:EN-US'>Described in section<o:p></o:p></span></b></p>
+  </td>
+ </tr>
+ <tr style='mso-yfti-irow:1;height:13.6pt'>
+  <td width=470 valign=top style='width:352.7pt;border:solid black 1.0pt;
+  mso-border-themecolor:text1;border-top:none;mso-border-top-alt:solid black .5pt;
+  mso-border-top-themecolor:text1;mso-border-alt:solid black .5pt;mso-border-themecolor:
+  text1;padding:0cm 5.4pt 0cm 5.4pt;height:13.6pt'>
+  <p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;text-align:
+  justify;line-height:normal'><span lang=EN-US style='mso-ansi-language:EN-US'>thoseAnnotatedWith(Class&lt;?
+  extends Annotation&gt; annotation)<o:p></o:p></span></p>
+  </td>
+  <td width=142 valign=top style='width:106.3pt;border-top:none;border-left:
+  none;border-bottom:solid black 1.0pt;mso-border-bottom-themecolor:text1;
+  border-right:solid black 1.0pt;mso-border-right-themecolor:text1;mso-border-top-alt:
+  solid black .5pt;mso-border-top-themecolor:text1;mso-border-left-alt:solid black .5pt;
+  mso-border-left-themecolor:text1;mso-border-alt:solid black .5pt;mso-border-themecolor:
+  text1;padding:0cm 5.4pt 0cm 5.4pt;height:13.6pt'>
+  <p class=MsoNormal align=right style='margin-bottom:0cm;margin-bottom:.0001pt;
+  text-align:right;line-height:normal'><span lang=EN-US style='mso-ansi-language:
+  EN-US'>3.5<o:p></o:p></span></p>
+  </td>
+ </tr>
+ <tr style='mso-yfti-irow:2;height:14.2pt'>
+  <td width=470 valign=top style='width:352.7pt;border:solid black 1.0pt;
+  mso-border-themecolor:text1;border-top:none;mso-border-top-alt:solid black .5pt;
+  mso-border-top-themecolor:text1;mso-border-alt:solid black .5pt;mso-border-themecolor:
+  text1;padding:0cm 5.4pt 0cm 5.4pt;height:14.2pt'>
+  <p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;line-height:
+  normal'><span lang=EN-US style='mso-ansi-language:EN-US'>thoseAnnotatedWith(Class&lt;?
+  extends Annotation&gt; annotation, ArgumentsDescriptor arguments)<o:p></o:p></span></p>
+  </td>
+  <td width=142 valign=top style='width:106.3pt;border-top:none;border-left:
+  none;border-bottom:solid black 1.0pt;mso-border-bottom-themecolor:text1;
+  border-right:solid black 1.0pt;mso-border-right-themecolor:text1;mso-border-top-alt:
+  solid black .5pt;mso-border-top-themecolor:text1;mso-border-left-alt:solid black .5pt;
+  mso-border-left-themecolor:text1;mso-border-alt:solid black .5pt;mso-border-themecolor:
+  text1;padding:0cm 5.4pt 0cm 5.4pt;height:14.2pt'>
+  <p class=MsoNormal align=right style='margin-bottom:0cm;margin-bottom:.0001pt;
+  text-align:right;line-height:normal'><span lang=EN-US style='mso-ansi-language:
+  EN-US'>3.6<o:p></o:p></span></p>
+  </td>
+ </tr>
+ <tr style='mso-yfti-irow:3;height:14.2pt'>
+  <td width=470 valign=top style='width:352.7pt;border:solid black 1.0pt;
+  mso-border-themecolor:text1;border-top:none;mso-border-top-alt:solid black .5pt;
+  mso-border-top-themecolor:text1;mso-border-alt:solid black .5pt;mso-border-themecolor:
+  text1;padding:0cm 5.4pt 0cm 5.4pt;height:14.2pt'>
+  <p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;line-height:
+  normal'><span lang=EN-US style='mso-ansi-language:EN-US'>thoseExtending(Class&lt;T&gt;
+  clazz)<o:p></o:p></span></p>
+  </td>
+  <td width=142 valign=top style='width:106.3pt;border-top:none;border-left:
+  none;border-bottom:solid black 1.0pt;mso-border-bottom-themecolor:text1;
+  border-right:solid black 1.0pt;mso-border-right-themecolor:text1;mso-border-top-alt:
+  solid black .5pt;mso-border-top-themecolor:text1;mso-border-left-alt:solid black .5pt;
+  mso-border-left-themecolor:text1;mso-border-alt:solid black .5pt;mso-border-themecolor:
+  text1;padding:0cm 5.4pt 0cm 5.4pt;height:14.2pt'>
+  <p class=MsoNormal align=right style='margin-bottom:0cm;margin-bottom:.0001pt;
+  text-align:right;line-height:normal'><span lang=EN-US style='mso-ansi-language:
+  EN-US'>3.7<o:p></o:p></span></p>
+  </td>
+ </tr>
+ <tr style='mso-yfti-irow:4;height:14.2pt'>
+  <td width=470 valign=top style='width:352.7pt;border:solid black 1.0pt;
+  mso-border-themecolor:text1;border-top:none;mso-border-top-alt:solid black .5pt;
+  mso-border-top-themecolor:text1;mso-border-alt:solid black .5pt;mso-border-themecolor:
+  text1;padding:0cm 5.4pt 0cm 5.4pt;height:14.2pt'>
+  <p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;line-height:
+  normal'><span lang=EN-US style='mso-ansi-language:EN-US'>thoseImplementing(Class&lt;T&gt;
+  interfaze)<o:p></o:p></span></p>
+  </td>
+  <td width=142 valign=top style='width:106.3pt;border-top:none;border-left:
+  none;border-bottom:solid black 1.0pt;mso-border-bottom-themecolor:text1;
+  border-right:solid black 1.0pt;mso-border-right-themecolor:text1;mso-border-top-alt:
+  solid black .5pt;mso-border-top-themecolor:text1;mso-border-left-alt:solid black .5pt;
+  mso-border-left-themecolor:text1;mso-border-alt:solid black .5pt;mso-border-themecolor:
+  text1;padding:0cm 5.4pt 0cm 5.4pt;height:14.2pt'>
+  <p class=MsoNormal align=right style='margin-bottom:0cm;margin-bottom:.0001pt;
+  text-align:right;line-height:normal'><span lang=EN-US style='mso-ansi-language:
+  EN-US'>3.8<o:p></o:p></span></p>
+  </td>
+ </tr>
+ <tr style='mso-yfti-irow:5;height:14.2pt'>
+  <td width=470 valign=top style='width:352.7pt;border:solid black 1.0pt;
+  mso-border-themecolor:text1;border-top:none;mso-border-top-alt:solid black .5pt;
+  mso-border-top-themecolor:text1;mso-border-alt:solid black .5pt;mso-border-themecolor:
+  text1;padding:0cm 5.4pt 0cm 5.4pt;height:14.2pt'>
+  <p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;line-height:
+  normal'><span lang=EN-US style='mso-ansi-language:EN-US'>thoseImplementing(Class&lt;?&gt;...
+  interfaces)<o:p></o:p></span></p>
+  </td>
+  <td width=142 valign=top style='width:106.3pt;border-top:none;border-left:
+  none;border-bottom:solid black 1.0pt;mso-border-bottom-themecolor:text1;
+  border-right:solid black 1.0pt;mso-border-right-themecolor:text1;mso-border-top-alt:
+  solid black .5pt;mso-border-top-themecolor:text1;mso-border-left-alt:solid black .5pt;
+  mso-border-left-themecolor:text1;mso-border-alt:solid black .5pt;mso-border-themecolor:
+  text1;padding:0cm 5.4pt 0cm 5.4pt;height:14.2pt'>
+  <p class=MsoNormal align=right style='margin-bottom:0cm;margin-bottom:.0001pt;
+  text-align:right;line-height:normal'><span lang=EN-US style='mso-ansi-language:
+  EN-US'>3.9<o:p></o:p></span></p>
+  </td>
+ </tr>
+ <tr style='mso-yfti-irow:6;mso-yfti-lastrow:yes;height:14.2pt'>
+  <td width=470 valign=top style='width:352.7pt;border:solid black 1.0pt;
+  mso-border-themecolor:text1;border-top:none;mso-border-top-alt:solid black .5pt;
+  mso-border-top-themecolor:text1;mso-border-alt:solid black .5pt;mso-border-themecolor:
+  text1;padding:0cm 5.4pt 0cm 5.4pt;height:14.2pt'>
+  <p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;line-height:
+  normal'><span lang=EN-US style='mso-ansi-language:EN-US'>thoseBeing(TypeFilterJunction
+  filter)<o:p></o:p></span></p>
+  </td>
+  <td width=142 valign=top style='width:106.3pt;border-top:none;border-left:
+  none;border-bottom:solid black 1.0pt;mso-border-bottom-themecolor:text1;
+  border-right:solid black 1.0pt;mso-border-right-themecolor:text1;mso-border-top-alt:
+  solid black .5pt;mso-border-top-themecolor:text1;mso-border-left-alt:solid black .5pt;
+  mso-border-left-themecolor:text1;mso-border-alt:solid black .5pt;mso-border-themecolor:
+  text1;padding:0cm 5.4pt 0cm 5.4pt;height:14.2pt'>
+  <p class=MsoNormal align=right style='margin-bottom:0cm;margin-bottom:.0001pt;
+  text-align:right;line-height:normal'><span lang=EN-US style='mso-ansi-language:
+  EN-US'>3.10<o:p></o:p></span></p>
+  </td>
+ </tr>
+</table>
+
+<p class=MsoNoSpacing><o:p>&nbsp;</o:p></p>
+
+<p class=MsoNormal style='text-align:justify'><span lang=EN-US
+style='mso-ansi-language:EN-US'>Each matching clause returns either a
+TypelessStoreBindingBuilder or a TypedStoreBindingBuilder&lt;T&gt;. Both
+classes define an into clause which specifies where the components matching the
+given matching clause will go to. The difference in the definition of the into
+clause is in the type of Set it takes. The into clause in the TypelessStoreBindingBuilder
+is defined as<o:p></o:p></span></p>
+
+<p class=MsoNormal style='text-align:justify'><b style='mso-bidi-font-weight:
+normal'><span lang=EN-US style='mso-ansi-language:EN-US'>TypelessStoreBindingBuilder.into(Set&lt;Class&lt;?&gt;&gt;
+store): StoreBinding<o:p></o:p></span></b></p>
+
+<p class=MsoNormal style='text-align:justify'><span lang=EN-US
+style='mso-ansi-language:EN-US'>and takes a Set which can contain any kind of
+class object. In contrast the into clause in the TypedStoreBindingBuilder is <span
+style='mso-spacerun:yes'> </span>defined as<o:p></o:p></span></p>
+
+<p class=MsoNormal style='text-align:justify'><b style='mso-bidi-font-weight:
+normal'><span lang=EN-US style='mso-ansi-language:EN-US'>TypedStoreBindingBuilder&lt;T&gt;.into(Set&lt;Class&lt;?
+extends T&gt;&gt; store): StoreBinding<o:p></o:p></span></b></p>
+
+<p class=MsoNormal style='text-align:justify'><span lang=EN-US
+style='mso-ansi-language:EN-US'>and takes a Set which can only contain classes extending
+or implementing the type T which has originally been defined in the matching
+clause. That way the type information given via the matching clause is used to
+require the type of the Set to be as specific as possible. This gives you
+additional type safety. Obviously this is only possible if the matching clause defines
+one specific type to match components against. This applies only to the thoseExtending
+and thoseImplementing clauses, the thoseImplementing clause taking just one
+parameter.<o:p></o:p></span></p>
+
+<p class=MsoNormal style='text-align:justify'><span lang=EN-US
+style='mso-ansi-language:EN-US'>As you can see the into clauses return the
+StoreBinding the andStore clause requires. So each StoreBinding object is
+created by using a matching clause followed by an into clause.<o:p></o:p></span></p>
+
+<p class=MsoNoSpacing><b style='mso-bidi-font-weight:normal'><span lang=EN-US
+style='mso-ansi-language:EN-US'>Examples<o:p></o:p></span></b></p>
+
+<p class=MsoNormal style='text-align:justify'><span lang=EN-US
+style='mso-ansi-language:EN-US'>Suppose you want to get all components
+implementing the java.io.Serializable interface in one set and all components
+annotated with some SampleAnnotation in another set, all components being
+located in the foo package. Then all you need is<o:p></o:p></span></p>
+
+<p class=MsoNoSpacing><span lang=EN-US style='font-size:10.0pt;font-family:
+"Courier New";mso-ansi-language:EN-US'>final Set&lt;Class&lt;? extends
+Serializable&gt;&gt; serializables = new ...;<o:p></o:p></span></p>
+
+<p class=MsoNoSpacing><span lang=EN-US style='font-size:10.0pt;font-family:
+"Courier New";mso-ansi-language:EN-US'>final Set&lt;Class&lt;?&gt;&gt; samples
+= new HashSet&lt;Class&lt;?&gt;&gt;();<o:p></o:p></span></p>
+
+<p class=MsoNoSpacing><span lang=EN-US style='font-size:10.0pt;font-family:
+"Courier New";mso-ansi-language:EN-US'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNoSpacing><span lang=EN-US style='font-size:10.0pt;font-family:
+"Courier New";mso-ansi-language:EN-US'>ComponentScanner scanner = new
+ComponentScanner();<o:p></o:p></span></p>
+
+<p class=MsoNoSpacing><span lang=EN-US style='font-size:10.0pt;font-family:
+"Courier New";mso-ansi-language:EN-US'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNoSpacing><span lang=EN-US style='font-size:10.0pt;font-family:
+"Courier New";mso-ansi-language:EN-US'>Set&lt;Class&lt;?&gt;&gt; classes = scanner.getClasses(new
+ComponentQuery() {<o:p></o:p></span></p>
+
+<p class=MsoNoSpacing><span lang=EN-US style='font-size:10.0pt;font-family:
+"Courier New";mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>   
+</span>protected void query() {<o:p></o:p></span></p>
+
+<p class=MsoNoSpacing><span lang=EN-US style='font-size:10.0pt;font-family:
+"Courier New";mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>       
+</span>select().from(“foo”).andStore(<o:p></o:p></span></p>
+
+<p class=MsoNoSpacing style='margin-left:35.4pt;text-indent:35.4pt'><span
+lang=EN-US style='font-size:10.0pt;font-family:"Courier New";mso-ansi-language:
+EN-US'>thoseImplementing(Serializable.class).into(serializables),<o:p></o:p></span></p>
+
+<p class=MsoNoSpacing style='margin-left:35.4pt;text-indent:35.4pt'><span
+lang=EN-US style='font-size:10.0pt;font-family:"Courier New";mso-ansi-language:
+EN-US'>thoseAnnotatedWith(SampleAnnotation.class).into(samples));<span
+style='mso-tab-count:1'> </span><o:p></o:p></span></p>
+
+<p class=MsoNoSpacing><span lang=EN-US style='font-size:10.0pt;font-family:
+"Courier New";mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>   
+</span>}<o:p></o:p></span></p>
+
+<p class=MsoNoSpacing><span lang=EN-US style='font-size:10.0pt;font-family:
+"Courier New";mso-ansi-language:EN-US'>});<o:p></o:p></span></p>
+
+<p class=MsoNoSpacing><span lang=EN-US style='mso-bidi-font-family:"Courier New";
+mso-ansi-language:EN-US'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNormal style='text-align:justify'><span lang=EN-US
+style='mso-ansi-language:EN-US'>Note that the classes set is empty in this
+case, as there is no returning clause given and the default behavior in this
+case is to return an empty set.<o:p></o:p></span></p>
+
+<p class=MsoNoSpacing><span lang=EN-US style='mso-ansi-language:EN-US'><o:p>&nbsp;</o:p></span></p>
+
+<h2 style='margin-left:21.6pt;text-indent:-21.6pt;mso-list:l0 level2 lfo3'><![if !supportLists]><span
+lang=EN-US style='mso-fareast-font-family:Cambria;mso-fareast-theme-font:major-latin;
+mso-bidi-font-family:Cambria;mso-bidi-theme-font:major-latin;mso-ansi-language:
+EN-US'><span style='mso-list:Ignore'>3.4.<span style='font:7.0pt "Times New Roman"'>
+</span></span></span><![endif]><span lang=EN-US style='mso-ansi-language:EN-US'><span
+style='mso-spacerun:yes'> </span><a name="_Toc288506260">The returning clause</a><o:p></o:p></span></h2>
+
+<p class=MsoNormal style='text-align:justify'><span lang=EN-US
+style='mso-ansi-language:EN-US'>The returning clause defines which kind of
+components will be returned in the set returned by the query. As the andStore
+clause the returning clause is an optional clause. What is returned if the
+returning clause isn’t specified depends on whether the andStore clause is used
+or not. In case the andStore clause is used the returned set is empty. If it’s
+not used all components found are returned. The returning clause has two
+definitions. The first one is used when the andStore clause isn’t used and it
+directly follows the from clause. In this case it’s defined as<o:p></o:p></span></p>
+
+<p class=MsoNormal style='text-align:justify'><b style='mso-bidi-font-weight:
+normal'><span lang=EN-US style='mso-ansi-language:EN-US'>ForwardingBuilder.returning(DirectReturning
+returning): void<o:p></o:p></span></b></p>
+
+<p class=MsoNormal style='text-align:justify'><span lang=EN-US
+style='mso-ansi-language:EN-US'>and takes a definition fitting the case of
+directly returning, without storing any components into additional stores.
+These definitions are provided by matching clauses. A special case is the all
+matching clause, which causes each and every component found to be returned. This
+is equivalent to not specifying the returning clause at all. The other matching
+clauses are listed in the following table and explained in the given section.<o:p></o:p></span></p>
+
+<table class=MsoTableGrid border=1 cellspacing=0 cellpadding=0
+ style='border-collapse:collapse;border:none;mso-border-alt:solid black .5pt;
+ mso-border-themecolor:text1;mso-yfti-tbllook:1184;mso-padding-alt:0cm 5.4pt 0cm 5.4pt'>
+ <tr style='mso-yfti-irow:0;mso-yfti-firstrow:yes;height:13.6pt'>
+  <td width=470 valign=top style='width:352.7pt;border:solid black 1.0pt;
+  mso-border-themecolor:text1;mso-border-alt:solid black .5pt;mso-border-themecolor:
+  text1;padding:0cm 5.4pt 0cm 5.4pt;height:13.6pt'>
+  <p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;text-align:
+  justify;line-height:normal'><b style='mso-bidi-font-weight:normal'><span
+  lang=EN-US style='mso-ansi-language:EN-US'>Matching clause<o:p></o:p></span></b></p>
+  </td>
+  <td width=142 valign=top style='width:106.3pt;border:solid black 1.0pt;
+  mso-border-themecolor:text1;border-left:none;mso-border-left-alt:solid black .5pt;
+  mso-border-left-themecolor:text1;mso-border-alt:solid black .5pt;mso-border-themecolor:
+  text1;padding:0cm 5.4pt 0cm 5.4pt;height:13.6pt'>
+  <p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;text-align:
+  justify;line-height:normal'><b style='mso-bidi-font-weight:normal'><span
+  lang=EN-US style='mso-ansi-language:EN-US'>Described in section<o:p></o:p></span></b></p>
+  </td>
+ </tr>
+ <tr style='mso-yfti-irow:1;height:13.6pt'>
+  <td width=470 valign=top style='width:352.7pt;border:solid black 1.0pt;
+  mso-border-themecolor:text1;border-top:none;mso-border-top-alt:solid black .5pt;
+  mso-border-top-themecolor:text1;mso-border-alt:solid black .5pt;mso-border-themecolor:
+  text1;padding:0cm 5.4pt 0cm 5.4pt;height:13.6pt'>
+  <p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;text-align:
+  justify;line-height:normal'><span lang=EN-US style='mso-ansi-language:EN-US'>allAnnotatedWith(Class&lt;?
+  extends Annotation&gt; annotation)<o:p></o:p></span></p>
+  </td>
+  <td width=142 valign=top style='width:106.3pt;border-top:none;border-left:
+  none;border-bottom:solid black 1.0pt;mso-border-bottom-themecolor:text1;
+  border-right:solid black 1.0pt;mso-border-right-themecolor:text1;mso-border-top-alt:
+  solid black .5pt;mso-border-top-themecolor:text1;mso-border-left-alt:solid black .5pt;
+  mso-border-left-themecolor:text1;mso-border-alt:solid black .5pt;mso-border-themecolor:
+  text1;padding:0cm 5.4pt 0cm 5.4pt;height:13.6pt'>
+  <p class=MsoNormal align=right style='margin-bottom:0cm;margin-bottom:.0001pt;
+  text-align:right;line-height:normal'><span lang=EN-US style='mso-ansi-language:
+  EN-US'>3.5<o:p></o:p></span></p>
+  </td>
+ </tr>
+ <tr style='mso-yfti-irow:2;height:14.2pt'>
+  <td width=470 valign=top style='width:352.7pt;border:solid black 1.0pt;
+  mso-border-themecolor:text1;border-top:none;mso-border-top-alt:solid black .5pt;
+  mso-border-top-themecolor:text1;mso-border-alt:solid black .5pt;mso-border-themecolor:
+  text1;padding:0cm 5.4pt 0cm 5.4pt;height:14.2pt'>
+  <p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;line-height:
+  normal'><span lang=EN-US style='mso-ansi-language:EN-US'>allAnnotatedWith(Class&lt;?
+  extends Annotation&gt; annotation, ArgumentsDescriptor arguments)<o:p></o:p></span></p>
+  </td>
+  <td width=142 valign=top style='width:106.3pt;border-top:none;border-left:
+  none;border-bottom:solid black 1.0pt;mso-border-bottom-themecolor:text1;
+  border-right:solid black 1.0pt;mso-border-right-themecolor:text1;mso-border-top-alt:
+  solid black .5pt;mso-border-top-themecolor:text1;mso-border-left-alt:solid black .5pt;
+  mso-border-left-themecolor:text1;mso-border-alt:solid black .5pt;mso-border-themecolor:
+  text1;padding:0cm 5.4pt 0cm 5.4pt;height:14.2pt'>
+  <p class=MsoNormal align=right style='margin-bottom:0cm;margin-bottom:.0001pt;
+  text-align:right;line-height:normal'><span lang=EN-US style='mso-ansi-language:
+  EN-US'>3.6<o:p></o:p></span></p>
+  </td>
+ </tr>
+ <tr style='mso-yfti-irow:3;height:14.2pt'>
+  <td width=470 valign=top style='width:352.7pt;border:solid black 1.0pt;
+  mso-border-themecolor:text1;border-top:none;mso-border-top-alt:solid black .5pt;
+  mso-border-top-themecolor:text1;mso-border-alt:solid black .5pt;mso-border-themecolor:
+  text1;padding:0cm 5.4pt 0cm 5.4pt;height:14.2pt'>
+  <p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;line-height:
+  normal'><span lang=EN-US style='mso-ansi-language:EN-US'>allExtending(Class&lt;?&gt;
+  clazz)<o:p></o:p></span></p>
+  </td>
+  <td width=142 valign=top style='width:106.3pt;border-top:none;border-left:
+  none;border-bottom:solid black 1.0pt;mso-border-bottom-themecolor:text1;
+  border-right:solid black 1.0pt;mso-border-right-themecolor:text1;mso-border-top-alt:
+  solid black .5pt;mso-border-top-themecolor:text1;mso-border-left-alt:solid black .5pt;
+  mso-border-left-themecolor:text1;mso-border-alt:solid black .5pt;mso-border-themecolor:
+  text1;padding:0cm 5.4pt 0cm 5.4pt;height:14.2pt'>
+  <p class=MsoNormal align=right style='margin-bottom:0cm;margin-bottom:.0001pt;
+  text-align:right;line-height:normal'><span lang=EN-US style='mso-ansi-language:
+  EN-US'>3.7<o:p></o:p></span></p>
+  </td>
+ </tr>
+ <tr style='mso-yfti-irow:4;height:14.2pt'>
+  <td width=470 valign=top style='width:352.7pt;border:solid black 1.0pt;
+  mso-border-themecolor:text1;border-top:none;mso-border-top-alt:solid black .5pt;
+  mso-border-top-themecolor:text1;mso-border-alt:solid black .5pt;mso-border-themecolor:
+  text1;padding:0cm 5.4pt 0cm 5.4pt;height:14.2pt'>
+  <p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;line-height:
+  normal'><span lang=EN-US style='mso-ansi-language:EN-US'>allImplementing(Class&lt;?&gt;...
+  interfaces)<o:p></o:p></span></p>
+  </td>
+  <td width=142 valign=top style='width:106.3pt;border-top:none;border-left:
+  none;border-bottom:solid black 1.0pt;mso-border-bottom-themecolor:text1;
+  border-right:solid black 1.0pt;mso-border-right-themecolor:text1;mso-border-top-alt:
+  solid black .5pt;mso-border-top-themecolor:text1;mso-border-left-alt:solid black .5pt;
+  mso-border-left-themecolor:text1;mso-border-alt:solid black .5pt;mso-border-themecolor:
+  text1;padding:0cm 5.4pt 0cm 5.4pt;height:14.2pt'>
+  <p class=MsoNormal align=right style='margin-bottom:0cm;margin-bottom:.0001pt;
+  text-align:right;line-height:normal'><span lang=EN-US style='mso-ansi-language:
+  EN-US'>3.9<o:p></o:p></span></p>
+  </td>
+ </tr>
+ <tr style='mso-yfti-irow:5;mso-yfti-lastrow:yes;height:14.2pt'>
+  <td width=470 valign=top style='width:352.7pt;border:solid black 1.0pt;
+  mso-border-themecolor:text1;border-top:none;mso-border-top-alt:solid black .5pt;
+  mso-border-top-themecolor:text1;mso-border-alt:solid black .5pt;mso-border-themecolor:
+  text1;padding:0cm 5.4pt 0cm 5.4pt;height:14.2pt'>
+  <p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;line-height:
+  normal'><span lang=EN-US style='mso-ansi-language:EN-US'>allBeing(TypeFilterJunction
+  filter)<o:p></o:p></span></p>
+  </td>
+  <td width=142 valign=top style='width:106.3pt;border-top:none;border-left:
+  none;border-bottom:solid black 1.0pt;mso-border-bottom-themecolor:text1;
+  border-right:solid black 1.0pt;mso-border-right-themecolor:text1;mso-border-top-alt:
+  solid black .5pt;mso-border-top-themecolor:text1;mso-border-left-alt:solid black .5pt;
+  mso-border-left-themecolor:text1;mso-border-alt:solid black .5pt;mso-border-themecolor:
+  text1;padding:0cm 5.4pt 0cm 5.4pt;height:14.2pt'>
+  <p class=MsoNormal align=right style='margin-bottom:0cm;margin-bottom:.0001pt;
+  text-align:right;line-height:normal'><span lang=EN-US style='mso-ansi-language:
+  EN-US'>3.10<o:p></o:p></span></p>
+  </td>
+ </tr>
+</table>
+
+<p class=MsoNoSpacing><span lang=EN-US style='mso-ansi-language:EN-US'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNormal style='text-align:justify'><span lang=EN-US
+style='mso-ansi-language:EN-US'>If the andStore clause is used the returning
+clause follows it and is defined as<o:p></o:p></span></p>
+
+<p class=MsoNormal style='text-align:justify'><b style='mso-bidi-font-weight:
+normal'><span lang=EN-US style='mso-ansi-language:EN-US'>ReturningSelector.returning(StoreReturning
+returning): void<o:p></o:p></span></b></p>
+
+<p class=MsoNormal style='text-align:justify'><span lang=EN-US
+style='mso-ansi-language:EN-US'>In addition to the matching clauses already
+mentioned this case of the returning clause takes two more matching clauses. These
+are the allMerged clause, returning all the components stored in the different
+stores defined in the andStore clause merged into the returned set, and the
+none clause causing an empty set to be returned. This is equivalent to not
+specifying the returning clause at all. All matching clauses including all,
+allMerged and none are defined as methods in the ComponentQuery class.<o:p></o:p></span></p>
+
+<p class=MsoNoSpacing><b style='mso-bidi-font-weight:normal'><span lang=EN-US
+style='mso-ansi-language:EN-US'>Examples<o:p></o:p></span></b></p>
+
+<p class=MsoNormal style='text-align:justify'><span lang=EN-US
+style='mso-ansi-language:EN-US'>Suppose you want to retrieve all components
+implementing the interface java.io.Serializable from the foo package. The code
+required to accomplish that task would be<o:p></o:p></span></p>
+
+<p class=MsoNoSpacing><span lang=EN-US style='font-size:10.0pt;font-family:
+"Courier New";mso-ansi-language:EN-US'>ComponentScanner scanner = new
+ComponentScanner();<o:p></o:p></span></p>
+
+<p class=MsoNoSpacing><span lang=EN-US style='font-size:10.0pt;font-family:
+"Courier New";mso-ansi-language:EN-US'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNoSpacing><span lang=EN-US style='font-size:10.0pt;font-family:
+"Courier New";mso-ansi-language:EN-US'>Set&lt;Class&lt;?&gt;&gt; classes =
+scanner.getClasses(new ComponentQuery() {<o:p></o:p></span></p>
+
+<p class=MsoNoSpacing><span lang=EN-US style='font-size:10.0pt;font-family:
+"Courier New";mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>   
+</span>protected void query() {<o:p></o:p></span></p>
+
+<p class=MsoNoSpacing><span lang=EN-US style='font-size:10.0pt;font-family:
+"Courier New";mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>       
+</span>select().from(“foo”).<o:p></o:p></span></p>
+
+<p class=MsoNoSpacing><span lang=EN-US style='font-size:10.0pt;font-family:
+"Courier New";mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>       
+</span>returning(allImplementing(Serializable.class));<o:p></o:p></span></p>
+
+<p class=MsoNoSpacing><span lang=EN-US style='font-size:10.0pt;font-family:
+"Courier New";mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>   
+</span>}<o:p></o:p></span></p>
+
+<p class=MsoNoSpacing><span lang=EN-US style='font-size:10.0pt;font-family:
+"Courier New";mso-ansi-language:EN-US'>});<o:p></o:p></span></p>
+
+<p class=MsoNoSpacing><span lang=EN-US style='mso-ansi-language:EN-US'><o:p>&nbsp;</o:p></span></p>
+
+<h2 style='margin-left:21.6pt;text-indent:-21.6pt;mso-list:l0 level2 lfo3'><![if !supportLists]><span
+lang=EN-US style='mso-fareast-font-family:Cambria;mso-fareast-theme-font:major-latin;
+mso-bidi-font-family:Cambria;mso-bidi-theme-font:major-latin;mso-ansi-language:
+EN-US'><span style='mso-list:Ignore'>3.5.<span style='font:7.0pt "Times New Roman"'>
+</span></span></span><![endif]><span lang=EN-US style='mso-ansi-language:EN-US'><span
+style='mso-spacerun:yes'> </span><a name="_Toc288506261">Annotation matching
+clauses</a><o:p></o:p></span></h2>
+
+<p class=MsoNormal style='text-align:justify'><span lang=EN-US
+style='mso-ansi-language:EN-US'>Annotation matching clauses specify which
+annotation a component must be annotated with to match and be stored or
+returned. There is one annotation matching clause to be used within the
+andStore clause and one to be used within the returning clause. The former is
+thoseAnnotatedWith and the latter is allAnnotatedWith. They are defined as<o:p></o:p></span></p>
+
+<p class=MsoNormal><b style='mso-bidi-font-weight:normal'><span lang=EN-US
+style='mso-ansi-language:EN-US'>ComponentQuery.thoseAnnotatedWith(Class&lt;?
+extends Annotation&gt; annotation): TypelessStoreBindingBuilder<o:p></o:p></span></b></p>
+
+<p class=MsoNormal><span lang=EN-US style='mso-ansi-language:EN-US'>and<o:p></o:p></span></p>
+
+<p class=MsoNormal><b style='mso-bidi-font-weight:normal'><span lang=EN-US
+style='mso-ansi-language:EN-US'>ComponentQuery.allAnnotatedWith(Class&lt;?
+extends Annotation&gt; annotation): DirectReturning<o:p></o:p></span></b></p>
+
+<p class=MsoNormal><span lang=EN-US style='mso-ansi-language:EN-US'>respectively.<o:p></o:p></span></p>
+
+<p class=MsoNoSpacing><b style='mso-bidi-font-weight:normal'><span lang=EN-US
+style='mso-ansi-language:EN-US'>Examples<o:p></o:p></span></b></p>
+
+<p class=MsoNormal style='text-align:justify'><span lang=EN-US
+style='mso-ansi-language:EN-US'>Suppose you want to store all components
+annotated with some SampleAnnotation from the foo package into a set. The code
+to accomplish this would be<o:p></o:p></span></p>
+
+<p class=MsoNoSpacing><span lang=EN-US style='font-size:10.0pt;font-family:
+"Courier New";mso-ansi-language:EN-US'>final Set&lt;Class&lt;?&gt;&gt; samples
+= new HashSet&lt;Class&lt;?&gt;&gt;();<o:p></o:p></span></p>
+
+<p class=MsoNoSpacing><span lang=EN-US style='font-size:10.0pt;font-family:
+"Courier New";mso-ansi-language:EN-US'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNoSpacing><span lang=EN-US style='font-size:10.0pt;font-family:
+"Courier New";mso-ansi-language:EN-US'>ComponentScanner scanner = new
+ComponentScanner();<o:p></o:p></span></p>
+
+<p class=MsoNoSpacing><span lang=EN-US style='font-size:10.0pt;font-family:
+"Courier New";mso-ansi-language:EN-US'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNoSpacing><span lang=EN-US style='font-size:10.0pt;font-family:
+"Courier New";mso-ansi-language:EN-US'>scanner.getClasses(new ComponentQuery()
+{<o:p></o:p></span></p>
+
+<p class=MsoNoSpacing><span lang=EN-US style='font-size:10.0pt;font-family:
+"Courier New";mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>   
+</span>protected void query() {<o:p></o:p></span></p>
+
+<p class=MsoNoSpacing><span lang=EN-US style='font-size:10.0pt;font-family:
+"Courier New";mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>       
+</span>select().from(“foo”).andStore(<o:p></o:p></span></p>
+
+<p class=MsoNoSpacing><span lang=EN-US style='font-size:10.0pt;font-family:
+"Courier New";mso-ansi-language:EN-US'><span
+style='mso-spacerun:yes'>            </span>thoseAnnotatedWith(SampleAnnotation.class).into(samples));<o:p></o:p></span></p>
+
+<p class=MsoNoSpacing><span lang=EN-US style='font-size:10.0pt;font-family:
+"Courier New";mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>   
+</span>}<o:p></o:p></span></p>
+
+<p class=MsoNoSpacing><span lang=EN-US style='font-size:10.0pt;font-family:
+"Courier New";mso-ansi-language:EN-US'>});<o:p></o:p></span></p>
+
+<p class=MsoNoSpacing><span lang=EN-US style='mso-bidi-font-family:Calibri;
+mso-bidi-theme-font:minor-latin;mso-ansi-language:EN-US'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNormal><span lang=EN-US style='mso-ansi-language:EN-US'>In case you
+want to return the same set of components the code to get this done would be<o:p></o:p></span></p>
+
+<p class=MsoNoSpacing><span lang=EN-US style='font-size:10.0pt;font-family:
+"Courier New";mso-ansi-language:EN-US'>ComponentScanner scanner = new
+ComponentScanner();<o:p></o:p></span></p>
+
+<p class=MsoNoSpacing><span lang=EN-US style='font-size:10.0pt;font-family:
+"Courier New";mso-ansi-language:EN-US'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNoSpacing><span lang=EN-US style='font-size:10.0pt;font-family:
+"Courier New";mso-ansi-language:EN-US'>Set&lt;Class&lt;?&gt;&gt; classes =
+scanner.getClasses(new ComponentQuery() {<o:p></o:p></span></p>
+
+<p class=MsoNoSpacing><span lang=EN-US style='font-size:10.0pt;font-family:
+"Courier New";mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>   
+</span>protected void query() {<o:p></o:p></span></p>
+
+<p class=MsoNoSpacing><span lang=EN-US style='font-size:10.0pt;font-family:
+"Courier New";mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>       
+</span>select().from(“foo”).returning(<o:p></o:p></span></p>
+
+<p class=MsoNoSpacing><span lang=EN-US style='font-size:10.0pt;font-family:
+"Courier New";mso-ansi-language:EN-US'><span
+style='mso-spacerun:yes'>           
+</span>allAnnotatedWith(SampleAnnotation.class));<o:p></o:p></span></p>
+
+<p class=MsoNoSpacing><span lang=EN-US style='font-size:10.0pt;font-family:
+"Courier New";mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>   
+</span>}<o:p></o:p></span></p>
+
+<p class=MsoNoSpacing><span lang=EN-US style='font-size:10.0pt;font-family:
+"Courier New";mso-ansi-language:EN-US'>});<o:p></o:p></span></p>
+
+<p class=MsoNoSpacing><span lang=EN-US style='mso-bidi-font-family:Calibri;
+mso-bidi-theme-font:minor-latin;mso-ansi-language:EN-US'><o:p>&nbsp;</o:p></span></p>
+
+<h2 style='margin-left:21.6pt;text-indent:-21.6pt;mso-list:l0 level2 lfo3'><![if !supportLists]><span
+lang=EN-US style='mso-fareast-font-family:Cambria;mso-fareast-theme-font:major-latin;
+mso-bidi-font-family:Cambria;mso-bidi-theme-font:major-latin;mso-ansi-language:
+EN-US'><span style='mso-list:Ignore'>3.6.<span style='font:7.0pt "Times New Roman"'>
+</span></span></span><![endif]><span lang=EN-US style='mso-ansi-language:EN-US'><span
+style='mso-spacerun:yes'> </span><a name="_Toc288506262">Annotation with
+specific arguments matching clauses</a><o:p></o:p></span></h2>
+
+<p class=MsoNormal style='text-align:justify'><span lang=EN-US
+style='mso-ansi-language:EN-US'>In addition to the annotation matching clauses
+(see previous section) the annotation with specific arguments matching clauses
+allow you to not only find components annotated with a certain annotation, but
+to be matched the given arguments of the given annotation must also match for
+the component to be stored or returned. There is one annotation with specific
+arguments matching clause to be used within the andStore clause and one to be
+used within the returning clause. The former is thoseAnnotatedWith and the
+latter is allAnnotatedWith. They are defined as<o:p></o:p></span></p>
+
+<p class=MsoNormal><b style='mso-bidi-font-weight:normal'><span lang=EN-US
+style='mso-ansi-language:EN-US'>ComponentQuery.thoseAnnotatedWith(Class&lt;?
+extends Annotation&gt; annotation, ArgumentsDescriptor arguments):
+TypelessStoreBindingBuilder<o:p></o:p></span></b></p>
+
+<p class=MsoNormal><span lang=EN-US style='mso-ansi-language:EN-US'>and<o:p></o:p></span></p>
+
+<p class=MsoNormal><b style='mso-bidi-font-weight:normal'><span lang=EN-US
+style='mso-ansi-language:EN-US'>ComponentQuery.allAnnotatedWith(Class&lt;?
+extends Annotation&gt; annotation, ArgumentsDescriptor arguments):
+DirectReturning<o:p></o:p></span></b></p>
+
+<p class=MsoNormal style='text-align:justify'><span lang=EN-US
+style='mso-ansi-language:EN-US'>respectively.<o:p></o:p></span></p>
+
+<p class=MsoNormal style='text-align:justify'><span lang=EN-US
+style='mso-ansi-language:EN-US'>Apart from the ArgumentsDescriptor these two
+matching clauses work exactly in the same way as the ones described in the
+previous section. The CQL way of obtaining an ArgumentsDescriptor defining the
+annotation arguments’ matching rules is to use one of the clauses withArgument
+and withArguments. These are defined as<o:p></o:p></span></p>
+
+<p class=MsoNormal style='text-align:justify'><b style='mso-bidi-font-weight:
+normal'><span lang=EN-US style='mso-ansi-language:EN-US'>ComponentQuery.withArgument(ArgumentKey
+key, ArgumentValue value): ArgumentsDescriptor<o:p></o:p></span></b></p>
+
+<p class=MsoNormal><b style='mso-bidi-font-weight:normal'><span lang=EN-US
+style='mso-ansi-language:EN-US'>ComponentQuery.withArguments(ArgumentMappingConjunction
+arguments): ArgumentsDescriptor<o:p></o:p></span></b></p>
+
+<p class=MsoNormal><span lang=EN-US style='mso-ansi-language:EN-US'>and<o:p></o:p></span></p>
+
+<p class=MsoNormal><b style='mso-bidi-font-weight:normal'><span lang=EN-US
+style='mso-ansi-language:EN-US'>ComponentQuery.withArguments(ArgumentMappingDisjunction
+arguments): ArgumentsDescriptor<o:p></o:p></span></b></p>
+
+<p class=MsoNormal><span lang=EN-US style='mso-ansi-language:EN-US'>respectively.<o:p></o:p></span></p>
+
+<p class=MsoNormal style='text-align:justify'><span lang=EN-US
+style='mso-ansi-language:EN-US'>The ArgumentKey and ArgumentValue objects are
+to be obtained using the key and value clauses defined as<o:p></o:p></span></p>
+
+<p class=MsoNormal style='text-align:justify'><b style='mso-bidi-font-weight:
+normal'><span lang=EN-US style='mso-ansi-language:EN-US'>ComponentQuery.key(String
+key): ArgumentKey<o:p></o:p></span></b></p>
+
+<p class=MsoNormal style='text-align:justify'><span lang=EN-US
+style='mso-ansi-language:EN-US'>and<o:p></o:p></span></p>
+
+<p class=MsoNormal style='text-align:justify'><b style='mso-bidi-font-weight:
+normal'><span lang=EN-US style='mso-ansi-language:EN-US'>ComponentQuery.value(Object
+value): ArgumentValue<o:p></o:p></span></b></p>
+
+<p class=MsoNormal style='text-align:justify'><span lang=EN-US
+style='mso-ansi-language:EN-US'>respectively. As of this version the keys and
+values are used exactly as they are given and there is no way to use pattern,
+range or other possible kinds of matching.<o:p></o:p></span></p>
+
+<p class=MsoNormal style='text-align:justify'><span lang=EN-US
+style='mso-ansi-language:EN-US'>Using the withArguments clause gives you the
+option to group two or more ArgumentMappings by one of the logical functions
+“and” and “or” using their respective clauses defined as<o:p></o:p></span></p>
+
+<p class=MsoNormal style='text-align:justify'><b style='mso-bidi-font-weight:
+normal'><span lang=EN-US style='mso-ansi-language:EN-US'>ComponentQuery.and(ArgumentMapping...
+mappings): ArgumentMappingConjunction<o:p></o:p></span></b></p>
+
+<p class=MsoNormal style='text-align:justify'><span lang=EN-US
+style='mso-ansi-language:EN-US'>and<o:p></o:p></span></p>
+
+<p class=MsoNormal style='text-align:justify'><b style='mso-bidi-font-weight:
+normal'><span lang=EN-US style='mso-ansi-language:EN-US'>ComponentQuery.or(ArgumentMapping...
+mappings): ArgumentMappingDisjunction</span></b><span lang=EN-US
+style='mso-ansi-language:EN-US'>.<o:p></o:p></span></p>
+
+<p class=MsoNormal style='text-align:justify'><span lang=EN-US
+style='mso-ansi-language:EN-US'>The CQL way of obtaining the ArgumentMapping
+objects is by using the mapping clause defined as<o:p></o:p></span></p>
+
+<p class=MsoNormal style='text-align:justify'><b style='mso-bidi-font-weight:
+normal'><span lang=EN-US style='mso-bidi-font-family:Calibri;mso-bidi-theme-font:
+minor-latin;mso-ansi-language:EN-US'>ComponentQuery.mapping(ArgumentKey key,
+ArgumentValue value): ArgumentMapping</span></b><span lang=EN-US
+style='mso-bidi-font-family:Calibri;mso-bidi-theme-font:minor-latin;mso-ansi-language:
+EN-US'>.<o:p></o:p></span></p>
+
+<p class=MsoNormal style='text-align:justify'><span lang=EN-US
+style='mso-bidi-font-family:Calibri;mso-bidi-theme-font:minor-latin;mso-ansi-language:
+EN-US'>As to the ArgumentKey and ArgumentValue objects the description above
+applies in the same way as it does to the withArgument clause. There is
+currently no way to define logical subgroups of ArgumentMappings.<o:p></o:p></span></p>
+
+<p class=MsoNoSpacing><b style='mso-bidi-font-weight:normal'><span lang=EN-US
+style='mso-ansi-language:EN-US'>Examples<o:p></o:p></span></b></p>
+
+<p class=MsoNormal style='text-align:justify'><span lang=EN-US
+style='mso-bidi-font-family:Calibri;mso-bidi-theme-font:minor-latin;mso-ansi-language:
+EN-US'>Suppose you’d want to find all components from the foo package annotated
+with a SampleAnnotation that’s got a sampleKey argument the value of which must
+be “sampleValue” for the component to be returned. The code would have to be
+this:</span><span lang=EN-US style='font-size:10.0pt;mso-bidi-font-size:11.0pt;
+line-height:115%;mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=MsoNoSpacing><span lang=EN-US style='font-size:10.0pt;font-family:
+"Courier New";mso-ansi-language:EN-US'>ComponentScanner scanner = new
+ComponentScanner();<o:p></o:p></span></p>
+
+<p class=MsoNoSpacing><span lang=EN-US style='font-size:10.0pt;font-family:
+"Courier New";mso-ansi-language:EN-US'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNoSpacing><span lang=EN-US style='font-size:10.0pt;font-family:
+"Courier New";mso-ansi-language:EN-US'>Set&lt;Class&lt;?&gt;&gt; classes =
+scanner.getClasses(new ComponentQuery() {<o:p></o:p></span></p>
+
+<p class=MsoNoSpacing><span lang=EN-US style='font-size:10.0pt;font-family:
+"Courier New";mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>   
+</span>protected void query() {<o:p></o:p></span></p>
+
+<p class=MsoNoSpacing><span lang=EN-US style='font-size:10.0pt;font-family:
+"Courier New";mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>       
+</span>select().from(“foo”).returning(<o:p></o:p></span></p>
+
+<p class=MsoNoSpacing><span lang=EN-US style='font-size:10.0pt;font-family:
+"Courier New";mso-ansi-language:EN-US'><span
+style='mso-spacerun:yes'>           
+</span>allAnnotatedWith(SampleAnnotation.class, withArgument(<o:p></o:p></span></p>
+
+<p class=MsoNoSpacing><span lang=EN-US style='font-size:10.0pt;font-family:
+"Courier New";mso-ansi-language:EN-US'><span
+style='mso-spacerun:yes'>            </span>key(“sampleKey”),
+value(“sampleValue”))));<o:p></o:p></span></p>
+
+<p class=MsoNoSpacing><span lang=EN-US style='font-size:10.0pt;font-family:
+"Courier New";mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>   
+</span>}<o:p></o:p></span></p>
+
+<p class=MsoNoSpacing><span lang=EN-US style='font-size:10.0pt;font-family:
+"Courier New";mso-ansi-language:EN-US'>});<o:p></o:p></span></p>
+
+<p class=MsoNoSpacing><span lang=EN-US style='font-size:10.0pt;font-family:
+"Courier New";mso-ansi-language:EN-US'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNormal style='text-align:justify'><span lang=EN-US
+style='mso-ansi-language:EN-US'>Suppose the SampleAnnotation had also an
+anotherKey argument the value of which must be “anotherValue” while the value
+of the sampleKey must still be “sampleValue” for the component to be returned.
+The code would then change to:<o:p></o:p></span></p>
+
+<p class=MsoNoSpacing><span lang=EN-US style='font-size:10.0pt;font-family:
+"Courier New";mso-ansi-language:EN-US'>ComponentScanner scanner = new
+ComponentScanner();<o:p></o:p></span></p>
+
+<p class=MsoNoSpacing><span lang=EN-US style='font-size:10.0pt;font-family:
+"Courier New";mso-ansi-language:EN-US'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNoSpacing><span lang=EN-US style='font-size:10.0pt;font-family:
+"Courier New";mso-ansi-language:EN-US'>Set&lt;Class&lt;?&gt;&gt; classes =
+scanner.getClasses(new ComponentQuery() {<o:p></o:p></span></p>
+
+<p class=MsoNoSpacing><span lang=EN-US style='font-size:10.0pt;font-family:
+"Courier New";mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>   
+</span>protected void query() {<o:p></o:p></span></p>
+
+<p class=MsoNoSpacing><span lang=EN-US style='font-size:10.0pt;font-family:
+"Courier New";mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>       
+</span>select().from(“foo”).returning(<o:p></o:p></span></p>
+
+<p class=MsoNoSpacing><span lang=EN-US style='font-size:10.0pt;font-family:
+"Courier New";mso-ansi-language:EN-US'><span
+style='mso-spacerun:yes'>           
+</span>allAnnotatedWith(SampleAnnotation.class, withArguments(and(<o:p></o:p></span></p>
+
+<p class=MsoNoSpacing><span lang=EN-US style='font-size:10.0pt;font-family:
+"Courier New";mso-ansi-language:EN-US'><span
+style='mso-spacerun:yes'>            </span>mapping(key(“sampleKey”), value(“sampleValue”)),<o:p></o:p></span></p>
+
+<p class=MsoNoSpacing><span lang=EN-US style='font-size:10.0pt;font-family:
+"Courier New";mso-ansi-language:EN-US'><span
+style='mso-spacerun:yes'>            </span>mapping(key(“anotherKey”),
+value(“anotherValue”)))));<o:p></o:p></span></p>
+
+<p class=MsoNoSpacing><span lang=EN-US style='font-size:10.0pt;font-family:
+"Courier New";mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>   
+</span>}<o:p></o:p></span></p>
+
+<p class=MsoNoSpacing><span lang=EN-US style='font-size:10.0pt;font-family:
+"Courier New";mso-ansi-language:EN-US'>});<o:p></o:p></span></p>
+
+<p class=MsoNoSpacing><span lang=EN-US style='mso-ansi-language:EN-US'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNormal style='text-align:justify'><span lang=EN-US
+style='mso-ansi-language:EN-US'>If only one of the two arguments must have the
+aforementioned respective value the logical function to be applied would be
+“or” and the code would change to:<o:p></o:p></span></p>
+
+<p class=MsoNoSpacing><span lang=EN-US style='font-size:10.0pt;font-family:
+"Courier New";mso-ansi-language:EN-US'>ComponentScanner scanner = new
+ComponentScanner();<o:p></o:p></span></p>
+
+<p class=MsoNoSpacing><span lang=EN-US style='font-size:10.0pt;font-family:
+"Courier New";mso-ansi-language:EN-US'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNoSpacing><span lang=EN-US style='font-size:10.0pt;font-family:
+"Courier New";mso-ansi-language:EN-US'>Set&lt;Class&lt;?&gt;&gt; classes =
+scanner.getClasses(new ComponentQuery() {<o:p></o:p></span></p>
+
+<p class=MsoNoSpacing><span lang=EN-US style='font-size:10.0pt;font-family:
+"Courier New";mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>   
+</span>protected void query() {<o:p></o:p></span></p>
+
+<p class=MsoNoSpacing><span lang=EN-US style='font-size:10.0pt;font-family:
+"Courier New";mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>       
+</span>select().from(“foo”).returning(<o:p></o:p></span></p>
+
+<p class=MsoNoSpacing><span lang=EN-US style='font-size:10.0pt;font-family:
+"Courier New";mso-ansi-language:EN-US'><span
+style='mso-spacerun:yes'>           
+</span>allAnnotatedWith(SampleAnnotation.class, withArguments(or(<o:p></o:p></span></p>
+
+<p class=MsoNoSpacing><span lang=EN-US style='font-size:10.0pt;font-family:
+"Courier New";mso-ansi-language:EN-US'><span
+style='mso-spacerun:yes'>            </span>mapping(key(“sampleKey”),
+value(“sampleValue”)),<o:p></o:p></span></p>
+
+<p class=MsoNoSpacing><span lang=EN-US style='font-size:10.0pt;font-family:
+"Courier New";mso-ansi-language:EN-US'><span
+style='mso-spacerun:yes'>            </span>mapping(key(“anotherKey”),
+value(“anotherValue”)))));<o:p></o:p></span></p>
+
+<p class=MsoNoSpacing><span lang=EN-US style='font-size:10.0pt;font-family:
+"Courier New";mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>   
+</span>}<o:p></o:p></span></p>
+
+<p class=MsoNoSpacing><span lang=EN-US style='font-size:10.0pt;font-family:
+"Courier New";mso-ansi-language:EN-US'>});<o:p></o:p></span></p>
+
+<p class=MsoNoSpacing><span lang=EN-US style='mso-ansi-language:EN-US'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNoSpacing style='text-align:justify'><span lang=EN-US
+style='mso-ansi-language:EN-US'>There could obviously be more than two mappings
+and the argument values could be any valid annotation argument values like some
+primitive or enum value.<o:p></o:p></span></p>
+
+<p class=MsoNoSpacing><span lang=EN-US style='mso-ansi-language:EN-US'><o:p>&nbsp;</o:p></span></p>
+
+<h2 style='margin-left:21.6pt;text-indent:-21.6pt;mso-list:l0 level2 lfo3'><![if !supportLists]><span
+style='mso-bidi-font-size:10.0pt;line-height:115%;mso-fareast-font-family:Cambria;
+mso-fareast-theme-font:major-latin;mso-bidi-font-family:Cambria;mso-bidi-theme-font:
+major-latin'><span style='mso-list:Ignore'>3.7.<span style='font:7.0pt "Times New Roman"'>
+</span></span></span><![endif]><span lang=EN-US style='mso-ansi-language:EN-US'><span
+style='mso-spacerun:yes'> </span><a name="_Toc288506263">Extending</a></span><span
+style='mso-bookmark:_Toc288506263'><span style='mso-bidi-font-size:10.0pt;
+line-height:115%'> superclass<span style='mso-spacerun:yes'>  </span>matching
+clauses</span></span><span style='mso-bidi-font-size:10.0pt;line-height:115%'><o:p></o:p></span></h2>
+
+<p class=MsoNormal style='text-align:justify'><span lang=EN-US
+style='mso-ansi-language:EN-US'>Extending superclass matching clauses specify
+which class a component must either directly or indirectly inherit from to
+match and be stored or returned. There is one extending superclass matching
+clause to be used within the andStore clause and one to be used within the
+returning clause. The former is thoseExtending and the latter is allExtending.
+They are defined as<o:p></o:p></span></p>
+
+<p class=MsoNormal><b style='mso-bidi-font-weight:normal'><span lang=EN-US
+style='mso-ansi-language:EN-US'>ComponentQuery.thoseExtending(Class&lt;T&gt; clazz):
+TypedStoreBindingBuilder&lt;T&gt;<o:p></o:p></span></b></p>
+
+<p class=MsoNormal><span lang=EN-US style='mso-ansi-language:EN-US'>and<o:p></o:p></span></p>
+
+<p class=MsoNormal><b style='mso-bidi-font-weight:normal'><span lang=EN-US
+style='mso-ansi-language:EN-US'>ComponentQuery.allExtending(Class&lt;?&gt; clazz):
+DirectReturning<o:p></o:p></span></b></p>
+
+<p class=MsoNormal><span lang=EN-US style='mso-ansi-language:EN-US'>respectively.<o:p></o:p></span></p>
+
+<p class=MsoNoSpacing><b style='mso-bidi-font-weight:normal'><span lang=EN-US
+style='mso-ansi-language:EN-US'>Examples<o:p></o:p></span></b></p>
+
+<p class=MsoNormal style='text-align:justify'><span lang=EN-US
+style='mso-ansi-language:EN-US'>Suppose you want to store all components
+extending some SampleBaseClass from the foo package into a set. The code to
+accomplish this would be<o:p></o:p></span></p>
+
+<p class=MsoNormal style='text-align:justify'><span lang=EN-US
+style='mso-ansi-language:EN-US'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNormal style='text-align:justify'><span lang=EN-US
+style='mso-ansi-language:EN-US'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNoSpacing><span lang=EN-US style='font-size:10.0pt;font-family:
+"Courier New";mso-ansi-language:EN-US'>final Set&lt;Class&lt;? extends
+SampleBaseClass&gt;&gt; samples = new HashSet&lt;Class&lt;? extends
+SampleBaseClass&gt;&gt;();<o:p></o:p></span></p>
+
+<p class=MsoNoSpacing><span lang=EN-US style='font-size:10.0pt;font-family:
+"Courier New";mso-ansi-language:EN-US'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNoSpacing><span lang=EN-US style='font-size:10.0pt;font-family:
+"Courier New";mso-ansi-language:EN-US'>ComponentScanner scanner = new
+ComponentScanner();<o:p></o:p></span></p>
+
+<p class=MsoNoSpacing><span lang=EN-US style='font-size:10.0pt;font-family:
+"Courier New";mso-ansi-language:EN-US'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNoSpacing><span lang=EN-US style='font-size:10.0pt;font-family:
+"Courier New";mso-ansi-language:EN-US'>scanner.getClasses(new ComponentQuery()
+{<o:p></o:p></span></p>
+
+<p class=MsoNoSpacing><span lang=EN-US style='font-size:10.0pt;font-family:
+"Courier New";mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>   
+</span>protected void query() {<o:p></o:p></span></p>
+
+<p class=MsoNoSpacing><span lang=EN-US style='font-size:10.0pt;font-family:
+"Courier New";mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>       
+</span>select().from(“foo”).andStore(<o:p></o:p></span></p>
+
+<p class=MsoNoSpacing><span lang=EN-US style='font-size:10.0pt;font-family:
+"Courier New";mso-ansi-language:EN-US'><span
+style='mso-spacerun:yes'>           
+</span>thoseExtending(SampleBaseClass.class).into(samples));<o:p></o:p></span></p>
+
+<p class=MsoNoSpacing><span lang=EN-US style='font-size:10.0pt;font-family:
+"Courier New";mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>   
+</span>}<o:p></o:p></span></p>
+
+<p class=MsoNoSpacing><span lang=EN-US style='font-size:10.0pt;font-family:
+"Courier New";mso-ansi-language:EN-US'>});<o:p></o:p></span></p>
+
+<p class=MsoNoSpacing><span lang=EN-US style='mso-ansi-language:EN-US'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNormal><span lang=EN-US style='mso-ansi-language:EN-US'>In case you
+want to return the same set of components the code to get this done would be<o:p></o:p></span></p>
+
+<p class=MsoNoSpacing><span lang=EN-US style='font-size:10.0pt;font-family:
+"Courier New";mso-ansi-language:EN-US'>ComponentScanner scanner = new
+ComponentScanner();<o:p></o:p></span></p>
+
+<p class=MsoNoSpacing><span lang=EN-US style='font-size:10.0pt;font-family:
+"Courier New";mso-ansi-language:EN-US'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNoSpacing><span lang=EN-US style='font-size:10.0pt;font-family:
+"Courier New";mso-ansi-language:EN-US'>Set&lt;Class&lt;?&gt;&gt; classes = scanner.getClasses(new
+ComponentQuery() {<o:p></o:p></span></p>
+
+<p class=MsoNoSpacing><span lang=EN-US style='font-size:10.0pt;font-family:
+"Courier New";mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>   
+</span>protected void query() {<o:p></o:p></span></p>
+
+<p class=MsoNoSpacing><span lang=EN-US style='font-size:10.0pt;font-family:
+"Courier New";mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>       
+</span>select().from(“foo”).returning(<o:p></o:p></span></p>
+
+<p class=MsoNoSpacing><span lang=EN-US style='font-size:10.0pt;font-family:
+"Courier New";mso-ansi-language:EN-US'><span
+style='mso-spacerun:yes'>           
+</span>allExtending(SampleBaseClass.class));<o:p></o:p></span></p>
+
+<p class=MsoNoSpacing><span lang=EN-US style='font-size:10.0pt;font-family:
+"Courier New";mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>   
+</span>}<o:p></o:p></span></p>
+
+<p class=MsoNoSpacing><span lang=EN-US style='font-size:10.0pt;font-family:
+"Courier New";mso-ansi-language:EN-US'>});<o:p></o:p></span></p>
+
+<p class=MsoNormal><o:p>&nbsp;</o:p></p>
+
+<h2 style='margin-left:21.6pt;text-indent:-21.6pt;mso-list:l0 level2 lfo3'><![if !supportLists]><span
+lang=EN-US style='mso-fareast-font-family:Cambria;mso-fareast-theme-font:major-latin;
+mso-bidi-font-family:Cambria;mso-bidi-theme-font:major-latin;mso-ansi-language:
+EN-US'><span style='mso-list:Ignore'>3.8.<span style='font:7.0pt "Times New Roman"'>
+</span></span></span><![endif]><span style='mso-ansi-language:EN-US'><span
+style='mso-spacerun:yes'> </span><a name="_Toc288506264"><span lang=EN-US>Implementing
+a single interface matching clause</span></a><span lang=EN-US><o:p></o:p></span></span></h2>
+
+<p class=MsoNormal style='text-align:justify'><span lang=EN-US
+style='mso-ansi-language:EN-US'>The clause matching components either directly
+or indirectly implementing the single interface given is special in that it
+only exists within the andStore clause and doesn’t exist within the returning
+clause. Its purpose is to retain the type information given with the
+specification of the interface components to be stored must implement. This
+information is then used to require the storing set to be as specific as
+possible. This matching clause is defined as<o:p></o:p></span></p>
+
+<p class=MsoNormal><b style='mso-bidi-font-weight:normal'><span lang=EN-US
+style='mso-ansi-language:EN-US'>ComponentQuery.thoseImplementing(Class&lt;T&gt;
+interfaze): TypedStoreBindingBuilder&lt;T&gt;</span></b><span lang=EN-US
+style='mso-ansi-language:EN-US'>.<b style='mso-bidi-font-weight:normal'><o:p></o:p></b></span></p>
+
+<p class=MsoNoSpacing><b style='mso-bidi-font-weight:normal'><span lang=EN-US
+style='mso-ansi-language:EN-US'>Examples<o:p></o:p></span></b></p>
+
+<p class=MsoNormal style='text-align:justify'><span lang=EN-US
+style='mso-ansi-language:EN-US'>Suppose you want to store all components
+implementing some SampleInterface from the foo package into a set. The code to
+accomplish this would be<o:p></o:p></span></p>
+
+<p class=MsoNoSpacing><span lang=EN-US style='font-size:10.0pt;font-family:
+"Courier New";mso-ansi-language:EN-US'>final Set&lt;Class&lt;? extends
+SampleInterface&gt;&gt; samples = new HashSet&lt;Class&lt;? extends
+SampleInterface&gt;&gt;();<o:p></o:p></span></p>
+
+<p class=MsoNoSpacing><span lang=EN-US style='font-size:10.0pt;font-family:
+"Courier New";mso-ansi-language:EN-US'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNoSpacing><span lang=EN-US style='font-size:10.0pt;font-family:
+"Courier New";mso-ansi-language:EN-US'>ComponentScanner scanner = new
+ComponentScanner();<o:p></o:p></span></p>
+
+<p class=MsoNoSpacing><span lang=EN-US style='font-size:10.0pt;font-family:
+"Courier New";mso-ansi-language:EN-US'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNoSpacing><span lang=EN-US style='font-size:10.0pt;font-family:
+"Courier New";mso-ansi-language:EN-US'>scanner.getClasses(new ComponentQuery()
+{<o:p></o:p></span></p>
+
+<p class=MsoNoSpacing><span lang=EN-US style='font-size:10.0pt;font-family:
+"Courier New";mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>   
+</span>protected void query() {<o:p></o:p></span></p>
+
+<p class=MsoNoSpacing><span lang=EN-US style='font-size:10.0pt;font-family:
+"Courier New";mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>       
+</span>select().from(“foo”).andStore(<o:p></o:p></span></p>
+
+<p class=MsoNoSpacing><span lang=EN-US style='font-size:10.0pt;font-family:
+"Courier New";mso-ansi-language:EN-US'><span
+style='mso-spacerun:yes'>           
+</span>thoseImplementing(SampleInterface.class).into(samples));<o:p></o:p></span></p>
+
+<p class=MsoNoSpacing><span lang=EN-US style='font-size:10.0pt;font-family:
+"Courier New";mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>   
+</span>}<o:p></o:p></span></p>
+
+<p class=MsoNoSpacing><span lang=EN-US style='font-size:10.0pt;font-family:
+"Courier New";mso-ansi-language:EN-US'>});<o:p></o:p></span></p>
+
+<p class=MsoNormal style='text-align:justify'><o:p>&nbsp;</o:p></p>
+
+<h2 style='margin-left:21.6pt;text-indent:-21.6pt;mso-list:l0 level2 lfo3'><![if !supportLists]><span
+lang=EN-US style='mso-fareast-font-family:Cambria;mso-fareast-theme-font:major-latin;
+mso-bidi-font-family:Cambria;mso-bidi-theme-font:major-latin;mso-ansi-language:
+EN-US'><span style='mso-list:Ignore'>3.9.<span style='font:7.0pt "Times New Roman"'>
+</span></span></span><![endif]><span style='mso-ansi-language:EN-US'><span
+style='mso-spacerun:yes'> </span><a name="_Toc288506265"><span lang=EN-US>Implementing
+one or more interfaces matching clauses</span></a><span lang=EN-US><o:p></o:p></span></span></h2>
+
+<p class=MsoNormal style='text-align:justify'><span lang=EN-US
+style='mso-ansi-language:EN-US'>Implementing one or more interfaces matching
+clauses specify which interface or interfaces a component must either directly
+or indirectly implement to match and be stored or returned. There is one such
+matching clause to be used within the andStore clause and one to be used within
+the returning clause. The former is thoseImplementing and the latter is
+allImplementing. They are defined as<o:p></o:p></span></p>
+
+<p class=MsoNormal><b style='mso-bidi-font-weight:normal'><span lang=EN-US
+style='mso-ansi-language:EN-US'>ComponentQuery.thoseImplementing(Class&lt;?&gt;...
+interfaces): TypelessStoreBindingBuilder<o:p></o:p></span></b></p>
+
+<p class=MsoNormal><span lang=EN-US style='mso-ansi-language:EN-US'>and<o:p></o:p></span></p>
+
+<p class=MsoNormal><b style='mso-bidi-font-weight:normal'><span lang=EN-US
+style='mso-ansi-language:EN-US'>ComponentQuery.allImplementing(Class&lt;?&gt;...
+interfaces): DirectReturning<o:p></o:p></span></b></p>
+
+<p class=MsoNormal><span lang=EN-US style='mso-ansi-language:EN-US'>respectively.<o:p></o:p></span></p>
+
+<p class=MsoNoSpacing><b style='mso-bidi-font-weight:normal'><span lang=EN-US
+style='mso-ansi-language:EN-US'>Examples<o:p></o:p></span></b></p>
+
+<p class=MsoNormal style='text-align:justify'><span lang=EN-US
+style='mso-ansi-language:EN-US'>Suppose you want to store all components
+implementing both interfaces SampleInterfaceA and SampleInterfaceB from the foo
+package into a set. The code to accomplish this would be<o:p></o:p></span></p>
+
+<p class=MsoNoSpacing><span lang=EN-US style='font-size:10.0pt;font-family:
+"Courier New";mso-ansi-language:EN-US'>final Set&lt;Class&lt;?&gt;&gt; samples
+= new HashSet&lt;Class&lt;?&gt;&gt;();<o:p></o:p></span></p>
+
+<p class=MsoNoSpacing><span lang=EN-US style='font-size:10.0pt;font-family:
+"Courier New";mso-ansi-language:EN-US'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNoSpacing><span lang=EN-US style='font-size:10.0pt;font-family:
+"Courier New";mso-ansi-language:EN-US'>ComponentScanner scanner = new
+ComponentScanner();<o:p></o:p></span></p>
+
+<p class=MsoNoSpacing><span lang=EN-US style='font-size:10.0pt;font-family:
+"Courier New";mso-ansi-language:EN-US'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNoSpacing><span lang=EN-US style='font-size:10.0pt;font-family:
+"Courier New";mso-ansi-language:EN-US'>scanner.getClasses(new ComponentQuery()
+{<o:p></o:p></span></p>
+
+<p class=MsoNoSpacing><span lang=EN-US style='font-size:10.0pt;font-family:
+"Courier New";mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>   
+</span>protected void query() {<o:p></o:p></span></p>
+
+<p class=MsoNoSpacing><span lang=EN-US style='font-size:10.0pt;font-family:
+"Courier New";mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>       
+</span>select().from(“foo”).andStore(<o:p></o:p></span></p>
+
+<p class=MsoNoSpacing><span lang=EN-US style='font-size:10.0pt;font-family:
+"Courier New";mso-ansi-language:EN-US'><span
+style='mso-spacerun:yes'>           
+</span>thoseImplementing(SampleInterfaceA.class,<span
+style='mso-spacerun:yes'>         </span><o:p></o:p></span></p>
+
+<p class=MsoNoSpacing><span lang=EN-US style='font-size:10.0pt;font-family:
+"Courier New";mso-ansi-language:EN-US'><span
+style='mso-spacerun:yes'>                             
+</span>SampleInterfaceB.class).into(samples));<o:p></o:p></span></p>
+
+<p class=MsoNoSpacing><span lang=EN-US style='font-size:10.0pt;font-family:
+"Courier New";mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>   
+</span>}<o:p></o:p></span></p>
+
+<p class=MsoNoSpacing><span lang=EN-US style='font-size:10.0pt;font-family:
+"Courier New";mso-ansi-language:EN-US'>});<o:p></o:p></span></p>
+
+<p class=MsoNoSpacing><span lang=EN-US style='mso-ansi-language:EN-US'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNormal><span lang=EN-US style='mso-ansi-language:EN-US'>In case you
+want to return the same set of components the code to get this done would be<o:p></o:p></span></p>
+
+<p class=MsoNoSpacing><span lang=EN-US style='font-size:10.0pt;font-family:
+"Courier New";mso-ansi-language:EN-US'>ComponentScanner scanner = new
+ComponentScanner();<o:p></o:p></span></p>
+
+<p class=MsoNoSpacing><span lang=EN-US style='font-size:10.0pt;font-family:
+"Courier New";mso-ansi-language:EN-US'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNoSpacing><span lang=EN-US style='font-size:10.0pt;font-family:
+"Courier New";mso-ansi-language:EN-US'>Set&lt;Class&lt;?&gt;&gt; classes =
+scanner.getClasses(new ComponentQuery() {<o:p></o:p></span></p>
+
+<p class=MsoNoSpacing><span lang=EN-US style='font-size:10.0pt;font-family:
+"Courier New";mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>   
+</span>protected void query() {<o:p></o:p></span></p>
+
+<p class=MsoNoSpacing><span lang=EN-US style='font-size:10.0pt;font-family:
+"Courier New";mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>       
+</span>select().from(“foo”).returning(<o:p></o:p></span></p>
+
+<p class=MsoNoSpacing><span lang=EN-US style='font-size:10.0pt;font-family:
+"Courier New";mso-ansi-language:EN-US'><span
+style='mso-spacerun:yes'>           
+</span>allImplementing(SampleInterfaceA.class, <o:p></o:p></span></p>
+
+<p class=MsoNoSpacing><span lang=EN-US style='font-size:10.0pt;font-family:
+"Courier New";mso-ansi-language:EN-US'><span
+style='mso-spacerun:yes'>                           
+</span>SampleInterfaceB.class));<o:p></o:p></span></p>
+
+<p class=MsoNoSpacing><span lang=EN-US style='font-size:10.0pt;font-family:
+"Courier New";mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>   
+</span>}<o:p></o:p></span></p>
+
+<p class=MsoNoSpacing><span lang=EN-US style='font-size:10.0pt;font-family:
+"Courier New";mso-ansi-language:EN-US'>});<o:p></o:p></span></p>
+
+<p class=MsoNoSpacing><span lang=EN-US style='mso-ansi-language:EN-US'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNormal style='text-align:justify'><span lang=EN-US
+style='mso-ansi-language:EN-US'>As the interfaces parameter is a varargs
+parameter any amount of interfaces could be given. This includes the
+technically possible option of giving none at all. However this will result in
+an IllegalArgumentException at runtime.<o:p></o:p></span></p>
+
+<p class=MsoNormal style='text-align:justify'><span lang=EN-US
+style='mso-ansi-language:EN-US'>All interfaces given must be implemented by any
+component to be matched. The implicit logical operator is therefore the “and”
+operator. Should you wish to use the “or” operator you need to state this
+explicitly using the appropriate combining matching clause.<o:p></o:p></span></p>
+
+<p class=MsoNoSpacing><span lang=EN-US style='mso-ansi-language:EN-US'><o:p>&nbsp;</o:p></span></p>
+
+<h2 style='margin-left:21.6pt;text-indent:-21.6pt;mso-list:l0 level2 lfo3'><a
+name="_Toc288506266"><![if !supportLists]><span lang=EN-US style='mso-fareast-font-family:
+Cambria;mso-fareast-theme-font:major-latin;mso-bidi-font-family:Cambria;
+mso-bidi-theme-font:major-latin;mso-ansi-language:EN-US'><span
+style='mso-list:Ignore'>3.10.<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><![endif]><span lang=EN-US style='mso-ansi-language:EN-US'>Combining
+matching clauses</span></a><span lang=EN-US style='mso-ansi-language:EN-US'><o:p></o:p></span></h2>
+
+<p class=MsoNormal style='text-align:justify'><span lang=EN-US
+style='mso-ansi-language:EN-US'>To combine the matching clauses described in
+the previous sections one of the two combining matching clauses thoseBeing and
+allBeing can be used within the andStore and the returning clauses
+respectively. The combining matching clauses are defined as<o:p></o:p></span></p>
+
+<p class=MsoNormal><b style='mso-bidi-font-weight:normal'><span lang=EN-US
+style='mso-ansi-language:EN-US'>ComponentQuery.thoseBeing(TypeFilterJunction
+filter): TypelessStoreBindingBuilder<o:p></o:p></span></b></p>
+
+<p class=MsoNormal><span lang=EN-US style='mso-ansi-language:EN-US'>and<o:p></o:p></span></p>
+
+<p class=MsoNormal><b style='mso-bidi-font-weight:normal'><span lang=EN-US
+style='mso-ansi-language:EN-US'>ComponentQuery.allBeing(TypeFilterJunction
+filter): DirectReturning</span></b><span lang=EN-US style='mso-ansi-language:
+EN-US'>.<b style='mso-bidi-font-weight:normal'><o:p></o:p></b></span></p>
+
+<p class=MsoNormal style='text-align:justify'><span lang=EN-US
+style='mso-ansi-language:EN-US'>The TypeFilterJunction can either be a
+TypeFilterConjunction if the logical operator “and” is to be used or a
+TypeFilterDisjunction if the logical operator “or” is to be used. The clauses
+needed to obtain the corresponding objects are therefore<o:p></o:p></span></p>
+
+<p class=MsoNormal style='text-align:justify'><b style='mso-bidi-font-weight:
+normal'><span lang=EN-US style='mso-ansi-language:EN-US'>ComponentQuery.and(ExtendingTypeFilter
+filter, MultipleTypeFilter... filters): TypeFilterJunction</span></b><span
+lang=EN-US style='mso-ansi-language:EN-US'>,<o:p></o:p></span></p>
+
+<p class=MsoNormal style='text-align:justify'><b style='mso-bidi-font-weight:
+normal'><span lang=EN-US style='mso-ansi-language:EN-US'>ComponentQuery.and(MultipleTypeFilter...
+filters): TypeFilterJunction</span></b><span lang=EN-US style='mso-ansi-language:
+EN-US'><o:p></o:p></span></p>
+
+<p class=MsoNormal style='text-align:justify'><span lang=EN-US
+style='mso-ansi-language:EN-US'>and<o:p></o:p></span></p>
+
+<p class=MsoNormal style='text-align:justify'><b style='mso-bidi-font-weight:
+normal'><span lang=EN-US style='mso-ansi-language:EN-US'>ComponentQuery.or(TypeFilter...
+filters): TypeFilterJunction</span></b><span lang=EN-US style='mso-ansi-language:
+EN-US'>.<o:p></o:p></span></p>
+
+<p class=MsoNormal style='text-align:justify'><span lang=EN-US
+style='mso-ansi-language:EN-US'>The first of the two “and” clauses is to be
+used if the components to match must extend a certain base class and match some
+other given criteria, except class inheritance. Since any class can only extend
+one class directly and only one line of classes indirectly up to the Object
+class the explicit “and” operator isn’t applicable to class inheritance.<o:p></o:p></span></p>
+
+<p class=MsoNormal style='text-align:justify'><span lang=EN-US
+style='mso-ansi-language:EN-US'>The second “and” clause is to be used if the
+components to match don’t need to extend a certain base class, but must match
+several other criteria. These can be stated in any order and can include
+further “and” and “or” clauses. The “or” clause takes any kind of matching
+criteria in any order, again including further “and” and “or” clauses.<o:p></o:p></span></p>
+
+<p class=MsoNormal style='text-align:justify'><span lang=EN-US
+style='mso-ansi-language:EN-US'>The varargs parameters in the clauses could
+again also take no parameters at all, which would yet again result in an
+IllegalArgumentException being thrown at runtime. It’s also technically
+possible and doesn’t result in a runtime exception to give just one parameter
+to each varargs parameter, but at least for the second “and” clause and the
+“or” clause doing so clearly wouldn’t make any sense.<o:p></o:p></span></p>
+
+<p class=MsoNormal style='text-align:justify'><span lang=EN-US
+style='mso-ansi-language:EN-US'>The matching clauses to be used within the
+“and” and “or” clauses are slightly different than the ones used directly
+within the andStore and returning clauses. This way a more fluent language is
+achieved. The following table shows the matching clauses as used within the
+returning clause and the matching clause to be used within the “and” and “or”
+clauses corresponding to each.<o:p></o:p></span></p>
+
+<table class=MsoTableGrid border=1 cellspacing=0 cellpadding=0
+ style='border-collapse:collapse;border:none;mso-border-alt:solid black .5pt;
+ mso-border-themecolor:text1;mso-yfti-tbllook:1184;mso-padding-alt:0cm 5.4pt 0cm 5.4pt'>
+ <tr style='mso-yfti-irow:0;mso-yfti-firstrow:yes'>
+  <td width=307 valign=top style='width:230.3pt;border:solid black 1.0pt;
+  mso-border-themecolor:text1;mso-border-alt:solid black .5pt;mso-border-themecolor:
+  text1;padding:0cm 5.4pt 0cm 5.4pt'>
+  <p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;text-align:
+  justify;line-height:normal'><b style='mso-bidi-font-weight:normal'><span
+  lang=EN-US style='mso-ansi-language:EN-US'>Returning matching clause<o:p></o:p></span></b></p>
+  </td>
+  <td width=307 valign=top style='width:230.3pt;border:solid black 1.0pt;
+  mso-border-themecolor:text1;border-left:none;mso-border-left-alt:solid black .5pt;
+  mso-border-left-themecolor:text1;mso-border-alt:solid black .5pt;mso-border-themecolor:
+  text1;padding:0cm 5.4pt 0cm 5.4pt'>
+  <p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;text-align:
+  justify;line-height:normal'><b style='mso-bidi-font-weight:normal'><span
+  lang=EN-US style='mso-ansi-language:EN-US'>Corresponding matching clause<o:p></o:p></span></b></p>
+  </td>
+ </tr>
+ <tr style='mso-yfti-irow:1'>
+  <td width=307 valign=top style='width:230.3pt;border:solid black 1.0pt;
+  mso-border-themecolor:text1;border-top:none;mso-border-top-alt:solid black .5pt;
+  mso-border-top-themecolor:text1;mso-border-alt:solid black .5pt;mso-border-themecolor:
+  text1;padding:0cm 5.4pt 0cm 5.4pt'>
+  <p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;text-align:
+  justify;line-height:normal'><span lang=EN-US style='mso-ansi-language:EN-US'>allAnnotatedWith(Class&lt;?
+  extends Annotation&gt; annotation)<o:p></o:p></span></p>
+  </td>
+  <td width=307 valign=top style='width:230.3pt;border-top:none;border-left:
+  none;border-bottom:solid black 1.0pt;mso-border-bottom-themecolor:text1;
+  border-right:solid black 1.0pt;mso-border-right-themecolor:text1;mso-border-top-alt:
+  solid black .5pt;mso-border-top-themecolor:text1;mso-border-left-alt:solid black .5pt;
+  mso-border-left-themecolor:text1;mso-border-alt:solid black .5pt;mso-border-themecolor:
+  text1;padding:0cm 5.4pt 0cm 5.4pt'>
+  <p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;text-align:
+  justify;line-height:normal'><span lang=EN-US style='mso-ansi-language:EN-US'>annotatedWith(Class&lt;?
+  extends Annotation&gt; annotation)<o:p></o:p></span></p>
+  </td>
+ </tr>
+ <tr style='mso-yfti-irow:2'>
+  <td width=307 valign=top style='width:230.3pt;border:solid black 1.0pt;
+  mso-border-themecolor:text1;border-top:none;mso-border-top-alt:solid black .5pt;
+  mso-border-top-themecolor:text1;mso-border-alt:solid black .5pt;mso-border-themecolor:
+  text1;padding:0cm 5.4pt 0cm 5.4pt'>
+  <p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;text-align:
+  justify;line-height:normal'><span lang=EN-US style='mso-ansi-language:EN-US'>allAnnotatedWith(Class&lt;?
+  extends Annotation&gt; annotation, ArgumentsDescriptor arguments)<o:p></o:p></span></p>
+  </td>
+  <td width=307 valign=top style='width:230.3pt;border-top:none;border-left:
+  none;border-bottom:solid black 1.0pt;mso-border-bottom-themecolor:text1;
+  border-right:solid black 1.0pt;mso-border-right-themecolor:text1;mso-border-top-alt:
+  solid black .5pt;mso-border-top-themecolor:text1;mso-border-left-alt:solid black .5pt;
+  mso-border-left-themecolor:text1;mso-border-alt:solid black .5pt;mso-border-themecolor:
+  text1;padding:0cm 5.4pt 0cm 5.4pt'>
+  <p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;text-align:
+  justify;line-height:normal'><span lang=EN-US style='mso-ansi-language:EN-US'>annotatedWith(Class&lt;?
+  extends Annotation&gt; annotation, ArgumentsDescriptor arguments)<o:p></o:p></span></p>
+  </td>
+ </tr>
+ <tr style='mso-yfti-irow:3'>
+  <td width=307 valign=top style='width:230.3pt;border:solid black 1.0pt;
+  mso-border-themecolor:text1;border-top:none;mso-border-top-alt:solid black .5pt;
+  mso-border-top-themecolor:text1;mso-border-alt:solid black .5pt;mso-border-themecolor:
+  text1;padding:0cm 5.4pt 0cm 5.4pt'>
+  <p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;text-align:
+  justify;line-height:normal'><span lang=EN-US style='mso-ansi-language:EN-US'>allExtending(Class&lt;?&gt;
+  clazz)<o:p></o:p></span></p>
+  </td>
+  <td width=307 valign=top style='width:230.3pt;border-top:none;border-left:
+  none;border-bottom:solid black 1.0pt;mso-border-bottom-themecolor:text1;
+  border-right:solid black 1.0pt;mso-border-right-themecolor:text1;mso-border-top-alt:
+  solid black .5pt;mso-border-top-themecolor:text1;mso-border-left-alt:solid black .5pt;
+  mso-border-left-themecolor:text1;mso-border-alt:solid black .5pt;mso-border-themecolor:
+  text1;padding:0cm 5.4pt 0cm 5.4pt'>
+  <p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;text-align:
+  justify;line-height:normal'><span lang=EN-US style='mso-ansi-language:EN-US'>subclassOf(Class&lt;?&gt;
+  clazz)<o:p></o:p></span></p>
+  </td>
+ </tr>
+ <tr style='mso-yfti-irow:4;mso-yfti-lastrow:yes'>
+  <td width=307 valign=top style='width:230.3pt;border:solid black 1.0pt;
+  mso-border-themecolor:text1;border-top:none;mso-border-top-alt:solid black .5pt;
+  mso-border-top-themecolor:text1;mso-border-alt:solid black .5pt;mso-border-themecolor:
+  text1;padding:0cm 5.4pt 0cm 5.4pt'>
+  <p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;text-align:
+  justify;line-height:normal'><span lang=EN-US style='mso-ansi-language:EN-US'>allImplementing(Class&lt;?&gt;...
+  interfaces)<o:p></o:p></span></p>
+  </td>
+  <td width=307 valign=top style='width:230.3pt;border-top:none;border-left:
+  none;border-bottom:solid black 1.0pt;mso-border-bottom-themecolor:text1;
+  border-right:solid black 1.0pt;mso-border-right-themecolor:text1;mso-border-top-alt:
+  solid black .5pt;mso-border-top-themecolor:text1;mso-border-left-alt:solid black .5pt;
+  mso-border-left-themecolor:text1;mso-border-alt:solid black .5pt;mso-border-themecolor:
+  text1;padding:0cm 5.4pt 0cm 5.4pt'>
+  <p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;text-align:
+  justify;line-height:normal'><span lang=EN-US style='mso-ansi-language:EN-US'>implementorOf(Class&lt;?&gt;...
+  interfaces)<o:p></o:p></span></p>
+  </td>
+ </tr>
+</table>
+
+<p class=MsoNoSpacing><span lang=EN-US style='mso-ansi-language:EN-US'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNormal style='text-align:justify'><span lang=EN-US
+style='mso-ansi-language:EN-US'>All corresponding matching clauses are defined
+as methods of the ComponentQuery class, as are all other matching clauses. All
+other syntaxes and semantics stay the same as described in the sections above.<o:p></o:p></span></p>
+
+<p class=MsoNoSpacing><b style='mso-bidi-font-weight:normal'><span lang=EN-US
+style='mso-ansi-language:EN-US'>Examples<o:p></o:p></span></b></p>
+
+<p class=MsoNormal style='text-align:justify'><span lang=EN-US
+style='mso-ansi-language:EN-US'>Suppose you want to store all components
+extending SampleBaseClass and implementing SampleInterface from the foo package
+into a set. The code to accomplish this would be<o:p></o:p></span></p>
+
+<p class=MsoNormal style='text-align:justify'><span lang=EN-US
+style='mso-ansi-language:EN-US'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNormal style='text-align:justify'><span lang=EN-US
+style='mso-ansi-language:EN-US'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNoSpacing><span lang=EN-US style='font-size:10.0pt;font-family:
+"Courier New";mso-ansi-language:EN-US'>final Set&lt;Class&lt;?&gt;&gt; samples
+= new HashSet&lt;Class&lt;?&gt;&gt;();<o:p></o:p></span></p>
+
+<p class=MsoNoSpacing><span lang=EN-US style='font-size:10.0pt;font-family:
+"Courier New";mso-ansi-language:EN-US'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNoSpacing><span lang=EN-US style='font-size:10.0pt;font-family:
+"Courier New";mso-ansi-language:EN-US'>ComponentScanner scanner = new
+ComponentScanner();<o:p></o:p></span></p>
+
+<p class=MsoNoSpacing><span lang=EN-US style='font-size:10.0pt;font-family:
+"Courier New";mso-ansi-language:EN-US'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNoSpacing><span lang=EN-US style='font-size:10.0pt;font-family:
+"Courier New";mso-ansi-language:EN-US'>scanner.getClasses(new ComponentQuery()
+{<o:p></o:p></span></p>
+
+<p class=MsoNoSpacing><span lang=EN-US style='font-size:10.0pt;font-family:
+"Courier New";mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>   
+</span>protected void query() {<o:p></o:p></span></p>
+
+<p class=MsoNoSpacing><span lang=EN-US style='font-size:10.0pt;font-family:
+"Courier New";mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>       
+</span>select().from(“foo”).andStore(<o:p></o:p></span></p>
+
+<p class=MsoNoSpacing><span lang=EN-US style='font-size:10.0pt;font-family:
+"Courier New";mso-ansi-language:EN-US'><span
+style='mso-spacerun:yes'>            </span>thoseBeing(and(<o:p></o:p></span></p>
+
+<p class=MsoNoSpacing><span lang=EN-US style='font-size:10.0pt;font-family:
+"Courier New";mso-ansi-language:EN-US'><span
+style='mso-spacerun:yes'>                          
+</span>subclassOf(SampleBaseClass.class),<o:p></o:p></span></p>
+
+<p class=MsoNoSpacing><span lang=EN-US style='font-size:10.0pt;font-family:
+"Courier New";mso-ansi-language:EN-US'><span
+style='mso-spacerun:yes'>                          
+</span>implementorOf(SampleInterface.class))<o:p></o:p></span></p>
+
+<p class=MsoNoSpacing><span lang=EN-US style='font-size:10.0pt;font-family:
+"Courier New";mso-ansi-language:EN-US'><span
+style='mso-spacerun:yes'>            </span>.into(samples));<o:p></o:p></span></p>
+
+<p class=MsoNoSpacing><span lang=EN-US style='font-size:10.0pt;font-family:
+"Courier New";mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>   
+</span>}<o:p></o:p></span></p>
+
+<p class=MsoNoSpacing><span lang=EN-US style='font-size:10.0pt;font-family:
+"Courier New";mso-ansi-language:EN-US'>});<o:p></o:p></span></p>
+
+<p class=MsoNoSpacing><span lang=EN-US style='mso-ansi-language:EN-US'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNormal style='text-align:justify'><span lang=EN-US
+style='mso-ansi-language:EN-US'>In case you want to return the same set of
+components the code to get this done would be<o:p></o:p></span></p>
+
+<p class=MsoNoSpacing><span lang=EN-US style='font-size:10.0pt;font-family:
+"Courier New";mso-ansi-language:EN-US'>ComponentScanner scanner = new
+ComponentScanner();<o:p></o:p></span></p>
+
+<p class=MsoNoSpacing><span lang=EN-US style='font-size:10.0pt;font-family:
+"Courier New";mso-ansi-language:EN-US'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNoSpacing><span lang=EN-US style='font-size:10.0pt;font-family:
+"Courier New";mso-ansi-language:EN-US'>Set&lt;Class&lt;?&gt;&gt; classes =
+scanner.getClasses(new ComponentQuery() {<o:p></o:p></span></p>
+
+<p class=MsoNoSpacing><span lang=EN-US style='font-size:10.0pt;font-family:
+"Courier New";mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>   
+</span>protected void query() {<o:p></o:p></span></p>
+
+<p class=MsoNoSpacing><span lang=EN-US style='font-size:10.0pt;font-family:
+"Courier New";mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>       
+</span>select().from(“foo”).returning(<o:p></o:p></span></p>
+
+<p class=MsoNoSpacing><span lang=EN-US style='font-size:10.0pt;font-family:
+"Courier New";mso-ansi-language:EN-US'><span
+style='mso-spacerun:yes'>            </span>allBeing(and(<o:p></o:p></span></p>
+
+<p class=MsoNoSpacing><span lang=EN-US style='font-size:10.0pt;font-family:
+"Courier New";mso-ansi-language:EN-US'><span
+style='mso-spacerun:yes'>                        
+</span>subclassOf(SampleBaseClass.class),<o:p></o:p></span></p>
+
+<p class=MsoNoSpacing><span lang=EN-US style='font-size:10.0pt;font-family:
+"Courier New";mso-ansi-language:EN-US'><span
+style='mso-spacerun:yes'>                        
+</span>implementorOf(SampleInterface.class)));<o:p></o:p></span></p>
+
+<p class=MsoNoSpacing><span lang=EN-US style='font-size:10.0pt;font-family:
+"Courier New";mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>   
+</span>}<o:p></o:p></span></p>
+
+<p class=MsoNoSpacing><span lang=EN-US style='font-size:10.0pt;font-family:
+"Courier New";mso-ansi-language:EN-US'>});<o:p></o:p></span></p>
+
+<p class=MsoNoSpacing><span lang=EN-US style='mso-ansi-language:EN-US'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNormal style='text-align:justify'><span lang=EN-US
+style='mso-ansi-language:EN-US'>As another example suppose you want to store
+all components implementing SampleInterface or annotated with SampleAnnotation
+from the foo package into a set. The code to accomplish this would be<o:p></o:p></span></p>
+
+<p class=MsoNoSpacing><span lang=EN-US style='font-size:10.0pt;font-family:
+"Courier New";mso-ansi-language:EN-US'>final Set&lt;Class&lt;?&gt;&gt; samples
+= new HashSet&lt;Class&lt;?&gt;&gt;();<o:p></o:p></span></p>
+
+<p class=MsoNoSpacing><span lang=EN-US style='font-size:10.0pt;font-family:
+"Courier New";mso-ansi-language:EN-US'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNoSpacing><span lang=EN-US style='font-size:10.0pt;font-family:
+"Courier New";mso-ansi-language:EN-US'>ComponentScanner scanner = new
+ComponentScanner();<o:p></o:p></span></p>
+
+<p class=MsoNoSpacing><span lang=EN-US style='font-size:10.0pt;font-family:
+"Courier New";mso-ansi-language:EN-US'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNoSpacing><span lang=EN-US style='font-size:10.0pt;font-family:
+"Courier New";mso-ansi-language:EN-US'>scanner.getClasses(new ComponentQuery()
+{<o:p></o:p></span></p>
+
+<p class=MsoNoSpacing><span lang=EN-US style='font-size:10.0pt;font-family:
+"Courier New";mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>   
+</span>protected void query() {<o:p></o:p></span></p>
+
+<p class=MsoNoSpacing><span lang=EN-US style='font-size:10.0pt;font-family:
+"Courier New";mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>       
+</span>select().from(“foo”).andStore(<o:p></o:p></span></p>
+
+<p class=MsoNoSpacing><span lang=EN-US style='font-size:10.0pt;font-family:
+"Courier New";mso-ansi-language:EN-US'><span
+style='mso-spacerun:yes'>            </span>thoseBeing(or(<o:p></o:p></span></p>
+
+<p class=MsoNoSpacing><span lang=EN-US style='font-size:10.0pt;font-family:
+"Courier New";mso-ansi-language:EN-US'><span
+style='mso-spacerun:yes'>                          
+</span>implementorOf(SampleInterface.class),<o:p></o:p></span></p>
+
+<p class=MsoNoSpacing><span lang=EN-US style='font-size:10.0pt;font-family:
+"Courier New";mso-ansi-language:EN-US'><span
+style='mso-spacerun:yes'>                          
+</span>annotatedWith(SampleAnnotation.class))<o:p></o:p></span></p>
+
+<p class=MsoNoSpacing><span lang=EN-US style='font-size:10.0pt;font-family:
+"Courier New";mso-ansi-language:EN-US'><span
+style='mso-spacerun:yes'>            </span>.into(samples));<o:p></o:p></span></p>
+
+<p class=MsoNoSpacing><span lang=EN-US style='font-size:10.0pt;font-family:
+"Courier New";mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>   
+</span>}<o:p></o:p></span></p>
+
+<p class=MsoNoSpacing><span lang=EN-US style='font-size:10.0pt;font-family:
+"Courier New";mso-ansi-language:EN-US'>});<o:p></o:p></span></p>
+
+<p class=MsoNoSpacing><span lang=EN-US style='mso-ansi-language:EN-US'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNormal style='text-align:justify'><span lang=EN-US
+style='mso-ansi-language:EN-US'>A lot more examples could be given, but this
+should suffice to clarify the issue.<o:p></o:p></span></p>
+
+<span lang=EN-US style='font-size:11.0pt;line-height:115%;font-family:"Calibri","sans-serif";
+mso-ascii-theme-font:minor-latin;mso-fareast-font-family:Calibri;mso-fareast-theme-font:
+minor-latin;mso-hansi-theme-font:minor-latin;mso-bidi-font-family:"Times New Roman";
+mso-bidi-theme-font:minor-bidi;mso-ansi-language:EN-US;mso-fareast-language:
+EN-US;mso-bidi-language:AR-SA'><br clear=all style='mso-special-character:line-break;
+page-break-before:always'>
+</span>
+
+<p class=MsoNormal><span lang=EN-US style='mso-ansi-language:EN-US'><o:p>&nbsp;</o:p></span></p>
+
+<h1 style='margin-left:18.0pt;text-indent:-18.0pt;mso-list:l0 level1 lfo3'><a
+name="_Toc288506267"><![if !supportLists]><span lang=EN-US style='mso-fareast-font-family:
+Cambria;mso-fareast-theme-font:major-latin;mso-bidi-font-family:Cambria;
+mso-bidi-theme-font:major-latin;mso-ansi-language:EN-US'><span
+style='mso-list:Ignore'>4.<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><![endif]><span lang=EN-US style='mso-ansi-language:EN-US'>Afterword</span></a><span
+lang=EN-US style='mso-ansi-language:EN-US'><o:p></o:p></span></h1>
+
+<p class=MsoNormal style='text-align:justify'><span lang=EN-US
+style='mso-ansi-language:EN-US'>In case this manual leaves any questions you
+have unanswered, please get in touch. You can either post a question in the
+support forums at </span><a href="http://sf.net/projects/extcos/forums"><span
+lang=EN-US style='mso-ansi-language:EN-US'>http://sf.net/projects/extcos/forums</span></a><span
+lang=EN-US style='mso-ansi-language:EN-US'> or write an email to </span><a
+href="mailto:mimarox@users.sourceforge.net"><span lang=EN-US style='mso-ansi-language:
+EN-US'>mimarox@users.sourceforge.net</span></a><span lang=EN-US
+style='mso-ansi-language:EN-US'>. Any question or remark is highly appreciated
+and will be promptly answered.<o:p></o:p></span></p>
+
+</div>
+
+</body>
+
+</html>
