@@ -76,7 +76,7 @@ public class JavaResourceAccessor implements ResourceAccessor {
 		@Override
 		public void visit(final int version, final int access, final String name,
 				final String signature, final String superName,
-				@SuppressWarnings("hiding") final String[] interfaces) {
+				final String[] interfaces) {
 			if (!(Modifier.isAbstract(access) ||
 					Modifier.isInterface(access) ||
 					isEnum(version, superName))) {
@@ -118,7 +118,6 @@ public class JavaResourceAccessor implements ResourceAccessor {
 
 	private class AnnotationVisitorImpl extends AnnotationVisitor {
 		private final AnnotationMetadataImpl metadata;
-		@SuppressWarnings("hiding")
 		private final String className;
 
 		private AnnotationVisitorImpl(final String desc) {
@@ -318,7 +317,7 @@ public class JavaResourceAccessor implements ResourceAccessor {
 		}
 	}
 
-	private byte[] readBytes(@SuppressWarnings("hiding") final URL resourceUrl) throws IOException {
+	private byte[] readBytes(final URL resourceUrl) throws IOException {
 		InputStream classStream = new BufferedInputStream(resourceUrl.openStream());
 		List<Byte> buffer = new ArrayList<Byte>();
 		int readByte;
@@ -375,7 +374,6 @@ public class JavaResourceAccessor implements ResourceAccessor {
 
 				reader.accept(new AnnotatedClassVisitor() {
 					@Override
-					@SuppressWarnings("hiding")
 					public void visit(final int version, final int access, final String name,
 							final String signature, final String superName, final String[] interfaces) {
 						readSuperClasses(superName);
@@ -394,7 +392,7 @@ public class JavaResourceAccessor implements ResourceAccessor {
 		}
 	}
 
-	private void readInterfaces(final String superName, @SuppressWarnings("hiding") final String[] interfaces) {
+	private void readInterfaces(final String superName, final String[] interfaces) {
 		if (this.interfaces == null && interfaces.length > 0) {
 			this.interfaces = new ArraySet<String>();
 		}
@@ -426,7 +424,7 @@ public class JavaResourceAccessor implements ResourceAccessor {
 			reader.accept(new ClassVisitor(Opcodes.ASM4) {
 				@Override
 				public void visit(final int version, final int access, final String name,
-						final String signature, final String superName, @SuppressWarnings("hiding") final String[] interfaces) {
+						final String signature, final String superName, final String[] interfaces) {
 					readInterfaces(superName, interfaces);
 				}
 			}, ASM_FLAGS);

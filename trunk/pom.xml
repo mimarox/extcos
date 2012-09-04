@@ -90,5 +90,11 @@
 	    	<version>6.4</version>
 	    	<scope>test</scope>
 		</dependency>
+		<dependency>
+	    	<groupId>net.sf.extcos</groupId>
+	    	<artifactId>extcos-test-classes</artifactId>
+	    	<version>0.0.1-SNAPSHOT</version>
+	    	<scope>test</scope>
+		</dependency>
 	</dependencies>
 </project>

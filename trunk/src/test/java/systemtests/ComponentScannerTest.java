@@ -14,21 +14,20 @@ import net.sf.extcos.internal.ArraySet;
 
 import org.testng.annotations.Test;
 
+import resources.all.jar.classes.in.use.annotated.multi.MultipleAnnotationsClass;
+import resources.all.jar.classes.in.use.generic.TestInterface;
+import resources.all.test.classes.in.use.annotated.inherited.InheritedAnnotationClass;
 import resources.annotations.First;
 import resources.annotations.Second;
 import resources.annotations.State;
-import resources.classes.annotated.inherited.InheritedAnnotationClass;
-import resources.classes.annotated.multi.MultipleAnnotationsClass;
-import resources.classes.generic.TestInterface;
 
 import common.TestBase;
 
 public class ComponentScannerTest extends TestBase {
-
+	private ComponentScanner scanner = new ComponentScanner();
+	
 	@Test
 	public void testGetClasses() {
-		ComponentScanner scanner = new ComponentScanner();
-
 		final Set<Class<? extends TestInterface>> implementingStore =
 				new ArraySet<Class<? extends TestInterface>>();
 
@@ -62,8 +61,6 @@ public class ComponentScannerTest extends TestBase {
 
 	@Test
 	public void testGetImplementingClasses() {
-		ComponentScanner scanner = new ComponentScanner();
-
 		Set<Class<?>> classes = scanner.getClasses(new ComponentQuery() {
 			@Override
 			protected void query() {
@@ -78,8 +75,6 @@ public class ComponentScannerTest extends TestBase {
 
 	@Test
 	public void testGetMultiImplementingClasses() {
-		ComponentScanner scanner = new ComponentScanner();
-
 		Set<Class<?>> classes = scanner.getClasses(new ComponentQuery() {
 			@Override
 			protected void query() {
@@ -94,8 +89,6 @@ public class ComponentScannerTest extends TestBase {
 
 	@Test
 	public void testGetImplementingAndExtendingClasses() {
-		ComponentScanner scanner = new ComponentScanner();
-
 		Set<Class<?>> classes = scanner.getClasses(new ComponentQuery() {
 			@Override
 			protected void query() {
@@ -116,8 +109,6 @@ public class ComponentScannerTest extends TestBase {
 		final Set<Class<? extends TestInterface>> store =
 				new ArraySet<Class<? extends TestInterface>>();
 
-		ComponentScanner scanner = new ComponentScanner();
-
 		Set<Class<?>> classes = scanner.getClasses(new ComponentQuery() {
 			@Override
 			protected void query() {
@@ -127,14 +118,12 @@ public class ComponentScannerTest extends TestBase {
 			}
 		});
 
-		assertEquals(store.size(), 5);
+		assertEquals(store.size(), getIntProperty("classes.implementing.TestInterface.amount"));
 		assertEquals(classes.size(), 0);
 	}
 
 	@Test
 	public void testGetMultipleAnnotationsClasses() {
-		ComponentScanner scanner = new ComponentScanner();
-
 		Set<Class<?>> classes = scanner.getClasses(new ComponentQuery() {
 			@Override
 			protected void query() {
@@ -151,8 +140,6 @@ public class ComponentScannerTest extends TestBase {
 
 	@Test
 	public void testGetInheritedAnnotationClasses() {
-		ComponentScanner scanner = new ComponentScanner();
-
 		Set<Class<?>> classes = scanner.getClasses(new ComponentQuery() {
 			@Override
 			protected void query() {
@@ -168,8 +155,6 @@ public class ComponentScannerTest extends TestBase {
 
 	@Test
 	public void testReturningAll() {
-		ComponentScanner scanner = new ComponentScanner();
-
 		Set<Class<?>> classes = scanner.getClasses(new ComponentQuery() {
 			@Override
 			protected void query() {
@@ -177,6 +162,22 @@ public class ComponentScannerTest extends TestBase {
 			}
 		});
 
-		assertTrue(classes != null);
+		assertEquals(classes.size(), getIntProperty("classes.rootFiltered.amount"));
+	}
+	
+	@Test
+	public void testOverlappingPackagePatternReturningAll() {
+		Set<Class<?>> classes = scanner.getClasses(new ComponentQuery() {
+			@Override
+			protected void query() {
+				select().
+				from(
+					getProperty("resources.package"),
+					getProperty("resources.overlapping.package")).
+				returning(all());
+			}
+		});
+
+		assertEquals(classes.size(), getIntProperty("classes.rootFiltered.amount"));
 	}
 }

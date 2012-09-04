@@ -87,11 +87,6 @@ public class URLResource implements Resource {
 		}
 	}
 
-	@Override
-	public String toString() {
-		return append("URL [", resourceUrl, "]");
-	}
-
 	private ResourceAccessor getResourceAccessor() {
 		if (resourceAccessor == null) {
 			resourceAccessor = resourceType.getResourceAccessor();
@@ -132,5 +127,41 @@ public class URLResource implements Resource {
 		} finally {
 			releaseLock();
 		}
+	}
+	
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result
+				+ ((resourceUrl == null) ? 0 : resourceUrl.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (obj == null) {
+			return false;
+		}
+		if (getClass() != obj.getClass()) {
+			return false;
+		}
+		URLResource other = (URLResource) obj;
+		if (resourceUrl == null) {
+			if (other.resourceUrl != null) {
+				return false;
+			}
+		} else if (!resourceUrl.equals(other.resourceUrl)) {
+			return false;
+		}
+		return true;
+	}
+
+	@Override
+	public String toString() {
+		return append("URL [", resourceUrl, "]");
 	}
 }

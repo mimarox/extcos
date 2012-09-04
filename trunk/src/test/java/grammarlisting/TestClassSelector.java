@@ -21,6 +21,9 @@ public class TestClassSelector extends ComponentQuery {
 		select().from("");
 		select().from("", ""); //varargs
 
+		select().from(allSubPackages("").in("de", "org"));
+		select().from(join(allSubPackages("").in("de", "org"), allSubPackages("").in("net", "com")));
+		
 		//		select().from().returning(none());
 
 		select().from("").returning(all());

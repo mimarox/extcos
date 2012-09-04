@@ -3,6 +3,8 @@ package unittests;
 import static net.sf.extcos.internal.JavaClassResourceType.javaClasses;
 import static org.testng.Assert.assertTrue;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Set;
 
 import net.sf.extcos.ComponentQuery;
@@ -15,6 +17,10 @@ import net.sf.extcos.util.PropertyInjector;
 
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+
+import resources.annotations.First;
+
+import unittests.beans.PackagePatternDefinition;
 
 public class ComponentQueryTest {
 
@@ -86,12 +92,62 @@ public class ComponentQueryTest {
 		selector.configure(resourceTypeSelector);
 	}
 
+	@Test(dataProviderClass = TestDataProvider.class, dataProvider = "validPackagePatternDefinitions")
+	public void testValidPackagePatternDefinitionsFrom(final PackagePatternDefinition[] definitions) {
+		ComponentQuery selector = new ComponentQuery() {
+			@Override
+			protected void query() {
+				if (definitions.length == 1) {
+					select().from(
+							allSubPackages(definitions[0].getSubPackagePattern()).
+							in(definitions[0].getRootPackages()));
+				} else {
+					ArrayList<String[]> packagePatterns = new ArrayList<String[]>();
+					
+					for (PackagePatternDefinition definition : definitions) {
+						packagePatterns.add(allSubPackages(definition.getSubPackagePattern()).
+								in(definition.getRootPackages()));
+					}
+					
+					select().from(join(packagePatterns.toArray(new String[][]{})));
+				}
+			}
+		};
+
+		selector.configure(resourceTypeSelector);
+	}
+
 	@Test(expectedExceptions = IllegalArgumentException.class)
 	public void testEmptyAndStore() {
 		ComponentQuery selector = new ComponentQuery() {
 			@Override
 			protected void query() {
 				select().from("net.sf").andStore();
+			}
+		};
+
+		selector.configure(resourceTypeSelector);
+	}
+	
+	@Test(expectedExceptions = IllegalArgumentException.class)
+	public void testNullReturningAfterAndStore() {
+		ComponentQuery selector = new ComponentQuery() {
+			@Override
+			protected void query() {
+				Set<Class<?>> firstStore = new HashSet<Class<?>>();
+				select().from("net.sf").andStore(thoseAnnotatedWith(First.class).into(firstStore)).returning(null);
+			}
+		};
+
+		selector.configure(resourceTypeSelector);
+	}
+	
+	@Test(expectedExceptions = IllegalArgumentException.class)
+	public void testNullReturning() {
+		ComponentQuery selector = new ComponentQuery() {
+			@Override
+			protected void query() {
+				select().from("net.sf").returning(null);
 			}
 		};
 

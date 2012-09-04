@@ -1,5 +1,6 @@
 package net.sf.extcos.util;
 
+import static net.sf.extcos.util.StringUtils.SINGLE_SUBPACKAGE_PATTERN;
 import static net.sf.extcos.util.StringUtils.append;
 
 import java.io.File;
@@ -8,6 +9,7 @@ import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.util.List;
 
 public class ResourceUtils {
 	/** URL prefix for loading from the file system: "file:" */
@@ -66,13 +68,14 @@ public class ResourceUtils {
 	 * (VFS) resource. This is the case if its protocol starts with
 	 * <code>vfs</code>.
 	 * 
-	 * @param url the URL to check
+	 * @param url
+	 *            the URL to check
 	 * @return whether the URL has been identified as a VFS URL
 	 */
 	public static boolean isVirtualFileSystemURL(URL url) {
 		return url.getProtocol().startsWith(URL_PROTOCOL_VFS);
 	}
-	
+
 	/**
 	 * Resolve the given resource URL to a <code>java.io.File</code>, i.e. to a
 	 * file in the file system.
@@ -118,39 +121,65 @@ public class ResourceUtils {
 			return new File(resourceUrl.getFile());
 		}
 	}
-    
-	/**
-     * Create a URI instance for the given URL, replacing spaces with "%20" quotes first.
-     * <p>
-     * Furthermore, this method works on JDK 1.4 as well, in contrast to the
-     * <code>URL.toURI()</code> method.
-     * 
-     * @param url
-     *            the URL to convert into a URI instance
-     * @return the URI instance
-     * @throws URISyntaxException
-     *             if the URL wasn't a valid URI
-     * @see java.net.URL#toURI()
-     */
-    public static URI toURI(URL url) throws URISyntaxException {
-        return toURI(url.toString());
-    }
 
-    /**
-     * Create a URI instance for the given location String, replacing spaces with "%20" quotes
-     * first.
-     * 
-     * @param location
-     *            the location String to convert into a URI instance
-     * @return the URI instance
-     * @throws URISyntaxException
-     *             if the location wasn't a valid URI
-     */
-    public static URI toURI(String location) throws URISyntaxException {
-        return new URI(StringUtils.replace(location, " ", "%20"));
-    }
-    
-    public static URL toURL(File file) throws MalformedURLException {
-    	return file.toURI().toURL();
-    }
+	/**
+	 * Create a URI instance for the given URL, replacing spaces with "%20"
+	 * quotes first.
+	 * <p>
+	 * Furthermore, this method works on JDK 1.4 as well, in contrast to the
+	 * <code>URL.toURI()</code> method.
+	 * 
+	 * @param url
+	 *            the URL to convert into a URI instance
+	 * @return the URI instance
+	 * @throws URISyntaxException
+	 *             if the URL wasn't a valid URI
+	 * @see java.net.URL#toURI()
+	 */
+	public static URI toURI(URL url) throws URISyntaxException {
+		return toURI(url.toString());
+	}
+
+	/**
+	 * Create a URI instance for the given location String, replacing spaces
+	 * with "%20" quotes first.
+	 * 
+	 * @param location
+	 *            the location String to convert into a URI instance
+	 * @return the URI instance
+	 * @throws URISyntaxException
+	 *             if the location wasn't a valid URI
+	 */
+	public static URI toURI(String location) throws URISyntaxException {
+		return new URI(StringUtils.replace(location, " ", "%20"));
+	}
+
+	public static URL toURL(File file) throws MalformedURLException {
+		return file.toURI().toURL();
+	}
+
+	public static boolean matches(URL rootDirectory, String basePath,
+			List<String> subPathElements) {
+		if (subPathElements.isEmpty()) {
+			return true;
+		} else {
+			StringBuilder pattern = new StringBuilder(".*").append(basePath);
+			
+			for (String subPathElement : subPathElements) {
+				if ("*".equals(subPathElement)) {
+					pattern.append(SINGLE_SUBPACKAGE_PATTERN).append("/");
+				} else if ("**".equals(subPathElement)) {
+					pattern.append("(?:")
+							.append(SINGLE_SUBPACKAGE_PATTERN)
+							.append("/)+");
+				} else {
+					pattern.append(subPathElement).append("/");
+				}
+			}
+			
+			pattern.append(".*");
+			
+			return rootDirectory.toString().matches(pattern.toString());
+		}
+	}
 }

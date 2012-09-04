@@ -19,15 +19,16 @@ public class VfsResourceResolver implements InvocationHandler {
 
 	private String rootPath;
 	private Set<ResourceType> resourceTypes;
+	private String subPathPattern;
 	private final Set<Resource> resources = new LinkedHashSet<Resource>();
 
-	@SuppressWarnings("hiding")
 	public Set<Resource> findResources(final Set<ResourceType> resourceTypes,
-			final URL rootDirectory) throws IOException {
+			final URL rootDirectory, String subPathPattern) throws IOException {
 		Object root = VfsUtils.getRoot(rootDirectory);
 		setRootPath(VfsUtils.getPath(root));
 		this.resourceTypes = resourceTypes;
-
+		this.subPathPattern = subPathPattern;
+		
 		VfsUtils.visit(root, this);
 		return resources;
 	}
@@ -70,6 +71,10 @@ public class VfsResourceResolver implements InvocationHandler {
 	private void visit(final Object vfsResource) {
 		String resourcePath = getResourcePath(vfsResource);
 
+		if (!resourcePath.matches("^" + rootPath + subPathPattern + ".*$")) {
+			return;
+		}
+		
 		for (ResourceType resourceType : resourceTypes) {
 			if (resourcePath.endsWith(resourceType.getFileSuffix())) {
 				try {
@@ -86,6 +91,6 @@ public class VfsResourceResolver implements InvocationHandler {
 	}
 
 	private String getResourcePath(final Object vfsResource) {
-		return VfsUtils.getPath(vfsResource).substring(rootPath.length());
+		return VfsUtils.getPath(vfsResource);
 	}
 }
