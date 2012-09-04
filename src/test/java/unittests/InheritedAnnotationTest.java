@@ -4,8 +4,8 @@ import static org.testng.Assert.assertNotNull;
 
 import org.testng.annotations.Test;
 
+import resources.all.test.classes.in.use.annotated.inherited.InheritedAnnotationClass;
 import resources.annotations.First;
-import resources.classes.annotated.inherited.InheritedAnnotationClass;
 
 public class InheritedAnnotationTest {
 	@Test

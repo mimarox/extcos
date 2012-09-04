@@ -24,10 +24,10 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
+import resources.all.jar.classes.in.use.generic.TestInterface;
 import resources.annotations.EnumBasedAnnotation;
 import resources.annotations.State;
 import resources.annotations.TestInvokable;
-import resources.classes.generic.TestInterface;
 
 import common.TestBase;
 
@@ -187,9 +187,5 @@ public class ClassGenerationAndUseTest extends TestBase {
 		return new Object[][]{{
 			resolver.getResources(resourceTypes, basePackage)
 		}};
-	}
-
-	public ResourceResolver getResolver() {
-		return resolver;
 	}
 }

@@ -23,7 +23,8 @@ package net.sf.extcos.util;
  * @since RedRoo 1.0
  */
 public class StringUtils {
-
+	public static final String SINGLE_SUBPACKAGE_PATTERN = "[_$a-zA-Z][_$a-zA-Z0-9]*";
+	
 	private StringUtils() {
 	} // so it can't be instantiated
 
@@ -65,7 +66,6 @@ public class StringUtils {
 		return result.toString();
 	}
 
-
 	/**
 	 * Checks whether the given string is a valid Java package name, according
 	 * to the Java Language Specification.
@@ -75,12 +75,46 @@ public class StringUtils {
 	 * @return true, if the string is a valid Java package name, false otherwise
 	 */
 	public static boolean isJavaPackage(final String string) {
-		String identifierPattern = "[_$a-zA-Z][_$a-zA-Z0-9]*";
-		String separator = "\\.";
-		String packagePattern = append(identifierPattern, "(?:", separator, identifierPattern, ")*");
-		return string.matches(packagePattern);
+		return string.matches(packagePattern(false));
 	}
 
+	/**
+	 * Checks whether the given string is a valid Java package name, according
+	 * to the Java Language Specification, or validly extends that by using wildcards
+	 * for subpackage names.
+	 * <p>
+	 * There are two options for using wildcards.
+	 * <ol>
+	 * <li>Using a single asterisk (*) for masking exactly one subpackage. An
+	 * example for this would be <code>org.sample.*.foo</code>. Matching packages
+	 * would include <code>org.sample.first.foo</code> and
+	 * <code>org.sample.second.foo</code>. However, a package
+	 * <code>org.sample.first.second.foo</code> would not match.<br>&nbsp;</li>
+	 * <li>Using a double asterisk (**) for masking arbitrarily many subpackages. An
+	 * example for this would be <code>org.sample.**.foo</code>. Matching packages
+	 * would include <code>org.sample.first.foo</code> and
+	 * <code>org.sample.first.second.foo</code> and so on.</li>
+	 * </ol>
+	 * Both options can be combined for more fine grained control. Strings like
+	 * <code>org.*.foo.**.bar</code> or <code>org.**.foo.*.bar</code> are therefore deemed
+	 * to be valid as well.
+	 * <p>
+	 * <b>Note:</b> Using wildcards within subpackage names like in
+	 * <code>org.sampl*.foo</code> is invalid.
+	 * 
+	 * @param string
+	 *            The string to check
+	 * @return true, if the string is a valid Java package name, false otherwise
+	 */
+	public static boolean isJavaPackageWithWildcards(final String string) {
+		return string.matches(packagePattern(true));
+	}
+	
+	private static String packagePattern(boolean withWildcards) {
+		String identifierPattern = withWildcards ? "(?:(?:" + SINGLE_SUBPACKAGE_PATTERN + ")|\\*{1,2})" : SINGLE_SUBPACKAGE_PATTERN;
+		String separator = "\\.";
+		return append(identifierPattern, "(?:", separator, identifierPattern, ")*");
+	}
 
 	public static char fileSeparator() {
 		return System.getProperty("file.separator").charAt(0);

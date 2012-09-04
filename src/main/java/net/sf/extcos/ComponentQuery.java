@@ -20,6 +20,7 @@ import net.sf.extcos.selector.DirectReturning;
 import net.sf.extcos.selector.ExtendingTypeFilter;
 import net.sf.extcos.selector.ImplementingTypeFilter;
 import net.sf.extcos.selector.MultipleTypeFilter;
+import net.sf.extcos.selector.PackagePatternBuilder;
 import net.sf.extcos.selector.ResourceTypeSelector;
 import net.sf.extcos.selector.StoreReturning;
 import net.sf.extcos.selector.TypeFilter;
@@ -34,6 +35,7 @@ import net.sf.extcos.selector.annotation.ArgumentMappingJunction;
 import net.sf.extcos.selector.annotation.ArgumentValue;
 import net.sf.extcos.selector.annotation.ArgumentsDescriptor;
 import net.sf.extcos.spi.ResourceType;
+import net.sf.extcos.util.ArrayUtils;
 import net.sf.extcos.util.Assert;
 
 public abstract class ComponentQuery {
@@ -185,6 +187,14 @@ public abstract class ComponentQuery {
 	protected TypelessStoreBindingBuilder thoseBeing(
 			final TypeFilterJunction filter) {
 		return new TypelessStoreBindingBuilder(filter);
+	}
+
+	protected PackagePatternBuilder allSubPackages(String subPackagePattern) {
+		return new PackagePatternBuilder(subPackagePattern);
+	}
+
+	protected String[] join(String[]... packagePatterns) {
+		return ArrayUtils.join(packagePatterns);
 	}
 
 	protected synchronized BasePackageSelector select() {

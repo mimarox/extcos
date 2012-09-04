@@ -12,11 +12,13 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.util.Collections;
 import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.Set;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
+import java.util.regex.Pattern;
 
 import net.sf.extcos.internal.URLResource;
 import net.sf.extcos.internal.vfs.VfsResourceResolver;
@@ -64,16 +66,20 @@ public class ResourceResolver {
 		try {
 			Set<URL> rootDirectories = getRootDirectories(basePackage);
 			Set<Resource> resources = new HashSet<Resource>();
-
+			String subPathPattern = basePackage.getSubPathPattern();
+			
 			for (URL rootDirectory : rootDirectories) {
 				rootDirectory = resolveRootDirectory(rootDirectory);
 
 				if (ResourceUtils.isJarURL(rootDirectory)) {
-					resources.addAll(findJarResources(resourceTypes, rootDirectory));
+					resources.addAll(findJarResources(resourceTypes, rootDirectory,
+							subPathPattern));
 				} else if (ResourceUtils.isVirtualFileSystemURL(rootDirectory)) {
-					resources.addAll(findVFSResources(resourceTypes, rootDirectory));
+					resources.addAll(findVFSResources(resourceTypes, rootDirectory,
+							subPathPattern));
 				} else {
-					resources.addAll(findFileResources(resourceTypes, rootDirectory));
+					resources.addAll(findFileResources(resourceTypes, rootDirectory,
+							subPathPattern));
 				}
 			}
 
@@ -86,21 +92,21 @@ public class ResourceResolver {
 	private Set<URL> getRootDirectories(final Package basePackage) {
 		try {
 			Enumeration<URL> urlEnum = getClassLoader().getResources(
-					basePackage.getPath());
+					basePackage.getBasePath());
 
-			Set<URL> rootDiretories = new LinkedHashSet<URL>();
+			Set<URL> rootDirectories = new LinkedHashSet<URL>();
 
 			while (urlEnum.hasMoreElements()) {
-				rootDiretories.add(urlEnum.nextElement());
+				rootDirectories.add(urlEnum.nextElement());
 			}
 
 			if (logger.isDebugEnabled()) {
 				logger.debug(append(
 						"Found root directories for base package [",
-						basePackage.getName(), "]: ", rootDiretories));
+						basePackage.getName(), "]: ", rootDirectories));
 			}
 
-			return rootDiretories;
+			return rootDirectories;
 		} catch (IOException e) {
 			if (logger.isWarnEnabled()) {
 				logger.warn(append("IOException occurred while trying",
@@ -126,7 +132,7 @@ public class ResourceResolver {
 	}
 
 	private Set<Resource> findJarResources(final Set<ResourceType> resourceTypes,
-			final URL rootDirectory) throws IOException {
+			final URL rootDirectory, String subPathPattern) throws IOException {
 		URLConnection con = rootDirectory.openConnection();
 		JarFile jarFile = null;
 		String jarFileUrl = null;
@@ -176,7 +182,7 @@ public class ResourceResolver {
 
 			for (Enumeration<JarEntry> entries = jarFile.entries(); entries.hasMoreElements();) {
 				JarEntry entry = entries.nextElement();
-				if (isCandidate(entry, rootEntryPath)) {
+				if (isCandidate(entry, rootEntryPath, subPathPattern)) {
 					String entryPath = entry.getName();
 					for (ResourceType resourceType : resourceTypes) {
 						if (matches(entryPath, resourceType)) {
@@ -200,12 +206,6 @@ public class ResourceResolver {
 		}
 	}
 
-	private boolean isCandidate(final JarEntry entry, final String rootEntryPath) {
-		return
-				!entry.isDirectory() &&
-				entry.getName().startsWith(rootEntryPath);
-	}
-
 	/**
 	 * Resolve the given jar file URL into a JarFile object.
 	 */
@@ -223,20 +223,33 @@ public class ResourceResolver {
 		return new JarFile(jarFileUrl);
 	}
 
+	private boolean isCandidate(final JarEntry entry, final String rootEntryPath,
+			String subPathPattern) {
+		return
+				!entry.isDirectory() &&
+				entry.getName().matches("^" + rootEntryPath + subPathPattern + ".*$");
+	}
+
+	private boolean matches(final String path, final ResourceType resourceType) {
+		return path.endsWith(resourceType.getFileSuffix());
+	}
+
 	private Set<Resource> findVFSResources(final Set<ResourceType> resourceTypes,
-			final URL rootDirectory) throws IOException {
+			final URL rootDirectory, String subPathPattern) throws IOException {
 		return new VfsResourceResolver().findResources(resourceTypes,
-				rootDirectory);
+				rootDirectory, subPathPattern);
 	}
 
 	private Set<Resource> findFileResources(final Set<ResourceType> resourceTypes,
-			final URL rootDirectory) {
+			final URL rootDirectory, String subPathPattern) {
 		try {
 			File file = ResourceUtils.getFile(rootDirectory).getAbsoluteFile();
 
 			if (file.isDirectory()) {
-				return doFindFileResources(resourceTypes, file,
-						new LinkedHashSet<Resource>());
+				String pathPattern = file.getAbsolutePath().replaceAll("\\\\", "/") + "/" +	subPathPattern;
+				
+				return doFindFileResources(resourceTypes, file, pathPattern,
+						 new HashMap<ResourceType, Pattern>(), new LinkedHashSet<Resource>());
 			}
 
 			throw new IOException();
@@ -255,15 +268,24 @@ public class ResourceResolver {
 	}
 
 	private Set<Resource> doFindFileResources(final Set<ResourceType> resourceTypes,
-			final File root, final Set<Resource> resources) {
+			final File root, final String pathPattern, final HashMap<ResourceType, Pattern> patternCache,
+			final Set<Resource> resources) {
 		File[] files = root.listFiles();
 
 		for (File file : files) {
 			if (file.isDirectory()) {
-				doFindFileResources(resourceTypes, file, resources);
+				doFindFileResources(resourceTypes, file, pathPattern, patternCache, resources);
 			} else if (file.isFile()) {
 				for (ResourceType resourceType : resourceTypes) {
-					Resource resource = createResource(file, resourceType);
+					Pattern filePattern = patternCache.get(resourceType);
+					
+					if (filePattern == null) {
+						filePattern = Pattern.compile("^" + pathPattern + ".*" +
+										resourceType.getFileSuffix() + "$");
+						patternCache.put(resourceType, filePattern);
+					}
+					
+					Resource resource = createResource(file, filePattern, resourceType);
 
 					if (resource != null) {
 						resources.add(resource);
@@ -277,16 +299,9 @@ public class ResourceResolver {
 		return resources;
 	}
 
-	private boolean matches(final File file, final ResourceType resourceType) {
-		return matches(file.getAbsolutePath(), resourceType);
-	}
-
-	private boolean matches(final String path, final ResourceType resourceType) {
-		return path.endsWith(resourceType.getFileSuffix());
-	}
-
-	private Resource createResource(final File file, final ResourceType resourceType) {
-		if (matches(file, resourceType)) {
+	private Resource createResource(final File file, Pattern filePattern,
+			final ResourceType resourceType) {
+		if (matches(file, filePattern)) {
 			URL resourceUrl = toURL(file);
 
 			if (resourceUrl != null) {
@@ -295,6 +310,11 @@ public class ResourceResolver {
 		}
 
 		return null;
+	}
+
+	private boolean matches(final File file, final Pattern filePattern) {
+		String filePath = file.getAbsolutePath().replaceAll("\\\\", "/");
+		return filePattern.matcher(filePath).matches();
 	}
 
 	private URL toURL(final File file) {
