@@ -3,7 +3,7 @@ package net.sf.extcos;
 import java.util.Set;
 
 import net.sf.extcos.internal.ComponentSelectionProcessor;
-import net.sf.extcos.spi.ClassLoaderHolder;
+import net.sf.extcos.spi.QueryContext;
 
 /**
  * The main entry point to the Extensible Component Scanner.
@@ -56,7 +56,7 @@ public class ComponentScanner {
 	 * 			componentQuery
 	 */
 	public Set<Class<?>> getClasses(final ComponentQuery componentQuery, final ClassLoader classLoader) {
-		ClassLoaderHolder.setClassLoader(classLoader);
+		QueryContext.getInstance().setClassLoader(classLoader);
 		ComponentSelectionProcessor processor = new ComponentSelectionProcessor(componentQuery);
 		return processor.process();
 	}

@@ -15,7 +15,7 @@ import net.sf.extcos.internal.JavaClassResourceType;
 import net.sf.extcos.resource.Resource;
 import net.sf.extcos.resource.ResourceResolver;
 import net.sf.extcos.selector.Package;
-import net.sf.extcos.spi.ClassLoaderHolder;
+import net.sf.extcos.spi.QueryContext;
 import net.sf.extcos.spi.ResourceType;
 import net.sf.extcos.util.PropertyInjector;
 
@@ -53,7 +53,7 @@ public class ClassGenerationAndUseTest extends TestBase {
 
 	@BeforeMethod
 	public void initClassLoader() {
-		ClassLoaderHolder.setClassLoader(new Loader());
+		QueryContext.getInstance().setClassLoader(new Loader());
 	}
 
 	@BeforeMethod

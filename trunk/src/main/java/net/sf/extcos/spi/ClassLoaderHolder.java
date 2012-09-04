@@ -1,5 +1,6 @@
 package net.sf.extcos.spi;
 
+@Deprecated
 public class ClassLoaderHolder {
     private static ClassLoader classLoader;
     

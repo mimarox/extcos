@@ -21,7 +21,7 @@ import java.util.Map;
 import java.util.Set;
 
 import net.sf.extcos.spi.AnnotationMetadata;
-import net.sf.extcos.spi.ClassLoaderHolder;
+import net.sf.extcos.spi.QueryContext;
 import net.sf.extcos.spi.ResourceAccessor;
 import net.sf.extcos.util.Assert;
 import net.sf.extcos.util.ClassUtils;
@@ -79,7 +79,7 @@ public class JavaResourceAccessor implements ResourceAccessor {
 				final String[] interfaces) {
 			if (!(Modifier.isAbstract(access) ||
 					Modifier.isInterface(access) ||
-					isEnum(version, superName))) {
+					excludeBecauseIsEnum(version, superName))) {
 				isClassHolder.value = true;
 				nameHolder.name = name;
 
@@ -88,12 +88,14 @@ public class JavaResourceAccessor implements ResourceAccessor {
 			}
 		}
 
-		private boolean isEnum(final int version, final String superName) {
+		private boolean excludeBecauseIsEnum(final int version, final String superName) {
+			boolean isEnum = false;
+			
 			if (version >= Opcodes.V1_5 && "java/lang/Enum".equals(superName)) {
-				return true;
+				isEnum = true;
 			}
-
-			return false;
+			
+			return isEnum && !QueryContext.getInstance().isIncludeEnums();
 		}
 
 		@Override
@@ -135,18 +137,20 @@ public class JavaResourceAccessor implements ResourceAccessor {
 		public void visitEnum(final String name, final String desc, final String value) {
 			try {
 				String enumName = Type.getType(desc).getClassName();
-				Class<?> enumClass = ClassLoaderHolder.getClassLoader().loadClass(enumName);
+				Class<?> enumClass = QueryContext.getInstance().getClassLoader().loadClass(enumName);
 				Method valueOf = enumClass.getDeclaredMethod("valueOf",	String.class);
 				Object object = valueOf.invoke(null, value);
 				metadata.putParameter(name, object);
-			} catch (Exception ex) { /* ignored */ }
+			} catch (Exception ex) {
+				logger.warn("An exception occurred", ex);
+			}
 		}
 
 		@Override
 		public void visitEnd() {
 			try {
 				Class<?> annotationClass =
-						ClassLoaderHolder.getClassLoader().loadClass(className);
+						QueryContext.getInstance().getClassLoader().loadClass(className);
 				// Check declared default values of attributes in the annotation type.
 				Method[] annotationAttributes = annotationClass.getMethods();
 				for (Method annotationAttribute : annotationAttributes) {
@@ -159,7 +163,7 @@ public class JavaResourceAccessor implements ResourceAccessor {
 				annotations.put(className, metadata);
 			}
 			catch (ClassNotFoundException ex) {
-				// Class not found - can't determine meta-annotations.
+				logger.error("Class not found - can't determine meta-annotations", ex);
 			}
 		}
 	}
@@ -233,7 +237,7 @@ public class JavaResourceAccessor implements ResourceAccessor {
 		}
 
 		Class<?> clazz = null;
-		ClassLoader loader = ClassLoaderHolder.getClassLoader();
+		ClassLoader loader = QueryContext.getInstance().getClassLoader();
 
 		try {
 			defineClass.setAccessible(true);
@@ -370,7 +374,7 @@ public class JavaResourceAccessor implements ResourceAccessor {
 
 			try {
 				ClassReader reader = new ClassReader(
-						ClassLoaderHolder.getClassLoader().getResourceAsStream(superName + ".class"));
+						QueryContext.getInstance().getClassLoader().getResourceAsStream(superName + ".class"));
 
 				reader.accept(new AnnotatedClassVisitor() {
 					@Override
@@ -419,7 +423,7 @@ public class JavaResourceAccessor implements ResourceAccessor {
 
 		try {
 			ClassReader reader = new ClassReader(
-					ClassLoaderHolder.getClassLoader().getResourceAsStream(type + ".class"));
+					QueryContext.getInstance().getClassLoader().getResourceAsStream(type + ".class"));
 
 			reader.accept(new ClassVisitor(Opcodes.ASM4) {
 				@Override
