@@ -180,4 +180,68 @@ public class ComponentScannerTest extends TestBase {
 
 		assertEquals(classes.size(), getIntProperty("classes.rootFiltered.amount"));
 	}
+	
+	@Test(dependsOnMethods = "testGetClasses")
+	public void testGetEnums() {
+		Set<Class<?>> enums = scanner.getClasses(new ComponentQuery() {
+			@Override
+			protected void query() {
+				select().
+				includingEnums().
+				from(getProperty("resources.package")).
+				returning(allExtending(Enum.class));
+			}
+		});
+		
+		assertEquals(enums.size(), getIntProperty("enums.all.amount"));
+	}
+	
+	@Test(dependsOnMethods = "testGetEnums")
+	public void testGetNoEnums() {
+		Set<Class<?>> enums = scanner.getClasses(new ComponentQuery() {
+			@Override
+			protected void query() {
+				select().
+				from(getProperty("resources.package")).
+				returning(allExtending(Enum.class));
+			}
+		});
+		
+		assertEquals(enums.size(), 0);
+	}
+	
+	@Test
+	public void testGetEnumsImplementingInterface() {
+		Set<Class<?>> enums = scanner.getClasses(new ComponentQuery() {
+			@Override
+			protected void query() {
+				select().
+				includingEnums().
+				from(getProperty("resources.package")).
+				returning(allBeing(
+						and(
+							subclassOf(Enum.class),
+							implementorOf(TestInterface.class)
+							)
+						));
+			}
+		});
+		
+		assertEquals(enums.size(), getIntProperty("enums.implementing.TestInterface.amount"));
+	}
+	
+	@Test
+	public void testGetAllImplementingInterface() {
+		Set<Class<?>> enums = scanner.getClasses(new ComponentQuery() {
+			@Override
+			protected void query() {
+				select().
+				includingEnums().
+				from(getProperty("resources.package")).
+				returning(allImplementing(TestInterface.class));
+			}
+		});
+		
+		assertEquals(enums.size(), getIntProperty("all.implementing.TestInterface.amount"));
+	}
 }

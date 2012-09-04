@@ -14,6 +14,7 @@ import net.sf.extcos.selector.Package;
 import net.sf.extcos.selector.ResourceTypeSelector;
 import net.sf.extcos.selector.StoreBinding;
 import net.sf.extcos.selector.StoreReturning;
+import net.sf.extcos.spi.QueryContext;
 import net.sf.extcos.spi.ResourceType;
 import net.sf.extcos.util.Assert;
 
@@ -58,7 +59,8 @@ public class ComponentSelectionProcessor {
 		}
 
 		BuildContext.getInstance().reset();
-
+		QueryContext.getInstance().reset();
+		
 		return classes;
 	}
 
@@ -71,7 +73,8 @@ public class ComponentSelectionProcessor {
 				.getBasePackageSelector();
 
 		basePackages = basePackageSelector.getBasePackages();
-
+		QueryContext.getInstance().setIncludeEnums(basePackageSelector.isIncludingEnums());
+		
 		ForwardingBuilder forwardingBuilder = basePackageSelector
 				.getForwardingBuilder();
 

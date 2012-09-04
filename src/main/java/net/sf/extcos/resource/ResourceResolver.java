@@ -23,7 +23,7 @@ import java.util.regex.Pattern;
 import net.sf.extcos.internal.URLResource;
 import net.sf.extcos.internal.vfs.VfsResourceResolver;
 import net.sf.extcos.selector.Package;
-import net.sf.extcos.spi.ClassLoaderHolder;
+import net.sf.extcos.spi.QueryContext;
 import net.sf.extcos.spi.ResourceType;
 import net.sf.extcos.util.ReflectionUtils;
 import net.sf.extcos.util.ResourceUtils;
@@ -34,7 +34,7 @@ import org.slf4j.LoggerFactory;
 public class ResourceResolver {
 	private static Logger logger = LoggerFactory.getLogger(ResourceResolver.class);
 
-	private final ClassLoader classLoader = ClassLoaderHolder.getClassLoader();
+	private final ClassLoader classLoader = QueryContext.getInstance().getClassLoader();
 
 	private Method equinoxResolveMethod;
 	private boolean attemptedToLoadEquinoxResolveMethod = false;
