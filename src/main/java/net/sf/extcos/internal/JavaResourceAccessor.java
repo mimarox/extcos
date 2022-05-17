@@ -123,7 +123,7 @@ public class JavaResourceAccessor implements ResourceAccessor {
 		private final String className;
 
 		private AnnotationVisitorImpl(final String desc) {
-			super(4);
+			super(Opcodes.ASM4);
 			metadata = new AnnotationMetadataImpl();
 			className = Type.getType(desc).getClassName();
 		}
