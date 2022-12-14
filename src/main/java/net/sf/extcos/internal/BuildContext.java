@@ -1,31 +1,22 @@
 package net.sf.extcos.internal;
 
 import static net.sf.extcos.util.Assert.iae;
-import static net.sf.extcos.util.StringUtils.append;
 
 import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
 
-import net.sf.extcos.filter.ChainedFilter;
-import net.sf.extcos.filter.Filter;
-import net.sf.extcos.filter.FilterInterceptor;
 import net.sf.extcos.filter.ImmediateConnector;
 import net.sf.extcos.filter.MergableConnector;
 import net.sf.extcos.filter.ResourceMatcher;
-import net.sf.extcos.internal.factory.FilterInterceptorsFactory;
 import net.sf.extcos.selector.AnnotatedWithTypeFilter;
 import net.sf.extcos.selector.ExtendingTypeFilter;
 import net.sf.extcos.selector.ImplementingTypeFilter;
 import net.sf.extcos.selector.TypeFilter;
 import net.sf.extcos.util.Assert;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 public class BuildContext {
-	private static Logger logger = LoggerFactory.getLogger(BuildContext.class);
 	private static BuildContext instance;
 
 	private final Map<TypeFilter, MergableConnector> annotatedConnectors = new HashMap<TypeFilter, MergableConnector>();
@@ -39,7 +30,6 @@ public class BuildContext {
 	private final Set<FilterObjects> extendingFilterObjects = new ArraySet<FilterObjects>();
 	private final Set<FilterObjects> implementingFilterObjects = new ArraySet<FilterObjects>();
 	private final Set<ImmediateConnector> immediateConnectorRegistry = new ArraySet<ImmediateConnector>();
-	private final Set<Class<? extends FilterInterceptor>> filterInterceptors = FilterInterceptorsFactory.buildFilterInterceptors();
 
 	private BuildContext() {
 	}
@@ -191,45 +181,6 @@ public class BuildContext {
 		}
 	}
 
-	@SuppressWarnings("null")
-	public Filter prependInterceptors(final ChainedFilter filter) {
-		if (this.filterInterceptors.isEmpty()) {
-			return filter;
-		}
-
-		@SuppressWarnings("hiding")
-		Set<FilterInterceptor> filterInterceptors = new LinkedHashSet<FilterInterceptor>();
-
-		for (Class<? extends FilterInterceptor> clazz : this.filterInterceptors) {
-			try {
-				filterInterceptors.add(clazz.newInstance());
-			} catch (Exception e) {
-				logger.debug(append("Creating a new filter interceptor of ",
-						clazz, " caused an exception"), e);
-			}
-		}
-
-		if (filterInterceptors.isEmpty()) {
-			return filter;
-		}
-
-		FilterInterceptor firstInterceptor = null;
-		FilterInterceptor currentInterceptor = null;
-
-		for (FilterInterceptor nextInterceptor : filterInterceptors) {
-			if (firstInterceptor == null) {
-				firstInterceptor = nextInterceptor;
-				currentInterceptor = firstInterceptor;
-			} else {
-				currentInterceptor.setInterceptedFilter(nextInterceptor);
-				currentInterceptor = nextInterceptor;
-			}
-		}
-
-		currentInterceptor.setInterceptedFilter(filter);
-		return firstInterceptor;
-	}
-
 	public void reset() {
 		annotatedConnectors.clear();
 		annotatedWithFilterObjects.clear();
@@ -238,7 +189,6 @@ public class BuildContext {
 		disjunctionConnectors.clear();
 		extendingConnectors.clear();
 		extendingFilterObjects.clear();
-		filterInterceptors.clear();
 		immediateConnectorRegistry.clear();
 		implementingConnectors.clear();
 		implementingFilterObjects.clear();

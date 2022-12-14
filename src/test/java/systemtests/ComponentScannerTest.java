@@ -4,24 +4,23 @@ import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.swing.JComponent;
 
+import org.testng.annotations.Test;
+
+import common.TestBase;
 import net.sf.extcos.ComponentQuery;
 import net.sf.extcos.ComponentScanner;
 import net.sf.extcos.internal.ArraySet;
-
-import org.testng.annotations.Test;
-
-import resources.all.jar.classes.in.use.annotated.multi.MultipleAnnotationsClass;
-import resources.all.jar.classes.in.use.generic.TestInterface;
 import resources.all.test.classes.in.use.annotated.inherited.InheritedAnnotationClass;
+import resources.all.test.classes.in.use.annotated.multi.MultipleAnnotationsClass;
+import resources.all.test.classes.in.use.generic.TestInterface;
 import resources.annotations.First;
 import resources.annotations.Second;
 import resources.annotations.State;
-
-import common.TestBase;
 
 public class ComponentScannerTest extends TestBase {
 	private ComponentScanner scanner = new ComponentScanner();
@@ -134,8 +133,20 @@ public class ComponentScannerTest extends TestBase {
 						annotatedWith(Second.class))));
 			}
 		});
+		
+		Set<String> classNames = toClassNames(classes);
+		
+		assertTrue(classNames.contains(MultipleAnnotationsClass.class.getCanonicalName()));
+	}
 
-		assertTrue(classes.contains(MultipleAnnotationsClass.class));
+	private Set<String> toClassNames(final Set<Class<?>> classes) {
+		Set<String> classNames = new HashSet<>();
+		
+		for (Class<?> c : classes) {
+			classNames.add(c.getCanonicalName());
+		}
+		
+		return classNames;
 	}
 
 	@Test
@@ -149,8 +160,10 @@ public class ComponentScannerTest extends TestBase {
 			}
 		});
 
-		assertTrue(classes.contains(MultipleAnnotationsClass.class));
-		assertTrue(classes.contains(InheritedAnnotationClass.class));
+		Set<String> classNames = toClassNames(classes);
+		
+		assertTrue(classNames.contains(MultipleAnnotationsClass.class.getCanonicalName()));
+		assertTrue(classNames.contains(InheritedAnnotationClass.class.getCanonicalName()));
 	}
 
 	@Test

@@ -34,7 +34,9 @@ public class ComponentScanner {
 	 * 			componentQuery
 	 */
 	public Set<Class<?>> getClasses(final ComponentQuery componentQuery) {
-		return getClasses(componentQuery, getDefaultClassLoader());
+		QueryContext.getInstance().setClassLoader(Thread.currentThread().getContextClassLoader());
+		ComponentSelectionProcessor processor = new ComponentSelectionProcessor(componentQuery);
+		return processor.process();
 	}
 
 	/**
@@ -54,14 +56,10 @@ public class ComponentScanner {
 	 * 					  request
 	 * @return The component classes matching the criteria given with the
 	 * 			componentQuery
+	 * @deprecated
 	 */
+	@Deprecated
 	public Set<Class<?>> getClasses(final ComponentQuery componentQuery, final ClassLoader classLoader) {
-		QueryContext.getInstance().setClassLoader(classLoader);
-		ComponentSelectionProcessor processor = new ComponentSelectionProcessor(componentQuery);
-		return processor.process();
-	}
-
-	private ClassLoader getDefaultClassLoader() {
-		return Thread.currentThread().getContextClassLoader();
+		throw new UnsupportedOperationException("This method is deprecated!");
 	}
 }

@@ -139,7 +139,7 @@ public class FilterChainBuilder {
 			rootFilter.setResourceDispatcher(dispatcher);
 		}
 
-		return buildContext.prependInterceptors(rootFilter);
+		return rootFilter;
 	}
 
 	private boolean returningAll() {

@@ -1,30 +1,19 @@
 package net.sf.extcos.internal;
 
 import static net.sf.extcos.util.Assert.iae;
-import static net.sf.extcos.util.StringUtils.append;
 
 import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.annotation.Annotation;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.net.URL;
-import java.security.AccessController;
-import java.security.PrivilegedActionException;
-import java.security.PrivilegedExceptionAction;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
-import net.sf.extcos.spi.AnnotationMetadata;
-import net.sf.extcos.spi.QueryContext;
-import net.sf.extcos.spi.ResourceAccessor;
-import net.sf.extcos.util.Assert;
-import net.sf.extcos.util.ClassUtils;
 
 import org.objectweb.asm.AnnotationVisitor;
 import org.objectweb.asm.ClassReader;
@@ -34,7 +23,27 @@ import org.objectweb.asm.Type;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import net.sf.extcos.spi.AnnotationMetadata;
+import net.sf.extcos.spi.QueryContext;
+import net.sf.extcos.spi.ResourceAccessor;
+import net.sf.extcos.util.Assert;
+import net.sf.extcos.util.ClassUtils;
+
 public class JavaResourceAccessor implements ResourceAccessor {
+	private static class DynamicClassLoader extends ClassLoader {
+		private Map<String, Class<?>> classes = new HashMap<>();
+		
+		public Class<?> defineClass(final String name, final byte[] b) {
+			if (classes.containsKey(name)) {
+				return classes.get(name);
+			} else {
+				Class<?> c = defineClass(name, b, 0, b.length);
+				classes.put(name, c);
+				return c;
+			}
+		}
+	}
+	
 	private class BooleanHolder {
 		boolean value;
 	}
@@ -45,7 +54,7 @@ public class JavaResourceAccessor implements ResourceAccessor {
 
 	private abstract class AnnotatedClassVisitor extends ClassVisitor {
 		private AnnotatedClassVisitor() {
-			super(Opcodes.ASM4);
+			super(Opcodes.ASM7);
 		}
 
 		@Override
@@ -123,7 +132,7 @@ public class JavaResourceAccessor implements ResourceAccessor {
 		private final String className;
 
 		private AnnotationVisitorImpl(final String desc) {
-			super(4);
+			super(Opcodes.ASM7);
 			metadata = new AnnotationMetadataImpl();
 			className = Type.getType(desc).getClassName();
 		}
@@ -189,42 +198,16 @@ public class JavaResourceAccessor implements ResourceAccessor {
 
 	private static Logger logger = LoggerFactory.getLogger(JavaResourceAccessor.class);
 
-	private static Method defineClass;
-	private static Method resolveClass;
-
-	static {
-		try {
-			AccessController.doPrivileged(
-					new PrivilegedExceptionAction<Void>(){
-						@Override
-						public Void run() throws Exception{
-							Class<?> cl = Class.forName("java.lang.ClassLoader");
-
-							defineClass = cl.getDeclaredMethod("defineClass",
-									new Class[] { String.class, byte[].class,
-									int.class, int.class });
-
-							resolveClass = cl.getDeclaredMethod("resolveClass",
-									Class.class);
-
-							return null;
-						}
-					});
-		}
-		catch (PrivilegedActionException pae) {
-			throw new RuntimeException("cannot initialize Java Resource Accessor", pae.getException());
-		}
-	}
-
 	private static final int ASM_FLAGS =
 			ClassReader.SKIP_DEBUG +
 			ClassReader.SKIP_CODE  +
 			ClassReader.SKIP_FRAMES;
 
+	private static final DynamicClassLoader LOADER = new DynamicClassLoader();
+	
 	private byte[] resourceBytes;
-	private URL resourceUrl;
 	private String className;
-
+	
 	private Map<String, AnnotationMetadata> annotations;
 	private Set<String> interfaces;
 	private Set<String> superClasses;
@@ -235,38 +218,8 @@ public class JavaResourceAccessor implements ResourceAccessor {
 		if (!isClass) {
 			return null;
 		}
-
-		Class<?> clazz = null;
-		ClassLoader loader = QueryContext.getInstance().getClassLoader();
-
-		try {
-			defineClass.setAccessible(true);
-			resolveClass.setAccessible(true);
-
-			clazz = (Class<?>)defineClass.invoke(loader,
-					className, resourceBytes, 0, resourceBytes.length);
-			resolveClass.invoke(loader, clazz);
-		} catch (InvocationTargetException e) {
-			if (e.getCause() instanceof LinkageError) {
-				try {
-					clazz = Class.forName(className, true, loader);
-				} catch (ClassNotFoundException e1) {
-					logger.error(append("Error creating class from URL [",
-							resourceUrl.toString(), "]"), e1);
-				}
-			} else {
-				logger.error(append("Error creating class from URL [",
-						resourceUrl.toString(), "]"), e.getCause());
-			}
-		} catch (Exception e) {
-			logger.error(append("Error creating class from URL [",
-					resourceUrl.toString(), "]"), e);
-		} finally {
-			defineClass.setAccessible(false);
-			resolveClass.setAccessible(false);
-		}
-
-		return clazz;
+		
+		return LOADER.defineClass(className, resourceBytes);
 	}
 
 	@Override
@@ -313,7 +266,6 @@ public class JavaResourceAccessor implements ResourceAccessor {
 
 		try {
 			this.resourceBytes = readBytes(resourceUrl);
-			this.resourceUrl = resourceUrl;
 			readClassData();
 		} catch (IOException e) {
 			isClass = false;
@@ -358,7 +310,6 @@ public class JavaResourceAccessor implements ResourceAccessor {
 			interfaces    = null;
 			superClasses  = null;
 			resourceBytes = null;
-			resourceUrl   = null;
 		}
 	}
 
@@ -425,7 +376,7 @@ public class JavaResourceAccessor implements ResourceAccessor {
 			ClassReader reader = new ClassReader(
 					QueryContext.getInstance().getClassLoader().getResourceAsStream(type + ".class"));
 
-			reader.accept(new ClassVisitor(Opcodes.ASM4) {
+			reader.accept(new ClassVisitor(Opcodes.ASM7) {
 				@Override
 				public void visit(final int version, final int access, final String name,
 						final String signature, final String superName, final String[] interfaces) {

@@ -9,6 +9,12 @@ import java.util.Set;
 
 import javax.swing.JComponent;
 
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.DataProvider;
+import org.testng.annotations.Test;
+
+import common.TestBase;
 import net.sf.extcos.classgeneration.ClassGenerationListener;
 import net.sf.extcos.exception.ConcurrentInspectionException;
 import net.sf.extcos.internal.JavaClassResourceType;
@@ -18,18 +24,10 @@ import net.sf.extcos.selector.Package;
 import net.sf.extcos.spi.QueryContext;
 import net.sf.extcos.spi.ResourceType;
 import net.sf.extcos.util.PropertyInjector;
-
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.DataProvider;
-import org.testng.annotations.Test;
-
-import resources.all.jar.classes.in.use.generic.TestInterface;
+import resources.all.test.classes.in.use.generic.TestInterface;
 import resources.annotations.EnumBasedAnnotation;
 import resources.annotations.State;
 import resources.annotations.TestInvokable;
-
-import common.TestBase;
 
 public class ClassGenerationAndUseTest extends TestBase {
 	private class Loader extends ClassLoader { /* empty class body */ }

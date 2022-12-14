@@ -12,7 +12,6 @@ import net.sf.extcos.filter.ResultSetProvider;
 import net.sf.extcos.util.Assert;
 
 public class FilterObjects {
-	private final BuildContext buildContext = BuildContext.getInstance();
 	private final Set<FilterObjects> children = new ArraySet<FilterObjects>();
 	private final Set<Filter> filters = new ArraySet<Filter>();
 
@@ -45,7 +44,7 @@ public class FilterObjects {
 			filter.setResultSetProvider(provider);
 		}
 
-		return buildContext.prependInterceptors(filter);
+		return filter;
 	}
 
 	public MultiplexingConnector getResourceDispatcher() {
