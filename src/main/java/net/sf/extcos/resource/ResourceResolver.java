@@ -10,6 +10,7 @@ import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Enumeration;
 import java.util.HashMap;
@@ -20,6 +21,9 @@ import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 import java.util.regex.Pattern;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import net.sf.extcos.internal.URLResource;
 import net.sf.extcos.internal.vfs.VfsResourceResolver;
 import net.sf.extcos.selector.Package;
@@ -27,9 +31,6 @@ import net.sf.extcos.spi.QueryContext;
 import net.sf.extcos.spi.ResourceType;
 import net.sf.extcos.util.ReflectionUtils;
 import net.sf.extcos.util.ResourceUtils;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class ResourceResolver {
 	private static Logger logger = LoggerFactory.getLogger(ResourceResolver.class);
@@ -62,13 +63,20 @@ public class ResourceResolver {
 	}
 
 	public Set<Resource> getResources(final Set<ResourceType> resourceTypes,
-			final Package basePackage) {
+			final Package basePackage, final URL[] rootDirectories) {
 		try {
-			Set<URL> rootDirectories = getRootDirectories(basePackage);
+			Set<URL> rootDirectoriesSet;
+			
+			if (rootDirectories != null && rootDirectories.length > 0) {
+				rootDirectoriesSet = new HashSet<>(Arrays.asList(rootDirectories));
+			} else {
+				rootDirectoriesSet = getRootDirectories(basePackage);				
+			}
+			
 			Set<Resource> resources = new HashSet<Resource>();
 			String subPathPattern = basePackage.getSubPathPattern();
 			
-			for (URL rootDirectory : rootDirectories) {
+			for (URL rootDirectory : rootDirectoriesSet) {
 				rootDirectory = resolveRootDirectory(rootDirectory);
 
 				if (ResourceUtils.isJarURL(rootDirectory)) {

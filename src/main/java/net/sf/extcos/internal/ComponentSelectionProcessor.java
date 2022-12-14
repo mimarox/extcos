@@ -2,6 +2,7 @@ package net.sf.extcos.internal;
 
 import static net.sf.extcos.util.Assert.iae;
 
+import java.net.URL;
 import java.util.Set;
 
 import net.sf.extcos.ComponentQuery;
@@ -33,7 +34,8 @@ public class ComponentSelectionProcessor {
 	private Set<Package> basePackages;
 	private Set<StoreBinding> storeBindings;
 	private StoreReturning returning;
-
+	private URL[] rootDirectories;
+	
 	public ComponentSelectionProcessor(final ComponentQuery componentSelector) {
 		Assert.notNull(componentSelector, iae());
 		this.componentSelector = componentSelector;
@@ -44,7 +46,7 @@ public class ComponentSelectionProcessor {
 
 		for (Package basePackage : basePackages) {
 			resources.addAll(resourceResolver.getResources(resourceTypes,
-					basePackage));
+					basePackage, rootDirectories));
 		}
 
 		if (!resources.isEmpty()) {
@@ -78,6 +80,7 @@ public class ComponentSelectionProcessor {
 		ForwardingBuilder forwardingBuilder = basePackageSelector
 				.getForwardingBuilder();
 
+		rootDirectories = forwardingBuilder.getRootDirectories();
 		storeBindings = forwardingBuilder.getStoreBindings();
 		returning = forwardingBuilder.getReturning();
 	}

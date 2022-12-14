@@ -4,6 +4,7 @@ import static org.testng.Assert.assertEquals;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
+import java.net.URL;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -183,7 +184,7 @@ public class ClassGenerationAndUseTest extends TestBase {
 		Package basePackage = new Package(getProperty("resources.package"));
 
 		return new Object[][]{{
-			resolver.getResources(resourceTypes, basePackage)
+			resolver.getResources(resourceTypes, basePackage, new URL[] {})
 		}};
 	}
 }

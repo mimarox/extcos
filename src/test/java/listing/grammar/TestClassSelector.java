@@ -4,6 +4,7 @@ import static net.sf.extcos.internal.JavaClassResourceType.javaClasses;
 
 import java.io.Serializable;
 import java.lang.annotation.Annotation;
+import java.net.URL;
 import java.util.HashSet;
 
 import net.sf.extcos.ComponentQuery;
@@ -26,6 +27,8 @@ public class TestClassSelector extends ComponentQuery {
 		
 		//		select().from().returning(none());
 
+		select().from("").within((URL[]) null);
+		
 		select().from("").returning(all());
 
 		//		select().from().returning(allMerged());
