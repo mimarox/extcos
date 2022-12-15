@@ -30,17 +30,9 @@ import net.sf.extcos.util.Assert;
 import net.sf.extcos.util.ClassUtils;
 
 public class JavaResourceAccessor implements ResourceAccessor {
-	private static class DynamicClassLoader extends ClassLoader {
-		private Map<String, Class<?>> classes = new HashMap<>();
-		
+	private class DynamicClassLoader extends ClassLoader {
 		public Class<?> defineClass(final String name, final byte[] b) {
-			if (classes.containsKey(name)) {
-				return classes.get(name);
-			} else {
-				Class<?> c = defineClass(name, b, 0, b.length);
-				classes.put(name, c);
-				return c;
-			}
+			return defineClass(name, b, 0, b.length);
 		}
 	}
 	
@@ -202,8 +194,6 @@ public class JavaResourceAccessor implements ResourceAccessor {
 			ClassReader.SKIP_DEBUG +
 			ClassReader.SKIP_CODE  +
 			ClassReader.SKIP_FRAMES;
-
-	private static final DynamicClassLoader LOADER = new DynamicClassLoader();
 	
 	private byte[] resourceBytes;
 	private String className;
@@ -219,7 +209,7 @@ public class JavaResourceAccessor implements ResourceAccessor {
 			return null;
 		}
 		
-		return LOADER.defineClass(className, resourceBytes);
+		return new DynamicClassLoader().defineClass(className, resourceBytes);
 	}
 
 	@Override
