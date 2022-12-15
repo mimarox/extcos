@@ -264,21 +264,22 @@ public class JavaResourceAccessor implements ResourceAccessor {
 	}
 
 	private byte[] readBytes(final URL resourceUrl) throws IOException {
-		InputStream classStream = new BufferedInputStream(resourceUrl.openStream());
-		List<Byte> buffer = new ArrayList<Byte>();
-		int readByte;
+		try (InputStream classStream = new BufferedInputStream(resourceUrl.openStream())) {
+			List<Byte> buffer = new ArrayList<Byte>();
+			int readByte;
 
-		while((readByte = classStream.read()) != -1) {
-			buffer.add((byte)readByte);
+			while((readByte = classStream.read()) != -1) {
+				buffer.add((byte)readByte);
+			}
+
+			byte[] bytes = new byte[buffer.size()];
+
+			for (int i = 0; i < buffer.size(); i++) {
+				bytes[i] = buffer.get(i);
+			}
+
+			return bytes;
 		}
-
-		byte[] bytes = new byte[buffer.size()];
-
-		for (int i = 0; i < buffer.size(); i++) {
-			bytes[i] = buffer.get(i);
-		}
-
-		return bytes;
 	}
 
 	private void readClassData() {
