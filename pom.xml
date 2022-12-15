@@ -2,7 +2,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>net.sf.extcos</groupId>
 	<artifactId>extcos</artifactId>
-	<version>0.5-SNAPSHOT</version>
+	<version>0.5</version>
 	<packaging>jar</packaging>
 	<name>eXtcos</name>
 	<description>Extensible Component Scanner</description>
