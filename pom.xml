@@ -2,7 +2,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>net.sf.extcos</groupId>
 	<artifactId>extcos</artifactId>
-	<version>0.5.1-SNAPSHOT</version>
+	<version>0.5.1</version>
 	<packaging>jar</packaging>
 	<name>eXtcos</name>
 	<description>Extensible Component Scanner</description>
@@ -19,7 +19,7 @@
 		<connection>scm:git:https://github.com/mimarox/extcos.git</connection>
 		<developerConnection>scm:git:https://github.com/mimarox/extcos.git</developerConnection>
 		<url>https://github.com/mimarox/extcos</url>
-		<tag>extcos-0.5</tag>
+		<tag>extcos-0.5.1</tag>
 	</scm>
 	<developers>
 		<developer>
