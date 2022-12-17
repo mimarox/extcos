@@ -9,6 +9,7 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.net.URL;
+import java.net.URLClassLoader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -30,7 +31,16 @@ import net.sf.extcos.util.Assert;
 import net.sf.extcos.util.ClassUtils;
 
 public class JavaResourceAccessor implements ResourceAccessor {
-	private class DynamicClassLoader extends ClassLoader {
+	private class DynamicClassLoader extends URLClassLoader {
+		DynamicClassLoader() {
+	        super(new URL[]{}, (Thread.currentThread().getContextClassLoader() != null ?
+	        		Thread.currentThread().getContextClassLoader()
+	                : (DynamicClassLoader.class.getClassLoader() != null ?
+	                		DynamicClassLoader.class.getClassLoader()
+	                : ClassLoader.getSystemClassLoader())));
+			
+		}
+		
 		public Class<?> defineClass(final String name, final byte[] b) {
 			return defineClass(name, b, 0, b.length);
 		}
