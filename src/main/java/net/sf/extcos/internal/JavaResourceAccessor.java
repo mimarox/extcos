@@ -264,7 +264,9 @@ public class JavaResourceAccessor implements ResourceAccessor {
 	}
 
 	private byte[] readBytes(final URL resourceUrl) throws IOException {
-		try (InputStream classStream = new BufferedInputStream(resourceUrl.openStream())) {
+		try (InputStream is = resourceUrl.openStream()) {
+			InputStream classStream = new BufferedInputStream(is);
+			
 			List<Byte> buffer = new ArrayList<Byte>();
 			int readByte;
 

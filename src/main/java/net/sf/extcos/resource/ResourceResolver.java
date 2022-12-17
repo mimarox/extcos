@@ -145,7 +145,6 @@ public class ResourceResolver {
 		JarFile jarFile = null;
 		String jarFileUrl = null;
 		String rootEntryPath = null;
-		boolean newJarFile = false;
 
 		if (con instanceof JarURLConnection) {
 			// Should usually be the case for traditional JAR files.
@@ -165,7 +164,8 @@ public class ResourceResolver {
 			int separatorIndex = urlFile.indexOf(ResourceUtils.JAR_URL_SEPARATOR);
 			if (separatorIndex != -1) {
 				jarFileUrl = urlFile.substring(0, separatorIndex);
-				rootEntryPath = urlFile.substring(separatorIndex + ResourceUtils.JAR_URL_SEPARATOR.length());
+				rootEntryPath = urlFile.substring(separatorIndex +
+						ResourceUtils.JAR_URL_SEPARATOR.length());
 				jarFile = getJarFile(jarFileUrl);
 			}
 			else {
@@ -173,7 +173,6 @@ public class ResourceResolver {
 				jarFileUrl = urlFile;
 				rootEntryPath = "";
 			}
-			newJarFile = true;
 		}
 
 		try {
@@ -204,13 +203,8 @@ public class ResourceResolver {
 			}
 
 			return resources;
-		}
-		finally {
-			// Close jar file, but only if freshly obtained -
-			// not from JarURLConnection, which might cache the file reference.
-			if (newJarFile) {
-				jarFile.close();
-			}
+		} finally {
+			jarFile.close();
 		}
 	}
 
